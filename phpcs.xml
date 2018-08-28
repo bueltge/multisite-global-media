@@ -6,7 +6,10 @@
 
  <config name="global_media" value="Multisite Global Media"/>
  <!-- Code Reviews Rules -->
- <rule ref="Inpsyde"/>
+ <rule ref="Inpsyde">
+    <exclude name="WordPress.VIP.SuperGlobalInputUsage.AccessDetected"/>
+     <exclude name="Inpsyde.CodeQuality.LineLength.TooLong"/>
+ </rule>
 
 </ruleset>
 
