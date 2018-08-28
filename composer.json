@@ -2,7 +2,11 @@
   "name": "bueltge/multisite-global-media",
   "type": "wordpress-muplugin",
   "description": "Multisite Global Media is a WordPress plugin which shares media across the Multisite network.",
-  "keywords": ["wordpress", "muplugin", "multisite"],
+  "keywords": [
+    "wordpress",
+    "muplugin",
+    "multisite"
+  ],
   "homepage": "https://github.com/bueltge/Multisite-Global-Media",
   "license": "MIT",
   "authors": [
@@ -23,6 +27,6 @@
     "composer/installers": "^1.2"
   },
   "require-dev": {
-    "inpsyde/php-coding-standards": "^0.12"
+    "inpsyde/php-coding-standards": "^0.13.3"
   }
 }
