@@ -51,6 +51,18 @@ function get_site_id(): int
     return (int) apply_filters('global_media.site_id', SITE_ID);
 }
 
+/**
+ * Returns whether or not we're currently on the network media library site, regardless of any switching that's occurred.
+ *
+ * `$current_blog` can be used to determine the "actual" site as it doesn't change when switching sites.
+ *
+ * @return bool Whether we're on the network media library site.
+ */
+function is_media_site() : bool
+{
+    return ( get_site_id() === (int) $GLOBALS['current_blog']->blog_id );
+}
+
 add_action('admin_enqueue_scripts', __NAMESPACE__.'\enqueue_scripts');
 /**
  * Enqueue script for media modal
@@ -116,13 +128,21 @@ function get_media_strings(array $strings): array
  * Prepare media for javascript
  *
  * @since   2015-01-26
+ * @version 2018-08-29
  *
- * @param $response
+ * @param array      $response   Array of prepared attachment data.
+ * @param WP_Post    $attachment Attachment ID or object.
+ * @param array|bool $meta       Array of attachment meta data, or boolean false if there is none.
  *
- * @return array
+ * @return array Array of prepared attachment data.
  */
-function prepare_attachment_for_js(array $response): array
+function prepare_attachment_for_js(array $response, \WP_Post $attachment, $meta): array
 {
+
+    if (is_media_site()) {
+       return $response;
+    }
+
     $idPrefix = get_site_id().'00000';
 
     $response['id'] = $idPrefix.$response['id']; // Unique ID, must be a number.
@@ -151,7 +171,7 @@ function ajax_query_attachments()
     if (!empty($query['global_media'])) {
         switch_to_blog(get_site_id());
 
-        add_filter('wp_prepare_attachment_for_js', __NAMESPACE__.'\prepare_attachment_for_js');
+        add_filter('wp_prepare_attachment_for_js', __NAMESPACE__.'\prepare_attachment_for_js', 0, 3);
     }
 
     wp_ajax_query_attachments();
@@ -229,7 +249,7 @@ function ajax_get_attachment()
         $_REQUEST['id'] = $id;
 
         switch_to_blog(get_site_id());
-        add_filter('wp_prepare_attachment_for_js', __NAMESPACE__.'\prepare_attachment_for_js');
+        add_filter('wp_prepare_attachment_for_js', __NAMESPACE__.'\prepare_attachment_for_js', 0, 3);
         restore_current_blog();
     }
 
