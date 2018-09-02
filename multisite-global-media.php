@@ -317,12 +317,16 @@ add_filter('admin_post_thumbnail_html', __NAMESPACE__.'\admin_post_thumbnail_htm
  *
  * @param string $content Admin post thumbnail HTML markup.
  * @param int $postId Post ID.
- * @param int $thumbnailId Thumbnail ID.
+ * @param string|int $thumbnailId Thumbnail ID.
  *
  * @return string
+ *
+ * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
  */
-function admin_post_thumbnail_html(string $content, int $postId, int $thumbnailId): string
+function admin_post_thumbnail_html(string $content, int $postId, $thumbnailId): string
 {
+    // phpcs:enable
+
     $siteId = get_post_meta($postId, 'global_media_site_id', true);
     if (empty($siteId)) {
         $siteId = get_site_id();
@@ -330,11 +334,11 @@ function admin_post_thumbnail_html(string $content, int $postId, int $thumbnailI
 
     $id_prefix = get_site_id().'00000';
 
-    if (false === strpos($thumbnailId, $id_prefix)) {
+    if (false === strpos((string)$thumbnailId, $id_prefix)) {
         return $content;
     }
 
-    $thumbnailId = str_replace($id_prefix, '', $thumbnailId); // Unique ID, must be a number.
+    $thumbnailId = (int)str_replace($id_prefix, '', $thumbnailId); // Unique ID, must be a number.
 
     switch_to_blog($siteId);
 
