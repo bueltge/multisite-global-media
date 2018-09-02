@@ -382,10 +382,13 @@ add_filter('post_thumbnail_html', __NAMESPACE__.'\post_thumbnail_html', 99, 5);
  * @param string $attr Query string of attributes.
  *
  * @return string
+ *
+ * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
  */
-
-function post_thumbnail_html(string $html, int $postId, string $post_thumbnail_id, string $size, string $attr): string
+function post_thumbnail_html(string $html, int $postId, string $post_thumbnail_id, string $size, $attr): string
 {
+    // phpcs:enable
+
     $siteId = get_post_meta($postId, 'global_media_site_id', true);
     $thumbnailId = get_post_meta($postId, '_thumbnail_id', true);
     $idPrefix = $siteId.'00000';
