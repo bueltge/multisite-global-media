@@ -163,10 +163,11 @@ add_action('wp_ajax_query-attachments', __NAMESPACE__.'\ajax_query_attachments',
  */
 function ajax_query_attachments()
 {
-    // phpcs:disable
+    // phpcs:disable WordPress.CSRF.NonceVerification.NoNonceVerification
     $query = isset($_REQUEST['query'])
         ? (array) $_REQUEST['query']
-        : array();
+        : [];
+    // phpcs:enable
 
     if (!empty($query['global_media'])) {
         switch_to_blog(get_site_id());
@@ -213,7 +214,7 @@ add_action(
  */
 function ajax_send_attachment_to_editor()
 {
-    // phpcs:disable
+    // phpcs:ignore WordPress.CSRF.NonceVerification.NoNonceVerification
     $attachment = wp_unslash($_POST['attachment']);
     $id = $attachment['id'];
     $idPrefix = get_site_id().'00000';
@@ -240,7 +241,7 @@ add_action('wp_ajax_get-attachment', __NAMESPACE__.'\ajax_get_attachment', 0);
  */
 function ajax_get_attachment()
 {
-    // phpcs:disable
+    // phpcs:ignore WordPress.CSRF.NonceVerification.NoNonceVerification
     $id = $_REQUEST['id'];
     $idPrefix = get_site_id().'00000';
 
@@ -268,7 +269,8 @@ add_action('save_post', __NAMESPACE__.'\save_thumbnail_meta', 99);
 function save_thumbnail_meta(int $postId)
 {
     $idPrefix = get_site_id().'00000';
-    // phpcs:disable
+
+    // phpcs:ignore WordPress.CSRF.NonceVerification.NoNonceVerification
     if (!empty($_POST['_thumbnail_id']) && false !== strpos($_POST['_thumbnail_id'], $idPrefix)) {
         update_post_meta($postId, '_thumbnail_id', intval($_POST['_thumbnail_id']));
         update_post_meta($postId, 'global_media_site_id', get_site_id());
