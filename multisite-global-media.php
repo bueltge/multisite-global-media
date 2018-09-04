@@ -21,7 +21,7 @@ declare(strict_types = 1);
  * @version 2018-09-04
  */
 
-namespace Multisite_Global_Media;
+namespace MultisiteGlobalMedia;
 
 /**
  * Don't call this file directly.
