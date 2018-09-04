@@ -26,7 +26,7 @@ namespace Multisite_Global_Media;
 /**
  * Don't call this file directly.
  */
-defined('ABSPATH') || die();
+\defined('ABSPATH') || die();
 
 /**
  * Id of side inside the network, there store the global media.
@@ -46,7 +46,7 @@ const SITE_ID = 1;
  * @since  2017-12-01
  * @return integer The site ID.
  */
-function get_site_id(): int
+function getSideId(): int
 {
     return (int) apply_filters('global_media.site_id', SITE_ID);
 }
@@ -58,18 +58,18 @@ function get_site_id(): int
  *
  * @return bool Whether we're on the network media library site.
  */
-function is_media_site() : bool
+function isMediaSite(): bool
 {
-    return ( get_site_id() === (int) $GLOBALS['current_blog']->blog_id );
+    return ( getSideId() === (int) $GLOBALS['current_blog']->blog_id );
 }
 
-add_action('admin_enqueue_scripts', __NAMESPACE__.'\enqueue_scripts');
+add_action('admin_enqueue_scripts', __NAMESPACE__.'\enqueueScripts');
 /**
  * Enqueue script for media modal
  *
  * @since  2015-01-26
  */
-function enqueue_scripts()
+function enqueueScripts()
 {
     if ('post' !== get_current_screen()->base) {
         return;
@@ -86,13 +86,13 @@ function enqueue_scripts()
     wp_enqueue_script('global_media');
 }
 
-add_action('admin_enqueue_scripts', __NAMESPACE__.'\enqueue_styles');
+add_action('admin_enqueue_scripts', __NAMESPACE__.'\enqueueStyles');
 /**
  * Enqueue script for media modal
  *
  * @since   2015-02-27
  */
-function enqueue_styles()
+function enqueueStyles()
 {
     if ('post' !== get_current_screen()->base) {
         return;
@@ -107,7 +107,7 @@ function enqueue_styles()
     wp_enqueue_style('global_media');
 }
 
-add_filter('media_view_strings', __NAMESPACE__.'\get_media_strings');
+add_filter('media_view_strings', __NAMESPACE__.'\getMediaStrings');
 /**
  * Define Strings for translation
  *
@@ -117,7 +117,7 @@ add_filter('media_view_strings', __NAMESPACE__.'\get_media_strings');
  *
  * @return array
  */
-function get_media_strings(array $strings): array
+function getMediaStrings(array $strings): array
 {
     $strings['globalMediaTitle'] = esc_html__('Global Media', 'global_media');
 
@@ -131,19 +131,19 @@ function get_media_strings(array $strings): array
  * @version 2018-08-29
  *
  * @param array      $response   Array of prepared attachment data.
- * @param WP_Post    $attachment Attachment ID or object.
+ * @param \WP_Post   $attachment Attachment ID or object.
  * @param array|bool $meta       Array of attachment meta data, or boolean false if there is none.
  *
  * @return array Array of prepared attachment data.
  */
-function prepare_attachment_for_js(array $response, \WP_Post $attachment, $meta): array
+function prepareAttachmentForJs(array $response, \WP_Post $attachment, $meta): array
 {
 
-    if (is_media_site()) {
-       return $response;
+    if (isMediaSite()) {
+        return $response;
     }
 
-    $idPrefix = get_site_id().'00000';
+    $idPrefix = getSideId().'00000';
 
     $response['id'] = $idPrefix.$response['id']; // Unique ID, must be a number.
     $response['nonces']['update'] = false;
@@ -154,25 +154,25 @@ function prepare_attachment_for_js(array $response, \WP_Post $attachment, $meta)
     return $response;
 }
 
-add_action('wp_ajax_query-attachments', __NAMESPACE__.'\ajax_query_attachments', 0);
+add_action('wp_ajax_query-attachments', __NAMESPACE__.'\ajaxQueryAttachments', 0);
 /**
  * Same as wp_ajax_query_attachments() but with switch_to_blog support.
  *
  * @since   2015-01-26
  * @return void
  */
-function ajax_query_attachments()
+function ajaxQueryAttachments()
 {
     // phpcs:disable WordPress.CSRF.NonceVerification.NoNonceVerification
     $query = isset($_REQUEST['query'])
-        ? (array) $_REQUEST['query']
+        ? (array) wp_unslash($_REQUEST['query'])
         : [];
     // phpcs:enable
 
     if (!empty($query['global_media'])) {
-        switch_to_blog(get_site_id());
+        switch_to_blog(getSideId());
 
-        add_filter('wp_prepare_attachment_for_js', __NAMESPACE__.'\prepare_attachment_for_js', 0, 3);
+        add_filter('wp_prepare_attachment_for_js', __NAMESPACE__.'\prepareAttachmentForJs', 0, 3);
     }
 
     wp_ajax_query_attachments();
@@ -189,9 +189,9 @@ function ajax_query_attachments()
  *
  * @return string $html
  */
-function media_send_to_editor(string $html, int $id): string
+function mediaSendToEditor(string $html, int $id): string
 {
-    $idPrefix = get_site_id().'00000';
+    $idPrefix = getSideId().'00000';
     $newId = $idPrefix.$id; // Unique ID, must be a number.
 
     $search = 'wp-image-'.$id;
@@ -203,7 +203,7 @@ function media_send_to_editor(string $html, int $id): string
 
 add_action(
     'wp_ajax_send-attachment-to-editor',
-    __NAMESPACE__.'\ajax_send_attachment_to_editor',
+    __NAMESPACE__.'\ajaxSendAttachmentToEditor',
     0
 );
 /**
@@ -212,45 +212,47 @@ add_action(
  * @since   2015-01-26
  * @return  void
  */
-function ajax_send_attachment_to_editor()
+function ajaxSendAttachmentToEditor()
 {
     // phpcs:ignore WordPress.CSRF.NonceVerification.NoNonceVerification
     $attachment = wp_unslash($_POST['attachment']);
     $id = $attachment['id'];
-    $idPrefix = get_site_id().'00000';
+    $idPrefix = getSideId().'00000';
+    // phpcs:enable
 
     if (false !== strpos($id, $idPrefix)) {
         $attachment['id'] = str_replace($idPrefix, '', $id); // Unique ID, must be a number.
         $_POST['attachment'] = wp_slash($attachment);
 
-        switch_to_blog(get_site_id());
+        switch_to_blog(getSideId());
 
-        add_filter('media_send_to_editor', __NAMESPACE__.'\media_send_to_editor', 10, 2);
+        add_filter('mediaSendToEditor', __NAMESPACE__.'\mediaSendToEditor', 10, 2);
     }
 
     wp_ajax_send_attachment_to_editor();
     exit();
 }
 
-add_action('wp_ajax_get-attachment', __NAMESPACE__.'\ajax_get_attachment', 0);
+add_action('wp_ajax_get-attachment', __NAMESPACE__.'\ajaxGetAttachment', 0);
 /**
  * Get attachment
  *
  * @since   2015-01-26
  * @return  void
  */
-function ajax_get_attachment()
+function ajaxGetAttachment()
 {
     // phpcs:ignore WordPress.CSRF.NonceVerification.NoNonceVerification
-    $id = $_REQUEST['id'];
-    $idPrefix = get_site_id().'00000';
+    $id = wp_unslash($_REQUEST['id']);
+    // phpcs:enable
+    $idPrefix = getSideId().'00000';
 
     if (false !== strpos($id, $idPrefix)) {
         $id = str_replace($idPrefix, '', $id); // Unique ID, must be a number.
         $_REQUEST['id'] = $id;
 
-        switch_to_blog(get_site_id());
-        add_filter('wp_prepare_attachment_for_js', __NAMESPACE__.'\prepare_attachment_for_js', 0, 3);
+        switch_to_blog(getSideId());
+        add_filter('wp_prepare_attachment_for_js', __NAMESPACE__.'\prepareAttachmentForJs', 0, 3);
         restore_current_blog();
     }
 
@@ -258,7 +260,7 @@ function ajax_get_attachment()
     exit();
 }
 
-add_action('save_post', __NAMESPACE__.'\save_thumbnail_meta', 99);
+add_action('save_post', __NAMESPACE__.'\saveThumbnailMeta', 99);
 /**
  * Fires once a post has been saved.
  *
@@ -266,18 +268,19 @@ add_action('save_post', __NAMESPACE__.'\save_thumbnail_meta', 99);
  *
  * @param int $postId Post ID.
  */
-function save_thumbnail_meta(int $postId)
+function saveThumbnailMeta(int $postId)
 {
-    $idPrefix = get_site_id().'00000';
+    $idPrefix = getSideId().'00000';
 
     // phpcs:ignore WordPress.CSRF.NonceVerification.NoNonceVerification
-    if (!empty($_POST['_thumbnail_id']) && false !== strpos($_POST['_thumbnail_id'], $idPrefix)) {
+    if (!empty(wp_unslash($_POST['_thumbnail_id'])) && false !== strpos(wp_unslash($_POST['_thumbnail_id']), $idPrefix)) {
         update_post_meta($postId, '_thumbnail_id', intval($_POST['_thumbnail_id']));
-        update_post_meta($postId, 'global_media_site_id', get_site_id());
+        update_post_meta($postId, 'global_media_site_id', getSideId());
     }
+    // phpcs:enable
 }
 
-add_action('wp_ajax_get-post-thumbnail-html', __NAMESPACE__.'\ajax_get_post_thumbnail_html', 99);
+add_action('wp_ajax_get-post-thumbnail-html', __NAMESPACE__.'\ajaxGetPostThumbnailHtml', 99);
 /**
  * Ajax handler for retrieving HTML for the featured image.
  *
@@ -286,34 +289,34 @@ add_action('wp_ajax_get-post-thumbnail-html', __NAMESPACE__.'\ajax_get_post_thum
  * @param int $postId
  * @param int $thumbnailId
  */
-function ajax_get_post_thumbnail_html(int $postId, int $thumbnailId)
+function ajaxGetPostThumbnailHtml(int $postId, int $thumbnailId)
 {
-    $id_prefix = get_site_id().'00000';
+    $idPrefix = getSideId().'00000';
 
-    if (false !== strpos($thumbnailId, $id_prefix)) {
-        $thumbnailId = str_replace($id_prefix, '', $thumbnailId); // Unique ID, must be a number.
+    $return = _wp_post_thumbnail_html($thumbnailId, $postId);
 
-        switch_to_blog(get_site_id());
+    if (false !== strpos($thumbnailId, $idPrefix)) {
+        $thumbnailId = str_replace($idPrefix, '', $thumbnailId); // Unique ID, must be a number.
+
+        switch_to_blog(getSideId());
 
         $return = _wp_post_thumbnail_html($thumbnailId, $postId);
         restore_current_blog();
 
         $post = get_post($postId);
-        $post_type_object = get_post_type_object($post->post_type);
+        $postTypeObject = get_post_type_object($post->post_type);
 
         $search = '<p class="hide-if-no-js"><a href="#" id="remove-post-thumbnail"></a></p>';
         $replace = '<p class="hide-if-no-js"><a href="#" id="remove-post-thumbnail">'.esc_html(
-                $post_type_object->labels->remove_featured_image
-            ).'</a></p>';
+            $postTypeObject->labels->remove_featured_image
+        ).'</a></p>';
         $return = str_replace($search, $replace, $return);
-    } else {
-        $return = _wp_post_thumbnail_html($thumbnailId, $postId);
     }
 
     wp_send_json_success($return);
 }
 
-add_filter('admin_post_thumbnail_html', __NAMESPACE__.'\admin_post_thumbnail_html', 99, 3);
+add_filter('admin_post_thumbnail_html', __NAMESPACE__.'\adminPostThumbnailHtml', 99, 3);
 /**
  * Filters the admin post thumbnail HTML markup to return.
  *
@@ -325,22 +328,22 @@ add_filter('admin_post_thumbnail_html', __NAMESPACE__.'\admin_post_thumbnail_htm
  *
  * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
  */
-function admin_post_thumbnail_html(string $content, int $postId, $thumbnailId): string
+function adminPostThumbnailHtml(string $content, int $postId, $thumbnailId): string
 {
     // phpcs:enable
 
     $siteId = get_post_meta($postId, 'global_media_site_id', true);
     if (empty($siteId)) {
-        $siteId = get_site_id();
+        $siteId = getSideId();
     }
 
-    $id_prefix = get_site_id().'00000';
+    $idPrefix = getSideId().'00000';
 
-    if (false === strpos((string)$thumbnailId, $id_prefix)) {
+    if (false === strpos((string)$thumbnailId, $idPrefix)) {
         return $content;
     }
 
-    $thumbnailId = (int)str_replace($id_prefix, '', $thumbnailId); // Unique ID, must be a number.
+    $thumbnailId = (int)str_replace($idPrefix, '', $thumbnailId); // Unique ID, must be a number.
 
     switch_to_blog($siteId);
 
@@ -350,30 +353,29 @@ function admin_post_thumbnail_html(string $content, int $postId, $thumbnailId): 
     restore_current_blog();
 
     $search = 'value="'.$thumbnailId.'"';
-    $replace = 'value="'.$id_prefix.$thumbnailId.'"';
+    $replace = 'value="'.$idPrefix.$thumbnailId.'"';
     $content = str_replace($search, $replace, $content);
 
     $post = get_post($postId);
-    $post_type_object = null;
+    $postTypeObject = null;
 
-    $remove_image_label = _x('Remove featured image', 'post');
+    $removeImageLabel = _x('Remove featured image', 'post');
     if ($post !== null) {
-        $post_type_object = get_post_type_object($post->post_type);
+        $postTypeObject = get_post_type_object($post->post_type);
     }
-    if ($post_type_object !== null) {
-        $remove_image_label = $post_type_object->labels->remove_featured_image;
+    if ($postTypeObject !== null) {
+        $removeImageLabel = $postTypeObject->labels->remove_featured_image;
     }
 
     $search = '<p class="hide-if-no-js"><a href="#" id="remove-post-thumbnail"></a></p>';
     $replace = '<p class="hide-if-no-js"><a href="#" id="remove-post-thumbnail">'
-        .esc_html($remove_image_label)
+        .esc_html($removeImageLabel)
         .'</a></p>';
-    $content = str_replace($search, $replace, $content);
 
-    return $content;
+    return str_replace($search, $replace, $content);
 }
 
-add_filter('post_thumbnail_html', __NAMESPACE__.'\post_thumbnail_html', 99, 5);
+add_filter('post_thumbnail_html', __NAMESPACE__.'\postThumbnailHtml', 99, 5);
 
 /**
  * Filters the post thumbnail HTML.
@@ -382,7 +384,7 @@ add_filter('post_thumbnail_html', __NAMESPACE__.'\post_thumbnail_html', 99, 5);
  *
  * @param string $html The post thumbnail HTML.
  * @param int $postId The post ID.
- * @param string $post_thumbnail_id The post thumbnail ID.
+ * @param string $postThumbnailId The post thumbnail ID.
  * @param string|array $size The post thumbnail size. Image size or array of width and height
  *                                        values (in that order). Default 'post-thumbnail'.
  * @param string $attr Query string of attributes.
@@ -391,7 +393,7 @@ add_filter('post_thumbnail_html', __NAMESPACE__.'\post_thumbnail_html', 99, 5);
  *
  * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
  */
-function post_thumbnail_html(string $html, int $postId, string $post_thumbnail_id, string $size, $attr): string
+function postThumbnailHtml(string $html, int $postId, string $postThumbnailId, string $size, $attr): string
 {
     // phpcs:enable
 
