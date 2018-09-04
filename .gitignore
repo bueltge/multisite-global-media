@@ -71,3 +71,8 @@ Thumbs.db
 
 # Folder config file
 Desktop.ini
+
+## Composer
+composer.phar
+vendor/
+wpcs/
