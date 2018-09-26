@@ -400,7 +400,7 @@ add_filter('post_thumbnail_html', __NAMESPACE__.'\postThumbnailHtml', 99, 5);
  *
  * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
  */
-function postThumbnailHtml(string $html, int $postId, string $postThumbnailId, string $size, $attr): string
+function postThumbnailHtml(string $html, int $postId, string $postThumbnailId, $size, $attr): string
 {
     // phpcs:enable
 
