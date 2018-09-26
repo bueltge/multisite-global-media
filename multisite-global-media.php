@@ -273,11 +273,18 @@ function saveThumbnailMeta(int $postId)
     $idPrefix = getSideId().'00000';
 
     // phpcs:ignore WordPress.CSRF.NonceVerification.NoNonceVerification
-    if (!empty(wp_unslash($_POST['_thumbnail_id'])) && false !== strpos(wp_unslash($_POST['_thumbnail_id']), $idPrefix)) {
-        update_post_meta($postId, '_thumbnail_id', intval($_POST['_thumbnail_id']));
+    if(!isset($_POST['_thumbnail_id'])) {
+        return;
+    }
+
+    $thumbnailId = wp_unslash($_POST['_thumbnail_id']);
+    // phpcs:enable
+
+
+    if ($thumbnailId && false !== strpos($thumbnailId, $idPrefix)) {
+        update_post_meta($postId, '_thumbnail_id', intval($thumbnailId));
         update_post_meta($postId, 'global_media_site_id', getSideId());
     }
-    // phpcs:enable
 }
 
 add_action('wp_ajax_get-post-thumbnail-html', __NAMESPACE__.'\ajaxGetPostThumbnailHtml', 99);
