@@ -350,12 +350,13 @@ function adminPostThumbnailHtml(string $content, int $postId, $thumbnailId): str
         return $content;
     }
 
+    $post = get_post($postId);
     $thumbnailId = (int)str_replace($idPrefix, '', $thumbnailId); // Unique ID, must be a number.
 
     switch_to_blog($siteId);
 
     // $thumbnailId is passed instead of postId to avoid warning messages of nonexistent post object.
-    $content = _wp_post_thumbnail_html($thumbnailId, $postId);
+    $content = _wp_post_thumbnail_html($thumbnailId, $post);
 
     restore_current_blog();
 
