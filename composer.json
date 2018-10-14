@@ -28,5 +28,10 @@
   },
   "require-dev": {
     "inpsyde/php-coding-standards": "^0.13.3"
+  },
+  "autoload": {
+    "psr-4": {
+      "MultisiteGlobalMedia\\": "src/"
+    }
   }
 }
