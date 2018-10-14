@@ -196,9 +196,8 @@ function mediaSendToEditor(string $html, int $id): string
 
     $search = 'wp-image-'.$id;
     $replace = 'wp-image-'.$newId;
-    $html = str_replace($search, $replace, $html);
 
-    return $html;
+    return str_replace($search, $replace, $html);
 }
 
 add_action(
@@ -273,7 +272,7 @@ function saveThumbnailMeta(int $postId)
     $idPrefix = getSideId().'00000';
 
     // phpcs:ignore WordPress.CSRF.NonceVerification.NoNonceVerification
-    if(!isset($_POST['_thumbnail_id'])) {
+    if (!isset($_POST['_thumbnail_id'])) {
         return;
     }
 
@@ -412,7 +411,7 @@ function postThumbnailHtml(string $html, int $postId, string $postThumbnailId, $
     if (false !== strpos($thumbnailId, $idPrefix)) {
         $thumbnailId = str_replace($idPrefix, '', $thumbnailId); // Unique ID, must be a number.
 
-        if (intval($siteId) && intval($thumbnailId)) {
+        if ((int)$siteId && (int)$thumbnailId) {
             switch_to_blog($siteId);
 
             $html = wp_get_attachment_image($thumbnailId, $size, false, $attr);
