@@ -109,7 +109,6 @@ function bootstrap()
     $assets = new Assets($pluginProperties);
     $attachment = new Attachment($site, $singleSwitcher);
     $thumbnail = new Thumbnail($site, $singleSwitcher);
-    $wooCommerceGallery = new WooCommerce\Gallery($site, $singleSwitcher);
 
     add_action('admin_enqueue_scripts', [$assets, 'enqueueScripts']);
     add_action('admin_enqueue_scripts', [$assets, 'enqueueStyles']);
@@ -123,6 +122,12 @@ function bootstrap()
     add_action('wp_ajax_get-post-thumbnail-html', [$thumbnail, 'ajaxGetPostThumbnailHtml'], 99);
     add_filter('admin_post_thumbnail_html', [$thumbnail, 'adminPostThumbnailHtml'], 99, 3);
     add_filter('post_thumbnail_html', [$thumbnail, 'postThumbnailHtml'], 99, 5);
+
+    if (!function_exists('wc')) {
+        return;
+    }
+
+    $wooCommerceGallery = new WooCommerce\Gallery($site, $singleSwitcher);
 
     add_action('woocommerce_new_product', [$wooCommerceGallery, 'saveGalleryIds']);
     add_action('woocommerce_update_product', [$wooCommerceGallery, 'saveGalleryIds']);
