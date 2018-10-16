@@ -334,7 +334,7 @@ add_filter('admin_post_thumbnail_html', __NAMESPACE__.'\adminPostThumbnailHtml',
  *
  * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
  */
-function adminPostThumbnailHtml(string $content, int $postId, $thumbnailId): string
+function adminPostThumbnailHtml(string $content, $postId = null, $thumbnailId): string
 {
     // phpcs:enable
 
