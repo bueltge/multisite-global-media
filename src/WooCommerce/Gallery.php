@@ -2,16 +2,19 @@
 
 namespace MultisiteGlobalMedia\WooCommerce;
 
-use function MultisiteGlobalMedia\Functions\getSideId;
+use MultisiteGlobalMedia\Helper;
+use MultisiteGlobalMedia\SingleSwitcher;
 use MultisiteGlobalMedia\Site;
 
 /**
  * Class Gallery
  *
- * @package MultisiteGlobalMedia\WooCommerce
+ * TODO May be we want to split admin from the frontend?
  */
 class Gallery
 {
+    use Helper;
+
     const FILTER_ATTACHMENT_IMAGE_SRC = 'wp_get_attachment_image_src';
 
     const DEFAULT_PRODUCT_TYPE = 'simple';
@@ -20,11 +23,25 @@ class Gallery
 
     const META_KEY_PRODUCT_GALLERY = '_product_image_gallery';
 
+    /**
+     * @var Site
+     */
     private $site;
 
-    public function __construct(Site $site)
+    /**
+     * @var SingleSwitcher
+     */
+    private $siteSwitcher;
+
+    /**
+     * Gallery constructor
+     *
+     * @param Site $site
+     */
+    public function __construct(Site $site, SingleSwitcher $siteSwitcher)
     {
         $this->site = $site;
+        $this->siteSwitcher = $siteSwitcher;
     }
 
     /**
@@ -64,73 +81,109 @@ class Gallery
     {
         global $wp_meta_boxes;
 
-        $metaboxCallback =& $wp_meta_boxes['product']['side']['low']['woocommerce-product-images'] ?? null;
+        $metaboxCallback =& $wp_meta_boxes['product']['side']['low']['woocommerce-product-images']['callback'] ?? null;
 
         if (!$metaboxCallback) {
             return;
         }
 
         $metaboxCallback = function (\WP_Post $post) {
-            add_filter(
-                self::FILTER_ATTACHMENT_IMAGE_SRC,
-                [$this, 'retrieveTheImages'],
-                PHP_INT_MAX,
-                4
-            );
-
+            $this->activateRetrieveImageFilter();
             \WC_Meta_Box_Product_Images::output($post);
-
-            remove_filter(
-                self::FILTER_ATTACHMENT_IMAGE_SRC,
-                [$this, 'retrieveTheImages'],
-                PHP_INT_MAX,
-                4
-            );
+            $this->deactivateRetrieveImageFilter();
         };
     }
 
     /**
      * Retrieve the images from the global site
      *
-     * @param string $image
-     * @param int $thumbnailId
+     * @param mixed $image
+     * @param int $attachmentId
      * @param $size
      * @param bool $icon
-     * @return string
+     * @return array
      */
     public function retrieveTheImages(
-        string $image,
-        int $thumbnailId,
+        $image,
+        int $attachmentId,
         $size,
         bool $icon
-    ): string {
+    ): array {
 
-        remove_filter(
-            self::FILTER_ATTACHMENT_IMAGE_SRC,
-            [$this, 'retrieveTheImages'],
-            PHP_INT_MAX,
-            4
-        );
-
-        $thumbnailId = (string)$thumbnailId;
-        $post = get_post((int)filter_input(INPUT_GET, 'post', FILTER_SANITIZE_NUMBER_INT));
-        $siteId = (int)get_post_meta($post->ID, Site::META_KEY_SITE_ID, true);
-        $idPrefix = $siteId . '00000';
-
-        if (false !== strpos($thumbnailId, $idPrefix)) {
-            $thumbnailId = (int)str_replace($idPrefix, '', $thumbnailId);
-            switch_to_blog($siteId);
-            $image = array_filter((array)wp_get_attachment_image_src($thumbnailId, $size, $icon));
-            restore_current_blog();
+        // We expect a boolean false because the image (siteID.00000.ID) doesn't exists.
+        if (\is_bool($image)) {
+            $image = [];
         }
 
+        $this->deactivateRetrieveImageFilter();
+
+        $siteId = $this->siteIdByPostId($attachmentId, $this->site->id());
+        $idPrefix = $siteId . Site::SITE_ID_PREFIX_RIGHT_PAD;
+
+        if ($this->idPrefixIncludedInAttachmentId($attachmentId, $idPrefix)) {
+            $attachmentId = $this->stripSiteIdPrefixFromAttachmentId($idPrefix, $attachmentId);
+            // TODO Could be improved if we allow multiple switches.
+            $this->siteSwitcher->switchToBlog($siteId);
+            $image = array_filter((array)wp_get_attachment_image_src($attachmentId, $size, $icon));
+            $this->siteSwitcher->restoreBlog();
+        }
+
+        $this->activateRetrieveImageFilter();
+
+        return $image;
+    }
+
+    /**
+     * Show the gallery image on frontend
+     *
+     * @param string $html
+     * @param int $attachmentId
+     * @return string
+     */
+    public function singleProductImageThumbnailHtml(string $html, int $attachmentId): string
+    {
+        /** @var \WC_Product $product */
+        global $product;
+
+        $productId = $product->get_id();
+
+        $siteId = $this->siteIdByPostId($productId, $this->site->id());
+        $idPrefix = $siteId . Site::SITE_ID_PREFIX_RIGHT_PAD;
+
+        if (!$this->idPrefixIncludedInAttachmentId($attachmentId, $idPrefix)) {
+            return $html;
+        }
+
+        $attachmentId = $this->stripSiteIdPrefixFromAttachmentId($idPrefix, $attachmentId);
+        $this->siteSwitcher->switchToBlog($siteId);
+        $html = wc_get_gallery_image_html($attachmentId);
+        $this->siteSwitcher->restoreBlog();
+
+        return $html;
+    }
+
+    /**
+     * Activate the retrieve image filter
+     */
+    private function activateRetrieveImageFilter()
+    {
         add_filter(
             self::FILTER_ATTACHMENT_IMAGE_SRC,
             [$this, 'retrieveTheImages'],
             PHP_INT_MAX,
             4
         );
+    }
 
-        return $image;
+    /**
+     * Deactivate the retrieve image filter
+     */
+    private function deactivateRetrieveImageFilter()
+    {
+        remove_filter(
+            self::FILTER_ATTACHMENT_IMAGE_SRC,
+            [$this, 'retrieveTheImages'],
+            PHP_INT_MAX
+        );
     }
 }

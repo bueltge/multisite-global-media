@@ -12,6 +12,8 @@ class Site
     const SITE_ID = 'global_media.site_id';
     const META_KEY_SITE_ID = 'global_media_site_id';
 
+    const SITE_ID_PREFIX_RIGHT_PAD = '00000';
+
     /**
      * Return the ID of site that store the media files.
      *
@@ -24,9 +26,21 @@ class Site
     }
 
     /**
-     * Returns whether or not we're currently on the network media library site, regardless of any switching that's occurred.
+     * Return the site id prefix for attachments
      *
-     * `$current_blog` can be used to determine the "actual" site as it doesn't change when switching sites.
+     * @return string
+     */
+    public function idSitePrefix(): string
+    {
+        return $this->id() . self::SITE_ID_PREFIX_RIGHT_PAD;
+    }
+
+    /**
+     * Returns whether or not we're currently on the network media library site,
+     * regardless of any switching that's occurred.
+     *
+     * `$current_blog` can be used to determine the "actual" site as it doesn't
+     * change when switching sites.
      *
      * @return bool Whether we're on the network media library site.
      */

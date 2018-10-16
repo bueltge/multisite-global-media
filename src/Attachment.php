@@ -8,19 +8,27 @@ namespace MultisiteGlobalMedia;
  */
 class Attachment
 {
+    use Helper;
+
     /**
      * @var Site
      */
     private $site;
 
     /**
+     * @var SingleSwitcher
+     */
+    private $siteSwitcher;
+
+    /**
      * Attachment constructor
      *
      * @param Site $site
      */
-    public function __construct(Site $site)
+    public function __construct(Site $site, SingleSwitcher $singleSwitcher)
     {
         $this->site = $site;
+        $this->siteSwitcher = $singleSwitcher;
     }
 
     /**
@@ -37,11 +45,7 @@ class Attachment
      */
     public function prepareAttachmentForJs(array $response, \WP_Post $attachment, $meta): array
     {
-        if ($this->site->isMediaSite()) {
-            return $response;
-        }
-
-        $idPrefix = $this->site->id() . '00000';
+        $idPrefix = $this->site->idSitePrefix();
 
         $response['id'] = $idPrefix . $response['id']; // Unique ID, must be a number.
         $response['nonces']['update'] = false;
@@ -68,13 +72,7 @@ class Attachment
 
         if (!empty($query['global_media'])) {
             switch_to_blog($this->site->id());
-
-            add_filter(
-                'wp_prepare_attachment_for_js',
-                __NAMESPACE__ . '\prepareAttachmentForJs',
-                0,
-                3
-            );
+            add_filter('wp_prepare_attachment_for_js', [$this, 'prepareAttachmentForJs'], 0, 3);
         }
 
         wp_ajax_query_attachments();
@@ -90,22 +88,17 @@ class Attachment
     public function ajaxGetAttachment()
     {
         // phpcs:ignore WordPress.CSRF.NonceVerification.NoNonceVerification
-        $id = wp_unslash($_REQUEST['id']);
+        $attachmentId = (int)wp_unslash($_REQUEST['id']);
         // phpcs:enable
-        $idPrefix = $this->site->id() . '00000';
+        $idPrefix = $this->site->idSitePrefix();
 
-        if (false !== strpos($id, $idPrefix)) {
-            $id = str_replace($idPrefix, '', $id); // Unique ID, must be a number.
-            $_REQUEST['id'] = $id;
+        if ($this->idPrefixIncludedInAttachmentId($attachmentId, $idPrefix)) {
+            $attachmentId = $this->stripSiteIdPrefixFromAttachmentId($idPrefix, $attachmentId);
+            $_REQUEST['id'] = $attachmentId;
 
-            switch_to_blog($this->site->id());
-            add_filter(
-                'wp_prepare_attachment_for_js',
-                __NAMESPACE__ . '\prepareAttachmentForJs',
-                0,
-                3
-            );
-            restore_current_blog();
+            $this->siteSwitcher->switchToBlog($this->site->id());
+            add_filter('wp_prepare_attachment_for_js', [$this, 'prepareAttachmentForJs'], 0, 3);
+            $this->siteSwitcher->restoreBlog();
         }
 
         wp_ajax_get_attachment();
@@ -120,23 +113,21 @@ class Attachment
      */
     public function ajaxSendAttachmentToEditor()
     {
-        // phpcs:ignore WordPress.CSRF.NonceVerification.NoNonceVerification
         $attachment = wp_unslash($_POST['attachment']);
-        $id = $attachment['id'];
-        $idPrefix = $this->site->id() . '00000';
-        // phpcs:enable
+        $attachmentId = (int)$attachment['id'];
+        $idPrefix = $this->site->idSitePrefix();
 
-        if (false !== strpos($id, $idPrefix)) {
-            $attachment['id'] = str_replace($idPrefix, '', $id); // Unique ID, must be a number.
+        if ($this->idPrefixIncludedInAttachmentId($attachmentId, $idPrefix)) {
+            $attachment['id'] = $this->stripSiteIdPrefixFromAttachmentId($idPrefix, $attachmentId);
             $_POST['attachment'] = wp_slash($attachment);
 
+            // TODO Which is the reason why we don't restore the blog?
             switch_to_blog($this->site->id());
 
-            add_filter('mediaSendToEditor', __NAMESPACE__ . '\mediaSendToEditor', 10, 2);
+            add_filter('mediaSendToEditor', [$this, 'mediaSendToEditor'], 10, 2);
         }
 
         wp_ajax_send_attachment_to_editor();
-        exit();
     }
 
     /**
@@ -151,7 +142,7 @@ class Attachment
      */
     public function mediaSendToEditor(string $html, int $id): string
     {
-        $idPrefix = $this->site->id() . '00000';
+        $idPrefix = $this->site->idSitePrefix();
         $newId = $idPrefix . $id; // Unique ID, must be a number.
 
         $search = 'wp-image-' . $id;

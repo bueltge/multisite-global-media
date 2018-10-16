@@ -43,8 +43,8 @@ class PluginProperties implements \ArrayAccess
 
         $fileData = [
             self::BASENAME => plugin_basename($pluginFilePath),
-            self::DIR_PATH => plugin_dir_path($pluginFilePath),
-            self::DIR_URL => plugins_url('/', $pluginFilePath),
+            self::DIR_PATH => untrailingslashit(plugin_dir_path($pluginFilePath)),
+            self::DIR_URL => untrailingslashit(plugins_url('/', $pluginFilePath)),
             self::FILE_PATH => $pluginFilePath,
         ];
 

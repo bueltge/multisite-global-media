@@ -9,6 +9,8 @@ namespace MultisiteGlobalMedia;
  */
 class Thumbnail
 {
+    use Helper;
+
     const META_KEY_THUMBNAIL_ID = '_thumbnail_id';
 
     /**
@@ -17,18 +19,19 @@ class Thumbnail
     private $site;
 
     /**
-     * @var bool
+     * @var SingleSwitcher
      */
-    private $switched = false;
+    private $siteSwitcher;
 
     /**
      * Thumbnail constructor
      *
      * @param Site $site
      */
-    public function __construct(Site $site)
+    public function __construct(Site $site, SingleSwitcher $siteSwitcher)
     {
         $this->site = $site;
+        $this->siteSwitcher = $siteSwitcher;
     }
 
     /**
@@ -40,21 +43,21 @@ class Thumbnail
      */
     public function saveThumbnailMeta(int $postId)
     {
-        $idPrefix = $this->site->id() . '00000';
+        $idPrefix = $this->site->idSitePrefix();
 
-        $thumbnailId = (int)filter_input(
+        $attachmentId = (int)filter_input(
             INPUT_POST,
             self::META_KEY_THUMBNAIL_ID,
             FILTER_SANITIZE_NUMBER_INT
         );
 
-        if (!$thumbnailId) {
+        if (!$attachmentId) {
             return;
         }
 
-        if ($thumbnailId && false !== strpos($thumbnailId, $idPrefix)) {
-            update_post_meta($postId, self::META_KEY_THUMBNAIL_ID, intval($thumbnailId));
-            update_post_meta($postId, Site::META_KEY_SITE_ID, $this->site->id());
+        if ($attachmentId && $this->idPrefixIncludedInAttachmentId($attachmentId, $idPrefix)) {
+            update_post_meta($postId, self::META_KEY_THUMBNAIL_ID, intval($attachmentId));
+            update_post_meta($attachmentId, Site::META_KEY_SITE_ID, $this->site->id());
         }
     }
 
@@ -64,32 +67,31 @@ class Thumbnail
      * @since 4.6.0
      *
      * @param int $postId
-     * @param int $thumbnailId
+     * @param int $attachmentId
      */
-    public function ajaxGetPostThumbnailHtml(int $postId, int $thumbnailId)
+    public function ajaxGetPostThumbnailHtml(int $postId, int $attachmentId)
     {
-        $idPrefix = $this->site->id() . '00000';
+        $idPrefix = $this->site->idSitePrefix();
 
-        $return = _wp_post_thumbnail_html($thumbnailId, $postId);
+        $return = _wp_post_thumbnail_html($attachmentId, $postId);
 
-        if (false === strpos($thumbnailId, $idPrefix)) {
+        if (!$this->idPrefixIncludedInAttachmentId($attachmentId, $idPrefix)) {
             wp_send_json_success($return);
         }
 
-        $thumbnailId = str_replace($idPrefix, '', $thumbnailId); // Unique ID, must be a number.
+        $attachmentId = $this->stripSiteIdPrefixFromAttachmentId($idPrefix, $attachmentId);
 
-        $this->switchToBlog($this->site->id());
-        $return = _wp_post_thumbnail_html($thumbnailId, $postId);
-        $this->restoreBlog();
+        $this->siteSwitcher->switchToBlog($this->site->id());
+        $return = _wp_post_thumbnail_html($attachmentId, $postId);
+        $this->siteSwitcher->restoreBlog();
 
         $post = get_post($postId);
         $postTypeObject = get_post_type_object($post->post_type);
 
-        $search = '<p class="hide-if-no-js"><a href="#" id="remove-post-thumbnail"></a></p>';
-        $replace = '<p class="hide-if-no-js"><a href="#" id="remove-post-thumbnail">'
-            . esc_html($postTypeObject->labels->remove_featured_image)
-            . '</a></p>';
-        $return = str_replace($search, $replace, $return);
+        $return = $this->replaceRemovePostThumbnailMarkup(
+            esc_html($postTypeObject->labels->remove_featured_image),
+            $return
+        );
 
         wp_send_json_success($return);
     }
@@ -99,43 +101,40 @@ class Thumbnail
      *
      * @param string $content Admin post thumbnail HTML markup.
      * @param int $postId Post ID.
-     * @param string|int $thumbnailId Thumbnail ID.
+     * @param string|int $attachmentId Thumbnail ID.
      *
      * @return string
      *
      * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
      */
-    public function adminPostThumbnailHtml(string $content, int $postId, $thumbnailId): string
+    public function adminPostThumbnailHtml(string $content, int $postId, $attachmentId): string
     {
         // phpcs:enable
 
-        $siteId = get_post_meta($postId, Site::META_KEY_SITE_ID, true);
-        if (empty($siteId)) {
-            $siteId = $this->site->id();
-        }
+        $attachmentId = (int)$attachmentId;
+        $siteId = $this->siteIdByPostId($attachmentId, $this->site->id());
+        $idPrefix = $this->site->idSitePrefix();
 
-        $idPrefix = $this->site->id() . '00000';
-
-        if (false === strpos((string)$thumbnailId, $idPrefix)) {
+        if (false === $this->idPrefixIncludedInAttachmentId($attachmentId, $idPrefix)) {
             return $content;
         }
 
         $post = get_post($postId);
-        // Unique ID, must be a number.
-        $thumbnailId = (int)str_replace($idPrefix, '', $thumbnailId);
+        $attachmentId = $this->stripSiteIdPrefixFromAttachmentId($idPrefix, $attachmentId);
 
-        $this->switchToBlog($siteId);
+        $this->siteSwitcher->switchToBlog($siteId);
         // $thumbnailId is passed instead of postId to avoid warning messages of nonexistent post object.
-        $content = _wp_post_thumbnail_html($thumbnailId, $post);
-        $this->restoreBlog();
+        $content = _wp_post_thumbnail_html($attachmentId, $post);
+        $this->siteSwitcher->restoreBlog();
 
-        $search = 'value="' . $thumbnailId . '"';
-        $replace = 'value="' . $idPrefix . $thumbnailId . '"';
+        $search = 'value="' . $attachmentId . '"';
+        $replace = 'value="' . $idPrefix . $attachmentId . '"';
         $content = str_replace($search, $replace, $content);
 
         $post = get_post($postId);
         $postTypeObject = null;
 
+        // TODO Is this textdomain missing?
         $removeImageLabel = _x('Remove featured image', 'post');
         if ($post !== null) {
             $postTypeObject = get_post_type_object($post->post_type);
@@ -144,12 +143,10 @@ class Thumbnail
             $removeImageLabel = $postTypeObject->labels->remove_featured_image;
         }
 
-        $search = '<p class="hide-if-no-js"><a href="#" id="remove-post-thumbnail"></a></p>';
-        $replace = '<p class="hide-if-no-js"><a href="#" id="remove-post-thumbnail">'
-            . esc_html($removeImageLabel)
-            . '</a></p>';
-
-        return str_replace($search, $replace, $content);
+        return $this->replaceRemovePostThumbnailMarkup(
+            $removeImageLabel,
+            $content
+        );
     }
 
     /**
@@ -159,7 +156,7 @@ class Thumbnail
      *
      * @param string $html The post thumbnail HTML.
      * @param int $postId The post ID.
-     * @param string $postThumbnailId The post thumbnail ID.
+     * @param string $attachmentId The post thumbnail ID.
      * @param string|array $size The post thumbnail size. Image size or array of width and height
      *                                        values (in that order). Default 'post-thumbnail'.
      * @param string $attr Query string of attributes.
@@ -171,24 +168,25 @@ class Thumbnail
     public function postThumbnailHtml(
         string $html,
         int $postId,
-        string $postThumbnailId,
+        string $attachmentId,
         $size,
         $attr
     ): string {
 
         // phpcs:enable
 
-        $siteId = get_post_meta($postId, Site::META_KEY_SITE_ID, true);
-        $thumbnailId = get_post_meta($postId, '_thumbnail_id', true);
-        $idPrefix = $siteId . '00000';
+        $attachmentId = (int)$attachmentId;
+        $siteId = $this->siteIdByPostId($attachmentId, $this->site->id());
+        $idPrefix = $siteId . Site::SITE_ID_PREFIX_RIGHT_PAD;
+        $thumbnailId = (int)get_post_meta($postId, '_thumbnail_id', true);
 
-        if (false !== strpos($thumbnailId, $idPrefix)) {
-            $thumbnailId = str_replace($idPrefix, '', $thumbnailId); // Unique ID, must be a number.
+        if ($this->idPrefixIncludedInAttachmentId($thumbnailId, $idPrefix)) {
+            $thumbnailId = $this->stripSiteIdPrefixFromAttachmentId($idPrefix, $thumbnailId);
 
-            if (intval($siteId) && intval($thumbnailId)) {
-                $this->switchToBlog($siteId);
+            if ($siteId && $thumbnailId) {
+                $this->siteSwitcher->switchToBlog($siteId);
                 $html = wp_get_attachment_image($thumbnailId, $size, false, $attr);
-                $this->restoreBlog();
+                $this->siteSwitcher->restoreBlog();
             }
         }
 
@@ -196,30 +194,20 @@ class Thumbnail
     }
 
     /**
-     * @param int $siteId
-     */
-    private function switchToBlog(int $siteId)
-    {
-        if ($this->site->id() === $siteId) {
-            return;
-        }
-
-        switch_to_blog($siteId);
-
-        $this->switched = true;
-    }
-
-    /**
+     * Replace the remove post thumbnail markup with the image or without
      *
+     * @param string $replace
+     * @param string $subject
+     * @return string
      */
-    private function restoreBlog()
+    private function replaceRemovePostThumbnailMarkup(string $replace, string $subject): string
     {
-        if (!$this->switched) {
-            return;
-        }
+        $search = '<p class="hide-if-no-js"><a href="#" id="remove-post-thumbnail"></a></p>';
+        $replace = sprintf(
+            '<p class="hide-if-no-js"><a href="#" id="remove-post-thumbnail">%s</a></p>',
+            $replace
+        );
 
-        restore_current_blog();
-
-        $this->switched = false;
+        return str_replace($search, $replace, $subject);
     }
 }
