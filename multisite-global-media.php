@@ -33,13 +33,12 @@ use MultisiteGlobalMedia\WooCommerce;
  */
 function adminNotice(string $message, string $noticeType, array $allowedMarkup = [])
 {
-    $escaper = $allowedMarkup ? 'wp_kses' : 'esc_html';
     add_action(
         'admin_notices',
-        function () use ($message, $noticeType, $allowedMarkup, $escaper) {
+        function () use ($message, $noticeType, $allowedMarkup) {
             ?>
             <div class="notice notice-<?= esc_attr($noticeType) ?>">
-                <p><?= $escaper($message, $allowedMarkup) ?></p>
+                <p><?= wp_kses($message, $allowedMarkup) ?></p>
             </div>
             <?php
         }
