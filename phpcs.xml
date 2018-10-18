@@ -1,15 +1,15 @@
 <?xml version="1.0"?>
 <ruleset name="global_media">
- <description>Rules for the Multisite Global Media project, a WordPress Multisite plugin.</description>
+    <description>Rules for the Multisite Global Media project, a WordPress Multisite plugin.</description>
 
- <file>./multisite-global-media.php</file>
+    <file>./multisite-global-media.php</file>
 
- <config name="global_media" value="Multisite Global Media"/>
- <!-- Code Reviews Rules -->
- <rule ref="Inpsyde">
-    <exclude name="WordPress.VIP.SuperGlobalInputUsage.AccessDetected"/>
-     <exclude name="Inpsyde.CodeQuality.LineLength.TooLong"/>
- </rule>
+    <config name="global_media" value="Multisite Global Media" />
+    <!-- Code Reviews Rules -->
+    <rule ref="Inpsyde">
+        <exclude name="WordPress.VIP.SuperGlobalInputUsage.AccessDetected" />
+        <exclude name="Inpsyde.CodeQuality.LineLength.TooLong" />
+    </rule>
 
 </ruleset>
 

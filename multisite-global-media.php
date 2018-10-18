@@ -116,7 +116,6 @@ function bootstrap()
 
     add_action('admin_enqueue_scripts', [$assets, 'enqueueScripts']);
     add_action('admin_enqueue_scripts', [$assets, 'enqueueStyles']);
-
     add_action('wp_ajax_query-attachments', [$attachment, 'ajaxQueryAttachments'], 0);
     add_action('wp_ajax_get-attachment', [$attachment, 'ajaxGetAttachment'], 0);
     add_action('wp_ajax_send-attachment-to-editor', [$attachment, 'ajaxSendAttachmentToEditor'], 0);
