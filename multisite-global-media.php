@@ -1,12 +1,13 @@
 <?php // -*- coding: utf-8 -*-
+declare(strict_types=1);
 
 /**
  * Plugin Name: Multisite Global Media
  * Description: Multisite Global Media is a WordPress plugin which shares media across the Multisite network.
  * Network:     true
  * Plugin URI:  https://github.com/bueltge/multisite-global-media
- * Version:     0.0.7
- * Author:      Dominik Schilling, Frank Bültge
+ * Version:     0.1.0-dev
+ * Author:      Dominik Schilling, Frank Bültge, Guido Scialfa
  * License:     MIT
  * License URI: ./LICENSE
  * Text Domain: global_media
@@ -17,10 +18,8 @@
  * @package WordPress
  * @author  Dominik Schilling <d.schilling@inpsyde.com>, Frank Bültge <f.bueltge@inpsyde.com>
  * @license https://opensource.org/licenses/MIT
- * @version 2018-09-27
+ * @version 2018-10-18
  */
-
-declare(strict_types=1);
 
 namespace MultisiteGlobalMedia;
 
@@ -62,12 +61,16 @@ function autoload(): bool
         return false;
     }
 
+    /** @noinspection PhpIncludeInspection */
     require_once $autoloader;
 
     return true;
 }
 
 /**
+ * Compare PHP Version with our minimum.
+ * If the ID is smaller then the int return true.
+ *
  * @return bool
  */
 function isPhpVersionCompatible(): bool
@@ -80,9 +83,10 @@ function isPhpVersionCompatible(): bool
  */
 function bootstrap()
 {
-    if (!isPhpVersionCompatible()) {
+    if (isPhpVersionCompatible()) {
         adminNotice(
             sprintf(
+                // Translators: %s is the PHP version of the current installation, where is the plugin is active.
                 __(
                     'Multisite Global Media require php version 7.0 at least. Your\'s is %s',
                     'multisite-global-media'
@@ -123,11 +127,18 @@ function bootstrap()
     add_filter('admin_post_thumbnail_html', [$thumbnail, 'adminPostThumbnailHtml'], 99, 3);
     add_filter('post_thumbnail_html', [$thumbnail, 'postThumbnailHtml'], 99, 5);
 
-    if (!function_exists('wc')) {
-        return;
+    if (\function_exists('wc')) {
+        wcBootstrap($site, $singleSwitcher);
     }
+}
 
-    $wooCommerceGallery = new WooCommerce\Gallery($site, $singleSwitcher);
+/**
+ * @param Site $site
+ * @param SingleSwitcher $siteSwitcher
+ */
+function wcBootstrap(Site $site, SingleSwitcher $siteSwitcher)
+{
+    $wooCommerceGallery = new WooCommerce\Gallery($site, $siteSwitcher);
 
     add_action('woocommerce_new_product', [$wooCommerceGallery, 'saveGalleryIds']);
     add_action('woocommerce_update_product', [$wooCommerceGallery, 'saveGalleryIds']);

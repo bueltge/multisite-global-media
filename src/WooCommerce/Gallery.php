@@ -1,4 +1,5 @@
 <?php # -*- coding: utf-8 -*-
+declare(strict_types=1);
 
 namespace MultisiteGlobalMedia\WooCommerce;
 
@@ -37,6 +38,7 @@ class Gallery
      * Gallery constructor
      *
      * @param Site $site
+     * @param SingleSwitcher $siteSwitcher
      */
     public function __construct(Site $site, SingleSwitcher $siteSwitcher)
     {

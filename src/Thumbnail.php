@@ -1,5 +1,4 @@
 <?php # -*- coding: utf-8 -*-
-
 declare(strict_types=1);
 
 namespace MultisiteGlobalMedia;
@@ -27,6 +26,7 @@ class Thumbnail
      * Thumbnail constructor
      *
      * @param Site $site
+     * @param SingleSwitcher $siteSwitcher
      */
     public function __construct(Site $site, SingleSwitcher $siteSwitcher)
     {
@@ -56,7 +56,7 @@ class Thumbnail
         }
 
         if ($attachmentId && $this->idPrefixIncludedInAttachmentId($attachmentId, $idPrefix)) {
-            update_post_meta($postId, self::META_KEY_THUMBNAIL_ID, intval($attachmentId));
+            update_post_meta($postId, self::META_KEY_THUMBNAIL_ID, $attachmentId);
             update_post_meta($attachmentId, Site::META_KEY_SITE_ID, $this->site->id());
         }
     }
@@ -134,8 +134,7 @@ class Thumbnail
         $post = get_post($postId);
         $postTypeObject = null;
 
-        // TODO Is this textdomain missing?
-        $removeImageLabel = _x('Remove featured image', 'post');
+        $removeImageLabel = _x('Remove featured image', 'post', 'multisite-global-media');
         if ($post !== null) {
             $postTypeObject = get_post_type_object($post->post_type);
         }
@@ -174,8 +173,8 @@ class Thumbnail
     ): string {
 
         // phpcs:enable
-
-        $attachmentId = (int)$attachmentId;
+        // ToDo: int vs. string inside functions parameter - is that correct?
+        $attachmentId = (int) $attachmentId;
         $siteId = $this->siteIdByPostId($attachmentId, $this->site->id());
         $idPrefix = $siteId . Site::SITE_ID_PREFIX_RIGHT_PAD;
         $thumbnailId = (int)get_post_meta($postId, '_thumbnail_id', true);
