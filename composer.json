@@ -1,43 +1,43 @@
 {
-    "name": "bueltge/multisite-global-media",
-    "type": "wordpress-muplugin",
-    "description": "Multisite Global Media is a WordPress plugin which shares media across the Multisite network.",
-    "keywords": [
-        "wordpress",
-        "muplugin",
-        "multisite"
-    ],
-    "homepage": "https://github.com/bueltge/Multisite-Global-Media",
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Dominik Schilling",
-            "homepage": "https://dominikschilling.de/",
-            "role": "Developer"
-        },
-        {
-            "name": "Frank Bültge",
-            "email": "f.bueltge@inpsyde.com",
-            "homepage": "https://bueltge.de",
-            "role": "Developer"
-        },
-        {
-            "name": "Guido Scialfa",
-            "email": "g.scialfa@inspyde.com",
-            "role": "Developer"
-        }
-    ],
-    "require": {
-        "php": ">=7",
-        "composer/installers": "^1.2"
+  "name": "bueltge/multisite-global-media",
+  "type": "wordpress-muplugin",
+  "description": "Multisite Global Media is a WordPress plugin which shares media across the Multisite network.",
+  "keywords": [
+    "wordpress",
+    "muplugin",
+    "multisite"
+  ],
+  "homepage": "https://github.com/bueltge/Multisite-Global-Media",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Dominik Schilling",
+      "homepage": "https://dominikschilling.de/",
+      "role": "Developer"
     },
-    "require-dev": {
-        "squizlabs/php_codesniffer": "^3",
-        "inpsyde/php-coding-standards": "^0.13"
+    {
+      "name": "Frank Bültge",
+      "email": "f.bueltge@inpsyde.com",
+      "homepage": "https://bueltge.de",
+      "role": "Developer"
     },
-    "autoload": {
-        "psr-4": {
-            "MultisiteGlobalMedia\\": "src/"
-        }
+    {
+      "name": "Guido Scialfa",
+      "email": "g.scialfa@inspyde.com",
+      "role": "Developer"
     }
+  ],
+  "require": {
+    "php": ">=7",
+    "composer/installers": "^1.2"
+  },
+  "require-dev": {
+    "squizlabs/php_codesniffer": "^3",
+    "inpsyde/php-coding-standards": "^0.13"
+  },
+  "autoload": {
+    "psr-4": {
+      "MultisiteGlobalMedia\\": "src/"
+    }
+  }
 }

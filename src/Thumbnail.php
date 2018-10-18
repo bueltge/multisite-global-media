@@ -174,7 +174,7 @@ class Thumbnail
 
         // phpcs:enable
         // ToDo: int vs. string inside functions parameter - is that correct?
-        $attachmentId = (int) $attachmentId;
+        $attachmentId = (int)$attachmentId;
         $siteId = $this->siteIdByPostId($attachmentId, $this->site->id());
         $idPrefix = $siteId . Site::SITE_ID_PREFIX_RIGHT_PAD;
         $thumbnailId = (int)get_post_meta($postId, '_thumbnail_id', true);

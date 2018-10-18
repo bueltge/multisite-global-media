@@ -52,12 +52,6 @@ function autoload(): bool
     $autoloader = plugin_dir_path(__FILE__) . '/vendor/autoload.php';
 
     if (!file_exists($autoloader)) {
-        adminNotice(
-            esc_html__('Multisite Global Media:', 'multisite-global-media'),
-            'error',
-            ['strong' => true]
-        );
-
         return false;
     }
 
@@ -69,13 +63,12 @@ function autoload(): bool
 
 /**
  * Compare PHP Version with our minimum.
- * If the ID is smaller then the int return true.
  *
  * @return bool
  */
 function isPhpVersionCompatible(): bool
 {
-    return PHP_VERSION_ID < 70000;
+    return PHP_VERSION_ID >= 70000;
 }
 
 /**
@@ -83,7 +76,7 @@ function isPhpVersionCompatible(): bool
  */
 function bootstrap()
 {
-    if (isPhpVersionCompatible()) {
+    if (!isPhpVersionCompatible()) {
         adminNotice(
             sprintf(
                 // Translators: %s is the PHP version of the current installation, where is the plugin is active.
@@ -93,8 +86,10 @@ function bootstrap()
                 ),
                 PHP_VERSION
             ),
-            'warning'
+            'error'
         );
+
+        return;
     }
     if (!autoload()) {
         adminNotice(
@@ -104,6 +99,8 @@ function bootstrap()
             ),
             'error'
         );
+
+        return;
     }
 
     $pluginProperties = new PluginProperties(__FILE__);
