@@ -119,7 +119,6 @@ function bootstrap()
     add_filter('media_view_strings', [$attachment, 'mediaStrings']);
 
     add_action('save_post', [$thumbnail, 'saveThumbnailMeta'], 99);
-    add_action('wp_ajax_get-post-thumbnail-html', [$thumbnail, 'ajaxGetPostThumbnailHtml'], 99);
     add_filter('admin_post_thumbnail_html', [$thumbnail, 'adminPostThumbnailHtml'], 99, 3);
     add_filter('post_thumbnail_html', [$thumbnail, 'postThumbnailHtml'], 99, 5);
 

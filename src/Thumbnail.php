@@ -62,41 +62,6 @@ class Thumbnail
     }
 
     /**
-     * Ajax handler for retrieving HTML for the featured image.
-     *
-     * @since 4.6.0
-     *
-     * @param int $postId
-     * @param int $attachmentId
-     */
-    public function ajaxGetPostThumbnailHtml(int $postId, int $attachmentId)
-    {
-        $idPrefix = $this->site->idSitePrefix();
-
-        $return = _wp_post_thumbnail_html($attachmentId, $postId);
-
-        if (!$this->idPrefixIncludedInAttachmentId($attachmentId, $idPrefix)) {
-            wp_send_json_success($return);
-        }
-
-        $attachmentId = $this->stripSiteIdPrefixFromAttachmentId($idPrefix, $attachmentId);
-
-        $this->siteSwitcher->switchToBlog($this->site->id());
-        $return = _wp_post_thumbnail_html($attachmentId, $postId);
-        $this->siteSwitcher->restoreBlog();
-
-        $post = get_post($postId);
-        $postTypeObject = get_post_type_object($post->post_type);
-
-        $return = $this->replaceRemovePostThumbnailMarkup(
-            esc_html($postTypeObject->labels->remove_featured_image),
-            $return
-        );
-
-        wp_send_json_success($return);
-    }
-
-    /**
      * Filters the admin post thumbnail HTML markup to return.
      *
      * @param string $content Admin post thumbnail HTML markup.
