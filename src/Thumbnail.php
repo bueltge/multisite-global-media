@@ -57,7 +57,7 @@ class Thumbnail
 
         if ($attachmentId && $this->idPrefixIncludedInAttachmentId($attachmentId, $idPrefix)) {
             update_post_meta($postId, self::META_KEY_THUMBNAIL_ID, $attachmentId);
-            update_post_meta($attachmentId, Site::META_KEY_SITE_ID, $this->site->id());
+            $this->storeSiteIdIntoObjectMeta($attachmentId, $this->site->id());
         }
     }
 
@@ -112,7 +112,7 @@ class Thumbnail
         // phpcs:enable
 
         $attachmentId = (int)$attachmentId;
-        $siteId = $this->siteIdByPostId($attachmentId, $this->site->id());
+        $siteId = $this->siteIdByMetaObject($attachmentId, $this->site->id());
         $idPrefix = $this->site->idSitePrefix();
 
         if (false === $this->idPrefixIncludedInAttachmentId($attachmentId, $idPrefix)) {
@@ -175,7 +175,7 @@ class Thumbnail
         // phpcs:enable
         // ToDo: int vs. string inside functions parameter - is that correct?
         $attachmentId = (int)$attachmentId;
-        $siteId = $this->siteIdByPostId($attachmentId, $this->site->id());
+        $siteId = $this->siteIdByMetaObject($attachmentId, $this->site->id());
         $idPrefix = $siteId . Site::SITE_ID_PREFIX_RIGHT_PAD;
         $thumbnailId = (int)get_post_meta($postId, '_thumbnail_id', true);
 

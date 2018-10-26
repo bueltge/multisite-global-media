@@ -8,6 +8,13 @@ namespace MultisiteGlobalMedia;
  */
 trait Helper
 {
+    /**
+     * Check if the given site Id prefix exists into the give attachment id
+     *
+     * @param int $attachmentId
+     * @param string $siteIdPrefix
+     * @return bool
+     */
     private function idPrefixIncludedInAttachmentId(
         int $attachmentId,
         string $siteIdPrefix
@@ -16,27 +23,42 @@ trait Helper
         return false !== strpos((string)$attachmentId, $siteIdPrefix);
     }
 
+    /**
+     * Remove the site Id prefix from the give attachment id
+     *
+     * @param string $idPrefix
+     * @param int $attachmentId
+     * @return int
+     */
     private function stripSiteIdPrefixFromAttachmentId(string $idPrefix, int $attachmentId): int
     {
         return (int)str_replace($idPrefix, '', (string)$attachmentId);
     }
 
-    private function siteIdByPostId(int $objectId, int $default): int
+    /**
+     * Retrieve the site id from the give object id
+     *
+     * @param int $objectId
+     * @param int $default
+     * @return int
+     */
+    private function siteIdByMetaObject(int $objectId, int $default): int
     {
         $siteId = (int)get_post_meta($objectId, Site::META_KEY_SITE_ID, true);
 
         return $siteId ?: $default;
     }
 
-    private function siteIdPrefixByPostId(int $objectId): string
+    /**
+     * Store the site id into the object
+     *
+     * @param int $objectId
+     * @param int $value
+     * @param int $prevValue
+     * @return bool
+     */
+    private function storeSiteIdIntoObjectMeta(int $objectId, int $value, int $prevValue = 0): bool
     {
-        $siteId = (int)get_post_meta($objectId, Site::META_KEY_SITE_ID, true);
-
-        return $siteId . Site::SITE_ID_PREFIX_RIGHT_PAD;
-    }
-
-    private function storeSiteIdToMeta(int $objectId, int $value, int $prevValue): bool
-    {
-        return update_post_meta($objectId, Site::META_KEY_SITE_ID, $value, $prevValue);
+        return (bool)update_post_meta($objectId, Site::META_KEY_SITE_ID, $value, $prevValue);
     }
 }

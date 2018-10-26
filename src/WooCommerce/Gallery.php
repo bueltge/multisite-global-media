@@ -73,7 +73,7 @@ class Gallery
         );
 
         update_post_meta($product->get_id(), self::META_KEY_PRODUCT_GALLERY, $attachmentIds);
-        update_post_meta($product->get_id(), Site::META_KEY_SITE_ID, $this->site->id());
+        $this->storeSiteIdIntoObjectMeta($product->get_id(), $this->site->id());
     }
 
     /**
@@ -119,7 +119,7 @@ class Gallery
 
         $this->deactivateRetrieveImageFilter();
 
-        $siteId = $this->siteIdByPostId($attachmentId, $this->site->id());
+        $siteId = $this->siteIdByMetaObject($attachmentId, $this->site->id());
         $idPrefix = $siteId . Site::SITE_ID_PREFIX_RIGHT_PAD;
 
         if ($this->idPrefixIncludedInAttachmentId($attachmentId, $idPrefix)) {
@@ -149,7 +149,7 @@ class Gallery
 
         $productId = $product->get_id();
 
-        $siteId = $this->siteIdByPostId($productId, $this->site->id());
+        $siteId = $this->siteIdByMetaObject($productId, $this->site->id());
         $idPrefix = $siteId . Site::SITE_ID_PREFIX_RIGHT_PAD;
 
         if (!$this->idPrefixIncludedInAttachmentId($attachmentId, $idPrefix)) {
