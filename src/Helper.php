@@ -44,7 +44,16 @@ trait Helper
      */
     private function siteIdByMetaObject(int $objectId, int $default): int
     {
-        $siteId = (int)get_post_meta($objectId, Site::META_KEY_SITE_ID, true);
+        list($storedObjectId, $siteId) = get_post_meta(
+            $objectId,
+            Site::META_KEY_SITE_ID,
+            true
+        );
+
+        if ((int)$storedObjectId !== $objectId) {
+            delete_post_meta($objectId, Site::META_KEY_SITE_ID);
+            $siteId = 0;
+        }
 
         return $siteId ?: $default;
     }
@@ -53,12 +62,34 @@ trait Helper
      * Store the site id into the object
      *
      * @param int $objectId
-     * @param int $value
+     * @param int $siteId
      * @param int $prevValue
      * @return bool
      */
-    private function storeSiteIdIntoObjectMeta(int $objectId, int $value, int $prevValue = 0): bool
+    private function storeSiteIdIntoObjectMeta(int $objectId, int $siteId, int $prevValue = 0): bool
     {
+        if (-1 === $objectId) {
+            return true;
+        }
+
+        $value = [$objectId, $siteId];
+
+        if (!metadata_exists('post', $objectId, Site::META_KEY_SITE_ID)) {
+            return (bool)add_post_meta($objectId, Site::META_KEY_SITE_ID, $value, true);
+        }
+
         return (bool)update_post_meta($objectId, Site::META_KEY_SITE_ID, $value, $prevValue);
     }
+
+//    private function prefixAttachmentWithSiteIdFromObjectMeta(
+//        int $attachmentId,
+//        string $idPrefix
+//    ): string {
+//
+//        if (!$this->idPrefixIncludedInAttachmentId($attachmentId, $idPrefix)) {
+//            $attachmentId = $idPrefix . $attachmentId;
+//        }
+//
+//        return (string)$attachmentId;
+//    }
 }

@@ -121,7 +121,14 @@ function bootstrap()
     add_action('save_post', [$thumbnail, 'saveThumbnailMeta'], 99);
     add_action('wp_ajax_get-post-thumbnail-html', [$thumbnail, 'ajaxGetPostThumbnailHtml'], 99);
     add_filter('admin_post_thumbnail_html', [$thumbnail, 'adminPostThumbnailHtml'], 99, 3);
+//    SingleFilter::activate(
+//        'admin_post_thumbnail_html',
+//        [$thumbnail, 'adminPostThumbnailHtml'],
+//        99,
+//        3
+//    );
     add_filter('post_thumbnail_html', [$thumbnail, 'postThumbnailHtml'], 99, 5);
+    add_filter('wp_get_attachment_caption', [$attachment, 'attachmentCaption'], 99, 2);
 
     if (\function_exists('wc')) {
         wcBootstrap($site, $singleSwitcher);
@@ -148,3 +155,7 @@ function wcBootstrap(Site $site, SingleSwitcher $siteSwitcher)
 }
 
 add_action('plugins_loaded', __NAMESPACE__ . '\\bootstrap');
+
+add_action('wp_head', function() {
+   $s = wp_get_attachment_caption(get_post_thumbnail_id());
+});

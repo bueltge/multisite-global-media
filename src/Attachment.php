@@ -71,7 +71,7 @@ class Attachment
         // phpcs:enable
 
         if (!empty($query['global_media'])) {
-            switch_to_blog($this->site->id());
+            $this->siteSwitcher->switchToBlog($this->site->id());
             add_filter('wp_prepare_attachment_for_js', [$this, 'prepareAttachmentForJs'], 0, 3);
         }
 
@@ -91,14 +91,14 @@ class Attachment
         $attachmentId = (int)wp_unslash($_REQUEST['id']);
         // phpcs:enable
         $idPrefix = $this->site->idSitePrefix();
+        $siteId = $this->siteIdByMetaObject($attachmentId, 0);
 
-        if ($this->idPrefixIncludedInAttachmentId($attachmentId, $idPrefix)) {
+        if ($siteId) {
             $attachmentId = $this->stripSiteIdPrefixFromAttachmentId($idPrefix, $attachmentId);
             $_REQUEST['id'] = $attachmentId;
 
-            $this->siteSwitcher->switchToBlog($this->site->id());
+            $this->siteSwitcher->switchToBlog($siteId);
             add_filter('wp_prepare_attachment_for_js', [$this, 'prepareAttachmentForJs'], 0, 3);
-            $this->siteSwitcher->restoreBlog();
         }
 
         wp_ajax_get_attachment();
@@ -116,18 +116,45 @@ class Attachment
         $attachment = wp_unslash($_POST['attachment']);
         $attachmentId = (int)$attachment['id'];
         $idPrefix = $this->site->idSitePrefix();
+        $siteId = $this->siteIdByMetaObject($attachmentId, 0);
 
-        if ($this->idPrefixIncludedInAttachmentId($attachmentId, $idPrefix)) {
-            $attachment['id'] = $this->stripSiteIdPrefixFromAttachmentId($idPrefix, $attachmentId);
-            $_POST['attachment'] = wp_slash($attachment);
-
-            // TODO Which is the reason why we don't restore the blog?
-            switch_to_blog($this->site->id());
-
-            add_filter('mediaSendToEditor', [$this, 'mediaSendToEditor'], 10, 2);
+        if (!$siteId && $this->idPrefixIncludedInAttachmentId($attachmentId, $idPrefix)) {
+            $siteId = $this->site->id();
         }
 
+        if (!$siteId) {
+            return;
+        }
+
+        $attachment['id'] = $this->stripSiteIdPrefixFromAttachmentId($idPrefix, $attachmentId);
+        $_POST['attachment'] = wp_slash($attachment);
+
+        // TODO Which is the reason why we don't restore the blog?
+        $this->siteSwitcher->switchToBlog($siteId);
+        add_filter('mediaSendToEditor', [$this, 'mediaSendToEditor'], 10, 2);
+
         wp_ajax_send_attachment_to_editor();
+    }
+
+    public function attachmentCaption(string $caption, int $attachmentId): string
+    {
+        $siteId = $this->siteIdByMetaObject($attachmentId, 0);
+        $idPrefix = $this->site->idSitePrefix();
+
+        if (!$siteId && $this->idPrefixIncludedInAttachmentId($attachmentId, $idPrefix)) {
+            $siteId = $this->site->id();
+        }
+
+        if (!$siteId) {
+            return $caption;
+        }
+
+        $this->siteSwitcher->switchToBlog($siteId);
+        $attachmentId = $this->stripSiteIdPrefixFromAttachmentId($idPrefix, $attachmentId);
+        $caption = wp_get_attachment_caption($attachmentId);
+        $this->siteSwitcher->restoreBlog();
+
+        return $caption;
     }
 
     /**

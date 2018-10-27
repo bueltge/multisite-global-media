@@ -73,7 +73,6 @@ class Gallery
         );
 
         update_post_meta($product->get_id(), self::META_KEY_PRODUCT_GALLERY, $attachmentIds);
-        $this->storeSiteIdIntoObjectMeta($product->get_id(), $this->site->id());
     }
 
     /**
@@ -104,6 +103,8 @@ class Gallery
      * @param $size
      * @param bool $icon
      * @return array
+     *
+     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
      */
     public function retrieveTheImages(
         $image,
@@ -111,6 +112,8 @@ class Gallery
         $size,
         bool $icon
     ): array {
+
+        // phpcs:enable
 
         // We expect a boolean false because the image (siteID.00000.ID) doesn't exists.
         if (\is_bool($image)) {
@@ -139,24 +142,29 @@ class Gallery
      * Show the gallery image on frontend
      *
      * @param string $html
-     * @param int $attachmentId
+     * @param mixed $attachmentId
      * @return string
+     *
+     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
      */
-    public function singleProductImageThumbnailHtml(string $html, int $attachmentId): string
+    public function singleProductImageThumbnailHtml(string $html, $attachmentId): string
     {
-        /** @var \WC_Product $product */
-        global $product;
+        // phpcs:enable
 
-        $productId = $product->get_id();
+        $attachmentId = (int)$attachmentId;
+        $siteId = $this->siteIdByMetaObject($attachmentId, 0);
+        $idPrefix = $this->site->idSitePrefix();
 
-        $siteId = $this->siteIdByMetaObject($productId, $this->site->id());
-        $idPrefix = $siteId . Site::SITE_ID_PREFIX_RIGHT_PAD;
+        if (!$siteId && $this->idPrefixIncludedInAttachmentId($attachmentId, $idPrefix)) {
+            $siteId = $this->site->id();
+        }
 
-        if (!$this->idPrefixIncludedInAttachmentId($attachmentId, $idPrefix)) {
+        if (!$siteId) {
             return $html;
         }
 
         $attachmentId = $this->stripSiteIdPrefixFromAttachmentId($idPrefix, $attachmentId);
+
         $this->siteSwitcher->switchToBlog($siteId);
         $html = wc_get_gallery_image_html($attachmentId);
         $this->siteSwitcher->restoreBlog();

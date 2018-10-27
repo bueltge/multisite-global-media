@@ -20,6 +20,10 @@ class SingleSwitcher implements SiteSwitcher
      */
     public function switchToBlog(int $siteId)
     {
+        if ($siteId < 1) {
+            return;
+        }
+
         if (get_current_blog_id() === $siteId) {
             return;
         }
