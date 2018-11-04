@@ -149,11 +149,3 @@ function wcBootstrap(Site $site, SingleSwitcher $siteSwitcher)
 }
 
 add_action('plugins_loaded', __NAMESPACE__ . '\\bootstrap');
-
-add_action('the_content', function () {
-    $thumbId = get_post_thumbnail_id();
-    $imageSrc = wp_get_attachment_image_src($thumbId);
-
-    var_dump($imageSrc);
-    exit;
-});
