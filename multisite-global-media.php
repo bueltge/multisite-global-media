@@ -139,13 +139,6 @@ function wcBootstrap(Site $site, SingleSwitcher $siteSwitcher)
 
     add_action('woocommerce_new_product', [$wooCommerceGallery, 'saveGalleryIds']);
     add_action('woocommerce_update_product', [$wooCommerceGallery, 'saveGalleryIds']);
-    add_action('add_meta_boxes', [$wooCommerceGallery, 'overrideMetaboxCallback'], PHP_INT_MAX);
-    add_action(
-        'woocommerce_single_product_image_thumbnail_html',
-        [$wooCommerceGallery, 'singleProductImageThumbnailHtml'],
-        PHP_INT_MAX,
-        2
-    );
 }
 
 add_action('plugins_loaded', __NAMESPACE__ . '\\bootstrap');
