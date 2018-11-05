@@ -79,7 +79,7 @@ function bootstrap()
     if (!isPhpVersionCompatible()) {
         adminNotice(
             sprintf(
-                // Translators: %s is the PHP version of the current installation, where is the plugin is active.
+            // Translators: %s is the PHP version of the current installation, where is the plugin is active.
                 __(
                     'Multisite Global Media require php version 7.0 at least. Your\'s is %s',
                     'multisite-global-media'
@@ -116,6 +116,7 @@ function bootstrap()
     add_action('wp_ajax_query-attachments', [$attachment, 'ajaxQueryAttachments'], 0);
     add_action('wp_ajax_get-attachment', [$attachment, 'ajaxGetAttachment'], 0);
     add_action('wp_ajax_send-attachment-to-editor', [$attachment, 'ajaxSendAttachmentToEditor'], 0);
+    add_action('wp_get_attachment_image_src', [$attachment, 'attachmentImageSrc'], 99, 4);
     add_filter('media_view_strings', [$attachment, 'mediaStrings']);
 
     add_action('save_post', [$thumbnail, 'saveThumbnailMeta'], 99);

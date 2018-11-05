@@ -153,6 +153,35 @@ class Attachment
     }
 
     /**
+     * @param $image
+     * @param $attachmentId
+     * @param $size
+     * @param bool $icon
+     * @return array|false
+     *
+     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+     * phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
+     */
+    public function attachmentImageSrc($image, $attachmentId, $size, bool $icon)
+    {
+        // phpcs:enable
+
+        $attachmentId = (int)$attachmentId;
+        $idPrefix = $this->site->idSitePrefix();
+
+        if (!$this->idPrefixIncludedInAttachmentId($attachmentId, $idPrefix)) {
+            return $image;
+        }
+
+        $attachmentId = $this->stripSiteIdPrefixFromAttachmentId($idPrefix, $attachmentId);
+        $this->siteSwitcher->switchToBlog($this->site->id());
+        $image = wp_get_attachment_image_src($attachmentId, $size, $icon);
+        $this->siteSwitcher->restoreBlog();
+
+        return $image;
+    }
+
+    /**
      * Define Strings for translation
      *
      * @since   2015-01-26
