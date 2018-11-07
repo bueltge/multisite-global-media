@@ -2,7 +2,7 @@
 _Multisite Global Media_ is a WordPress plugin which shares media across the Multisite network.
 
 ## Description
-This small plugin adds a new tab to the media modal which gives you the opportunity to share media from one site to all the other sites of the network. The `multisite-global-media.php` file uses the ID of the site that will store the global media. Currently the Site ID is set at `const SITE_ID = 1`. You can set/change this Site ID via filter hook `global_media.site_id` in a custom plugin, like so
+This small plugin adds a new tab to the media library which allows you to share media from one site to all the other sites of the network. The `multisite-global-media.php` file uses the ID of the site that will store the global media. By default the Site ID is set to '1'. You can set/change this Site ID via the filter hook `global_media.site_id` which is run in a custom plugin like so
 
  ```php
  add_filter( 'global_media.site_id', function() {
@@ -10,25 +10,27 @@ This small plugin adds a new tab to the media modal which gives you the opportun
  } );
  ```
  
-To get Global Media to work one has to follow these steps:
+To get Global Media to work please follow these steps:
 
 1. Decide which blog/site will host the shared media for the network.
-2. Add media to the media library for the specific blog/site.
-4. You can find the ID of a site by going to your Network WP Admin. In the left hand menu choose "All Sites", and then click on "edit" under the site you need. In the address bar you will see 'site-info.php?id=4' where the last number is the ID. 
- ![Finding the site ID](./assets/screenshot-site-id.png)
+2. Add media to the media library for the chosen blog/site.
+4. Find the Site ID of your chosen site by going to your Network WP Admin. In the left hand menu choose "All Sites", and then click on "edit" under the site you need. In the address bar you will see 'site-info.php?id=4' where the last number is the ID.  
+![Finding the site ID](./assets/screenshot-site-id.png)
+5. If the Site Id of your chosen site is '1', then you don't need to maky any changes. If it's a different ID number, then please read the section below about modifying the Site ID via hook / custom plugin. 
 
-A comfortable enhancement in the Multisite context is the plugin [Multisite Enhancement](https://github.com/bueltge/wordpress-multisite-enhancements).
+NB: A useful enhancement in the Multisite context is the plugin [Multisite Enhancement](https://github.com/bueltge/wordpress-multisite-enhancements).
 
 
 #### Hook for Site ID
 
 You can change the default site ID '1' by creating a small custom plugin. 
 
-1. In /wp-content/ create a new folder 'my-plugin'
+1. In /wp-content/plugins/ create a new folder 'my-plugin'
 
-2. In /wp-content/my-plugin/ create a new file 'my-plugin.php'
+2. In /wp-content/plugins/my-plugin/ create a new file 'my-plugin.php'
 
-3. Add the following content to 'my-plugin.php' (amend the site id as needed):
+3. Add the following content to 'my-plugin.php'  
+Change the return value to your chosen Site Id
 
  ```php
 <?php
@@ -61,8 +63,8 @@ add_filter( 'global_media.site_id', function() {
 
 ### Installation
 * Download the plugin as zip, use a clone of the repo or use Composer, see below
-* Install the plugin in your environment, recommend as [Must Use plugin](https://codex.wordpress.org/Must_Use_Plugins), also here a small [hint](https://github.com/bueltge/must-use-loader) for an helping solution [Must Use Loader](https://github.com/bueltge/must-use-loader).
-* Set the side ID for the Global Media Library, see above the description to change them inside the source or use the hook.
+* Install the plugin in your environment, recommend as [Must Use plugin](https://codex.wordpress.org/Must_Use_Plugins). See here for a quick [hint](https://github.com/bueltge/must-use-loader) for a helping solution [Must Use Loader](https://github.com/bueltge/must-use-loader).
+* Set the Site ID for the Global Media Library, see above the description to change the ID with a hook.
 * Active the plugin for the whole network
 
 #### Composer
