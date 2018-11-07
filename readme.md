@@ -2,7 +2,7 @@
 _Multisite Global Media_ is a WordPress plugin which shares media across the Multisite network.
 
 ## Description
-This small plugin adds a new tab to the media modal which gives you the opportunity to share media from one site to all the other sites of the network. The `multisite-global-media.php` file uses the ID of the site that will store the global media. Currently the Site ID is set at `const SITE_ID = 1`. Change this value to set one of the other sites as the default for storing global media. You can also set/change this Site ID via filter hook `global_media.site_id`, like
+This small plugin adds a new tab to the media modal which gives you the opportunity to share media from one site to all the other sites of the network. The `multisite-global-media.php` file uses the ID of the site that will store the global media. Currently the Site ID is set at `const SITE_ID = 1`. You can set/change this Site ID via filter hook `global_media.site_id` in a custom plugin, like so
 
  ```php
  add_filter( 'global_media.site_id', function() {
@@ -12,32 +12,52 @@ This small plugin adds a new tab to the media modal which gives you the opportun
  
 To get Global Media to work one has to follow these steps:
 
-1. Decide on which blog/site that will host shared media for the network.
+1. Decide which blog/site will host the shared media for the network.
 2. Add media to the media library for the specific blog/site.
-4. Find the ID of a site by going to All Sites section hovering over the site checking the left bottom status bar or installing a plugin that shows the ID's of each site. An comfortable enhancement in the Multisite context is the plugin [Multisite Enhancement](https://github.com/bueltge/wordpress-multisite-enhancements).
-3. Open the file `multisite-global-media.php` go to the following code:
+4. You can find the ID of a site by going to your Network WP Admin. In the left hand menu choose "All Sites", and then click on "edit" under the site you need. In the address bar you will see 'site-info.php?id=4' where the last number is the ID. 
+ ![Finding the site ID](./assets/screenshot-site-id.png)
 
- ```php
- /**
-  * Id of side inside the network, there store the global media
-  * Select the ID of the site/blog to where you want media that will be shared across the network to be stored.
-  *
-  * @var    integer
-  * @since  2015-01-22
-  */
- const SITE_ID = 1;
- ```
+A comfortable enhancement in the Multisite context is the plugin [Multisite Enhancement](https://github.com/bueltge/wordpress-multisite-enhancements).
 
-Normally you should not change the source. It is much easier for maintenance and other points. So if you are familiar with code in the WordPress context, use the hook below to change the default Site ID of the plugin with a small custom plugin.
 
 #### Hook for Site ID
-The plugin defines the hook `global_media.site_id` to set an ID for the network Site, that store the media files, like 
 
-```php
+You can change the default site ID '1' by creating a small custom plugin. 
+
+1. In /wp-content/ create a new folder 'my-plugin'
+
+2. In /wp-content/my-plugin/ create a new file 'my-plugin.php'
+
+3. Add the following content to 'my-plugin.php' (amend the site id as needed):
+
+ ```php
+<?php
+/*
+ * Plugin Name: My Plugin
+ * Plugin URI: https://example.com
+ * Description: My first plugin 
+ * Author: Jane Doe 
+ * Author URI: https://example.com 
+ * Version: 1.0
+/*	
+	
+
+/*
+* MULTISITE GLOBAL MEDIA	
+* https://github.com/bueltge/multisite-global-media
+* change library ID to main site
+* 
+* ****************************************************
+*/
+
+	
 add_filter( 'global_media.site_id', function() {
     return 1234;
-} );`.
+} );	
+
 ```
+
+4. Activate the plugin for the whole network 
 
 ### Installation
 * Download the plugin as zip, use a clone of the repo or use Composer, see below
@@ -77,4 +97,4 @@ Please fork it, add an issue for ideas and bugs.
 
 ### Disclaimer
 I'm German and my English might be gruesome here and there.
-So please be patient with me and let me know of typos or grammatical parts. Thanks
+So please be patient with me and let me know of typos or grammatical errors. Thank you!
