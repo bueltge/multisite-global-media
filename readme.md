@@ -14,23 +14,23 @@ To get Global Media to work please follow these steps:
 
 1. Decide which blog/site will host the shared media for the network.
 2. Add media to the media library for the chosen blog/site.
-4. Find the Site ID of your chosen site by going to your Network WP Admin. In the left hand menu choose "All Sites", and then click on "edit" under the site you need. In the address bar you will see 'site-info.php?id=4' where the last number is the ID.  
+3. Find the Site ID of your chosen site by going to your Network WP Admin. In the left hand menu choose "All Sites", and then click on "edit" under the site you need. In the address bar you will see 'site-info.php?id=4' where the last number is the ID.   
 ![Finding the site ID](./assets/screenshot-site-id.png)
-5. If the Site Id of your chosen site is '1', then you don't need to maky any changes. If it's a different ID number, then please read the section below about modifying the Site ID via hook / custom plugin. 
+4. If the Site Id of your chosen site is '1', then you don't need to maky any changes. If it's a different ID number, then please read the section below about modifying the Site ID via hook / custom plugin. 
 
 NB: A useful enhancement in the Multisite context is the plugin [Multisite Enhancement](https://github.com/bueltge/wordpress-multisite-enhancements).
 
 
 #### Hook for Site ID
 
-You can change the default site ID '1' by creating a small custom plugin. 
+If you need to change the default Site ID '1' to another value, then you can do so by creating a small custom plugin. 
 
 1. In /wp-content/plugins/ create a new folder 'my-plugin'
 
 2. In /wp-content/plugins/my-plugin/ create a new file 'my-plugin.php'
 
 3. Add the following content to 'my-plugin.php'  
-Change the return value to your chosen Site Id
+Change the return value to your chosen Site ID
 
  ```php
 <?php
@@ -47,7 +47,7 @@ Change the return value to your chosen Site Id
 /*
 * MULTISITE GLOBAL MEDIA	
 * https://github.com/bueltge/multisite-global-media
-* change library ID to main site
+* change global media library ID
 * 
 * ****************************************************
 */
