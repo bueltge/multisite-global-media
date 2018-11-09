@@ -57,7 +57,6 @@ class Thumbnail
 
         if ($attachmentId && $this->idPrefixIncludedInAttachmentId($attachmentId, $idPrefix)) {
             update_post_meta($postId, self::META_KEY_THUMBNAIL_ID, $attachmentId);
-            $this->storeSiteIdIntoObjectMeta($attachmentId, $this->site->id());
         }
     }
 
@@ -112,7 +111,6 @@ class Thumbnail
         // phpcs:enable
 
         $attachmentId = (int)$attachmentId;
-        $siteId = $this->siteIdByMetaObject($attachmentId, $this->site->id());
         $idPrefix = $this->site->idSitePrefix();
 
         if (false === $this->idPrefixIncludedInAttachmentId($attachmentId, $idPrefix)) {
@@ -122,7 +120,7 @@ class Thumbnail
         $post = get_post($postId);
         $attachmentId = $this->stripSiteIdPrefixFromAttachmentId($idPrefix, $attachmentId);
 
-        $this->siteSwitcher->switchToBlog($siteId);
+        $this->siteSwitcher->switchToBlog($this->site->id());
         // $thumbnailId is passed instead of postId to avoid warning messages of nonexistent post object.
         $content = _wp_post_thumbnail_html($attachmentId, $post);
         $this->siteSwitcher->restoreBlog();
@@ -173,20 +171,16 @@ class Thumbnail
     ): string {
 
         // phpcs:enable
-        // ToDo: int vs. string inside functions parameter - is that correct?
+
         $attachmentId = (int)$attachmentId;
-        $siteId = $this->siteIdByMetaObject($attachmentId, $this->site->id());
-        $idPrefix = $siteId . Site::SITE_ID_PREFIX_RIGHT_PAD;
-        $thumbnailId = (int)get_post_meta($postId, '_thumbnail_id', true);
+        $siteId = $this->site->id();
+        $idPrefix = $this->site->idSitePrefix();
 
-        if ($this->idPrefixIncludedInAttachmentId($thumbnailId, $idPrefix)) {
-            $thumbnailId = $this->stripSiteIdPrefixFromAttachmentId($idPrefix, $thumbnailId);
-
-            if ($siteId && $thumbnailId) {
-                $this->siteSwitcher->switchToBlog($siteId);
-                $html = wp_get_attachment_image($thumbnailId, $size, false, $attr);
-                $this->siteSwitcher->restoreBlog();
-            }
+        if ($this->idPrefixIncludedInAttachmentId($attachmentId, $idPrefix)) {
+            $attachmentId = $this->stripSiteIdPrefixFromAttachmentId($idPrefix, $attachmentId);
+            $this->siteSwitcher->switchToBlog($siteId);
+            $html = wp_get_attachment_image($attachmentId, $size, false, $attr);
+            $this->siteSwitcher->restoreBlog();
         }
 
         return $html;
