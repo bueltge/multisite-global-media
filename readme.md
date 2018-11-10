@@ -17,6 +17,7 @@ To get Global Media to work please follow these steps:
 3. Find the Site ID of your chosen site by going to your Network WP Admin. In the left hand menu choose "All Sites", and then click on "edit" under the site you need. In the address bar you will see `site-info.php?id=4` where the last number is the ID.
 
 ![Finding the site ID](./assets/images/screenshot-site-id.png)
+
 4. If the Site ID of your chosen site is '1', then you don't need to maky any changes. If it's a different ID number, then please read the section below about modifying the Site ID via hook and a custom plugin.
 
 Note: A useful enhancement in the Multisite context is the plugin [Multisite Enhancement](https://github.com/bueltge/wordpress-multisite-enhancements). Its helps also to identify the site and get his site ID.
