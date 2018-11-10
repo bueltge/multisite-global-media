@@ -21,7 +21,7 @@ To get Global Media to work please follow these steps:
 Note: A useful enhancement in the Multisite context is the plugin [Multisite Enhancement](https://github.com/bueltge/wordpress-multisite-enhancements). Its helps also to identify the site and get his site ID.
 
 
-### Hook for Site ID
+## Set your Site ID for the Global Mediathek
 If you need to change the default Site ID '1' to another value, then you can do so by creating a small custom plugin.
 
 1. In `/wp-content/mu-plugins/` create a new folder `mgm-set-my-site-id`.
@@ -38,7 +38,6 @@ If you need to change the default Site ID '1' to another value, then you can do 
  * Network:     true
  */
 
-
 add_filter( 'global_media.site_id', function() {
     return 1234;
 } );
@@ -47,14 +46,14 @@ add_filter( 'global_media.site_id', function() {
 
 4. Activation is not necassary if you store this plugin inside the [Must Use Plugin](https://codex.wordpress.org/Must_Use_Plugins) directory /wp-content/mu-plugins/.
 
-### Installation
-#### Manual
+## Installation
+### Manual
 * Download the plugin as zip, use a clone of the repo or use Composer, see below
 * Install the plugin in your environment, recommend as [Must Use plugin](https://codex.wordpress.org/Must_Use_Plugins). See here for a quick [hint](https://github.com/bueltge/must-use-loader) for a helping solution [Must Use Loader](https://github.com/bueltge/must-use-loader).
 * Set the Site ID for the Global Media Library, see above the description to change the ID with a hook in a custom plugin.
 * Active the plugin for the whole network if you don't store it as Must Use Plugin.
 
-#### Composer
+### Composer
 The plugin is also available as [Composer package](https://packagist.org/packages/bueltge/multisite-global-media).
 
 ```bash
