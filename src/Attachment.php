@@ -42,9 +42,13 @@ class Attachment
      * @param array|bool $meta Array of attachment meta data, or boolean false if there is none.
      *
      * @return array Array of prepared attachment data.
+     *
+     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
      */
     public function prepareAttachmentForJs(array $response, \WP_Post $attachment, $meta): array
     {
+        // phpcs:enable
+
         $idPrefix = $this->site->idSitePrefix();
 
         $response['id'] = $idPrefix . $response['id']; // Unique ID, must be a number.
