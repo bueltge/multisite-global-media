@@ -49,7 +49,6 @@ function adminNotice(string $message, string $noticeType, array $allowedMarkup =
  */
 function autoload(): bool
 {
-
     if (\class_exists(PluginProperties::class)) {
         return true;
     }
