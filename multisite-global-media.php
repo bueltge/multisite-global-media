@@ -49,6 +49,11 @@ function adminNotice(string $message, string $noticeType, array $allowedMarkup =
  */
 function autoload(): bool
 {
+
+    if (\class_exists(PluginProperties::class)) {
+        return true;
+    }
+
     $autoloader = plugin_dir_path(__FILE__) . '/vendor/autoload.php';
 
     if (!file_exists($autoloader)) {
