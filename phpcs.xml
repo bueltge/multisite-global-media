@@ -4,7 +4,7 @@
         Rules for the Multisite Global Media project, a WordPress Multisite plugin.
     </description>
 
-    <file>./multisite-global-media.php</file>
+    <file>./src</file>
 
     <config name="global_media" value="Multisite Global Media"/>
     <!-- Code Reviews Rules -->

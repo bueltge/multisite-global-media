@@ -42,9 +42,13 @@ class Attachment
      * @param array|bool $meta Array of attachment meta data, or boolean false if there is none.
      *
      * @return array Array of prepared attachment data.
+     *
+     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
      */
     public function prepareAttachmentForJs(array $response, \WP_Post $attachment, $meta): array
     {
+        // phpcs:enable
+
         $idPrefix = $this->site->idSitePrefix();
 
         $response['id'] = $idPrefix . $response['id']; // Unique ID, must be a number.
@@ -65,6 +69,7 @@ class Attachment
     public function ajaxQueryAttachments()
     {
         // phpcs:disable WordPress.CSRF.NonceVerification.NoNonceVerification
+        // phpcs:disable
         $query = isset($_REQUEST['query'])
             ? (array)wp_unslash($_REQUEST['query'])
             : [];
@@ -87,7 +92,9 @@ class Attachment
      */
     public function ajaxGetAttachment()
     {
-        // phpcs:ignore WordPress.CSRF.NonceVerification.NoNonceVerification
+        // phpcs:disable WordPress.CSRF.NonceVerification.NoNonceVerification
+        // phpcs:disable WordPress.VIP.ValidatedSanitizedInput.InputNotSanitized
+        // phpcs:disable WordPress.VIP.ValidatedSanitizedInput.InputNotValidated
         $attachmentId = (int)wp_unslash($_REQUEST['id']);
         // phpcs:enable
         $idPrefix = $this->site->idSitePrefix();
@@ -113,6 +120,9 @@ class Attachment
      */
     public function ajaxSendAttachmentToEditor()
     {
+        // phpcs:disable WordPress.CSRF.NonceVerification.NoNonceVerification
+        // phpcs:disable WordPress.VIP.ValidatedSanitizedInput.InputNotSanitized
+        // phpcs:disable WordPress.VIP.ValidatedSanitizedInput.InputNotValidated
         $attachment = wp_unslash($_POST['attachment']);
         $attachmentId = (int)$attachment['id'];
         $idPrefix = $this->site->idSitePrefix();
