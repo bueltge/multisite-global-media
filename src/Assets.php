@@ -34,7 +34,7 @@ class Assets
             return;
         }
 
-        wp_enqueue_script(
+        wp_register_script(
             'global_media',
             $this->pluginProperties->dirUrl() . '/assets/js/global-media.js',
             ['media-views'],
