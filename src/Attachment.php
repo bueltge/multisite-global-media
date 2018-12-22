@@ -16,19 +16,19 @@ class Attachment
     private $site;
 
     /**
-     * @var SingleSwitcher
+     * @var SiteSwitcher
      */
     private $siteSwitcher;
 
     /**
-     * Attachment constructor
-     *
+     * Attachment constructor.
      * @param Site $site
+     * @param SiteSwitcher $siteSwitcher
      */
-    public function __construct(Site $site, SingleSwitcher $singleSwitcher)
+    public function __construct(Site $site, SiteSwitcher $siteSwitcher)
     {
         $this->site = $site;
-        $this->siteSwitcher = $singleSwitcher;
+        $this->siteSwitcher = $siteSwitcher;
     }
 
     /**
