@@ -1,9 +1,10 @@
 <?php # -*- coding: utf-8 -*-
 // phpcs:disable
 
-namespace MultisiteGlobalMedia;
+namespace MultisiteGlobalMedia\Tests\Unit;
 
 use Brain\Monkey\Filters;
+use MultisiteGlobalMedia\Site;
 use MultisiteGlobalMedia\Tests\TestCase;
 
 class SiteTest extends TestCase
@@ -30,15 +31,17 @@ class SiteTest extends TestCase
 
     public function testIdSitePrefixReturnSiteIdRightPaddedWithZeros()
     {
-        $site = \Mockery::mock('MultisiteGlobalMedia\\Site[id]')
-            ->makePartial();
+        $testee = $this->getMockBuilder(Site::class)
+            ->setMethods(['id'])
+            ->getMock();
 
-        $site
-            ->shouldReceive('id')
-            ->once()
-            ->andReturn(1);
+        $testee
+            ->expects($this->once())
+            ->method('id')
+            ->willReturn(1);
 
-        $idSitePrefix = $site->idSitePrefix();
+        /** @var Site $testee */
+        $idSitePrefix = $testee->idSitePrefix();
 
         self::assertSame(1 . Site::SITE_ID_PREFIX_RIGHT_PAD, $idSitePrefix);
     }
