@@ -81,7 +81,7 @@ Good news, this plugin is free for everyone! Since it's released under the MIT, 
 ### Contact & Feedback
 The plugin is designed and developed by team members from the [Inpsyde](https://inpsyde.com/) crew. Special thanks and praise to Dominik Schilling and Guido Scialfa for his help and engagement.
 
-Please let me know if you like the plugin or you hate it or whatever ...
+Please let me know if you like the plugin or you hate it or whatever.
 
 Please fork it, add an issue for ideas and bugs.
 
