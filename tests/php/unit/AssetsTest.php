@@ -40,11 +40,7 @@ class AssetsTest extends TestCase
             ->once()
             ->with('global_media');
 
-        $pluginProperties = $this
-            ->getMockBuilder(PluginProperties::class)
-            ->disableOriginalConstructor()
-            ->setMethods(['dirUrl'])
-            ->getMock();
+        $pluginProperties = $this->createPartialMock(PluginProperties::class, ['dirUrl']);
 
         $pluginProperties
             ->expects($this->once())
@@ -97,11 +93,7 @@ class AssetsTest extends TestCase
             ->once()
             ->with('global_media');
 
-        $pluginProperties = $this
-            ->getMockBuilder(PluginProperties::class)
-            ->disableOriginalConstructor()
-            ->setMethods(['dirUrl'])
-            ->getMock();
+        $pluginProperties = $this->createPartialMock(PluginProperties::class, ['dirUrl']);
 
         $pluginProperties
             ->expects($this->once())

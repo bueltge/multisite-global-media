@@ -31,9 +31,7 @@ class SiteTest extends TestCase
 
     public function testIdSitePrefixReturnSiteIdRightPaddedWithZeros()
     {
-        $testee = $this->getMockBuilder(Site::class)
-            ->setMethods(['id'])
-            ->getMock();
+        $testee = $this->createPartialMock(Site::class, ['id']);
 
         $testee
             ->expects($this->once())
