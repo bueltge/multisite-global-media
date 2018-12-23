@@ -56,25 +56,17 @@ class AttachmentTest extends \MultisiteGlobalMedia\Tests\TestCase
         self::assertSame($attachmentDataExpected, $response);
     }
 
-    public function testAjaxQueryAttachmentsCallsWordPressAjaxQueryAttachments()
-    {
-        Functions\expect('wp_ajax_query_attachments')
-            ->once();
-
-        $site = $this->createMock(Site::class);
-        $siteSwitcher = $this->createMock(SiteSwitcher::class);
-        $testee = new Attachment($site, $siteSwitcher);
-
-        $testee->ajaxQueryAttachments();
-    }
-
-    public function testsAjaxQueryAttachmentsAddFilterWpPrepareAttachmentForJs()
+    public function testsAjaxQueryAttachments()
     {
         $_REQUEST = [
             'query' => [
                 'global_media' => true,
             ],
         ];
+
+        $site = $this->createMock(Site::class);
+        $siteSwitcher = $this->createMock(SiteSwitcher::class);
+        $testee = new Attachment($site, $siteSwitcher);
 
         Functions\stubs([
             'wp_ajax_query_attachments' => true,
@@ -89,10 +81,6 @@ class AttachmentTest extends \MultisiteGlobalMedia\Tests\TestCase
             ->once()
             ->with(1);
 
-        $site = $this->createMock(Site::class);
-        $siteSwitcher = $this->createMock(SiteSwitcher::class);
-        $testee = new Attachment($site, $siteSwitcher);
-
         $site
             ->expects($this->once())
             ->method('id')
@@ -100,6 +88,21 @@ class AttachmentTest extends \MultisiteGlobalMedia\Tests\TestCase
 
         Filters\expectAdded('wp_prepare_attachment_for_js')
             ->with([$testee, 'prepareAttachmentForJs'], 0);
+
+        Functions\expect('wp_ajax_query_attachments')
+            ->once();
+
+        $testee->ajaxQueryAttachments();
+    }
+
+    public function testAjaxQueryAttachmentsCallsWordPressAjaxQueryAttachments()
+    {
+        Functions\expect('wp_ajax_query_attachments')
+            ->once();
+
+        $site = $this->createMock(Site::class);
+        $siteSwitcher = $this->createMock(SiteSwitcher::class);
+        $testee = new Attachment($site, $siteSwitcher);
 
         $testee->ajaxQueryAttachments();
     }
