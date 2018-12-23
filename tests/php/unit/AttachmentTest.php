@@ -376,3 +376,4 @@ class AttachmentTest extends \MultisiteGlobalMedia\Tests\TestCase
         self::assertSame('<tag class="wp-image-1000001"></tag>', $response);
     }
 }
+
