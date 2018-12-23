@@ -91,6 +91,125 @@ class AttachmentTest extends \MultisiteGlobalMedia\Tests\TestCase
         $testee->ajaxQueryAttachments();
     }
 
+    public function testAjaxGetAttachment()
+    {
+        $_REQUEST = ['id' => 1 . Site::SITE_ID_PREFIX_RIGHT_PAD . 1];
+
+        $site = $this->getMockBuilder(Site::class);
+        $siteSwitcher = $this->createMock(SiteSwitcher::class);
+        $testee = new Attachment($site, $siteSwitcher);
+
+        Functions\expect('wp_unslash')
+            ->once()
+            ->with($_REQUEST['id'])
+            ->andReturnFirstArg();
+
+        Functions\expect('wp_ajax_get_attachment')
+            ->once();
+
+        Filters\expectAdded('wp_prepare_attachment_for_js')
+            ->with([$testee, 'prepareAttachmentForJs'], 0);
+
+        $site
+            ->expects($this->once())
+            ->method('idSitePrefix')
+            ->willReturn(1 . Site::SITE_ID_PREFIX_RIGHT_PAD);
+
+        $site
+            ->expects($this->once())
+            ->method('id')
+            ->willReturn(1);
+
+        $siteSwitcher
+            ->expects($this->once())
+            ->method('switchToBlog')
+            ->with(1);
+
+        $siteSwitcher
+            ->expects($this->once())
+            ->method('restoreBlog');
+
+        $testee->ajaxGetAttachment();
+
+        self::assertSame(['id' => 1], $_REQUEST);
+    }
+
+    public function testAjaxGetAttachmentPrepareForJsFilterIsNotAddedIfSiteIdPrefixNotMatch()
+    {
+        $_REQUEST = ['id' => 2 . Site::SITE_ID_PREFIX_RIGHT_PAD . 1];
+
+        $site = $this->createMock(Site::class);
+        $siteSwitcher = $this->createMock(SiteSwitcher::class);
+        $testee = new Attachment($site, $siteSwitcher);
+
+        Functions\expect('wp_unslash')
+            ->once()
+            ->with($_REQUEST['id'])
+            ->andReturnFirstArg();
+
+        Functions\stubs([
+            'wp_ajax_get_attachment' => true,
+        ]);
+
+        Filters\expectAdded('wp_prepare_attachment_for_js')
+            ->never();
+
+        $site
+            ->expects($this->once())
+            ->method('idSitePrefix')
+            ->willReturn(1 . Site::SITE_ID_PREFIX_RIGHT_PAD);
+
+        $siteSwitcher
+            ->expects($this->never())
+            ->method('switchToBlog');
+
+        $siteSwitcher
+            ->expects($this->never())
+            ->method('restoreBlog');
+
+        $testee->ajaxGetAttachment();
+
+        self::assertSame(['id' => 2 . Site::SITE_ID_PREFIX_RIGHT_PAD . 1], $_REQUEST);
+    }
+
+    public function testAjaxGetAttachmentPrepareForJsFilterIsNotAddedIfSiteIdPrefixNotFound()
+    {
+        $_REQUEST = ['id' => 1];
+
+        $site = $this->createMock(Site::class);
+        $siteSwitcher = $this->createMock(SiteSwitcher::class);
+        $testee = new Attachment($site, $siteSwitcher);
+
+        Functions\expect('wp_unslash')
+            ->once()
+            ->with($_REQUEST['id'])
+            ->andReturnFirstArg();
+
+        Functions\stubs([
+            'wp_ajax_get_attachment' => true,
+        ]);
+
+        Filters\expectAdded('wp_prepare_attachment_for_js')
+            ->never();
+
+        $site
+            ->expects($this->once())
+            ->method('idSitePrefix')
+            ->willReturn(1 . Site::SITE_ID_PREFIX_RIGHT_PAD);
+
+        $siteSwitcher
+            ->expects($this->never())
+            ->method('switchToBlog');
+
+        $siteSwitcher
+            ->expects($this->never())
+            ->method('restoreBlog');
+
+        $testee->ajaxGetAttachment();
+
+        self::assertSame(['id' => 1], $_REQUEST);
+    }
+
     public function testAjaxQueryAttachmentsCallsWordPressAjaxQueryAttachments()
     {
         Functions\expect('wp_ajax_query_attachments')
@@ -237,5 +356,23 @@ class AttachmentTest extends \MultisiteGlobalMedia\Tests\TestCase
             ->never();
 
         $testee->ajaxSendAttachmentToEditor();
+    }
+
+    public function testMediaSendToEditor()
+    {
+        $site = $this->createMock(Site::class);
+        $siteSwitcher = $this->createMock(SiteSwitcher::class);
+        $testee = new Attachment($site, $siteSwitcher);
+
+        $html = '<tag class="wp-image-1"></tag>';
+
+        $site
+            ->expects($this->once())
+            ->method('idSitePrefix')
+            ->willReturn(1 . Site::SITE_ID_PREFIX_RIGHT_PAD);
+
+        $response = $testee->mediaSendToEditor($html, 1);
+
+        self::assertSame('<tag class="wp-image-1000001"></tag>', $response);
     }
 }

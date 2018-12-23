@@ -102,7 +102,6 @@ class Attachment
         }
 
         wp_ajax_get_attachment();
-        exit();
     }
 
     /**
