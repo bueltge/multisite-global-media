@@ -95,7 +95,7 @@ class AttachmentTest extends \MultisiteGlobalMedia\Tests\TestCase
     {
         $_REQUEST = ['id' => 1 . Site::SITE_ID_PREFIX_RIGHT_PAD . 1];
 
-        $site = $this->getMockBuilder(Site::class);
+        $site = $this->createMock(Site::class);
         $siteSwitcher = $this->createMock(SiteSwitcher::class);
         $testee = new Attachment($site, $siteSwitcher);
 
