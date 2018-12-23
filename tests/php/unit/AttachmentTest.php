@@ -68,10 +68,6 @@ class AttachmentTest extends \MultisiteGlobalMedia\Tests\TestCase
         $siteSwitcher = $this->createMock(SiteSwitcher::class);
         $testee = new Attachment($site, $siteSwitcher);
 
-        Functions\stubs([
-            'wp_ajax_query_attachments' => true,
-        ]);
-
         Functions\expect('wp_unslash')
             ->once()
             ->with($_REQUEST['query'])
