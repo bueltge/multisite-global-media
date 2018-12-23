@@ -56,7 +56,7 @@ class AttachmentTest extends \MultisiteGlobalMedia\Tests\TestCase
         self::assertSame($attachmentDataExpected, $response);
     }
 
-    public function testsAjaxQueryAttachments()
+    public function testAjaxQueryAttachments()
     {
         $_REQUEST = [
             'query' => [
