@@ -107,7 +107,7 @@ class AttachmentTest extends \MultisiteGlobalMedia\Tests\TestCase
         $testee->ajaxQueryAttachments();
     }
 
-    public function testsAjaxQueryAttachmentsNeverAddFilterWpPrepareAttachmentForJs()
+    public function testAjaxQueryAttachmentsNeverAddFilterWpPrepareAttachmentForJs()
     {
         $_REQUEST = [
             'query' => [
