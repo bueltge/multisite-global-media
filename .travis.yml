@@ -8,7 +8,7 @@ install:
   composer install
 
 script:
-  - ./vendor/bin/phpunit
+  - ./vendor/bin/phpunit --testdox --coverage-clover=coverage/report/coverage.xml
   - ./vendor/bin/phpcs
 
 after_success:
