@@ -67,7 +67,7 @@ local.properties
 ############
 
 # Windows image file caches
-Thumbs.db 
+Thumbs.db
 
 # Folder config file
 Desktop.ini
@@ -76,3 +76,6 @@ Desktop.ini
 composer.phar
 vendor/
 wpcs/
+
+# CI
+coverage/
