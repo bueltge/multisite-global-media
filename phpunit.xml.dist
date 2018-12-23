@@ -1,7 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <phpunit
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/6.0/phpunit.xsd"
         bootstrap="tests/php/bootstrap.php"
         backupGlobals="false"
         backupStaticAttributes="false"
@@ -19,7 +16,8 @@
     </testsuites>
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">src</directory>
+            <directory suffix=".php">.src/</directory>
+            <file>./</file>
         </whitelist>
     </filter>
     <logging>
