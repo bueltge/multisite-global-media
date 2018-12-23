@@ -41,7 +41,6 @@ class Assets
             '0.1',
             true
         );
-
         wp_enqueue_script('global_media');
     }
 

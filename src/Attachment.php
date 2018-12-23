@@ -38,17 +38,11 @@ class Attachment
      * @version 2018-08-29
      *
      * @param array $response Array of prepared attachment data.
-     * @param \WP_Post $attachment Attachment ID or object.
-     * @param array|bool $meta Array of attachment meta data, or boolean false if there is none.
      *
      * @return array Array of prepared attachment data.
-     *
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
      */
-    public function prepareAttachmentForJs(array $response, \WP_Post $attachment, $meta): array
+    public function prepareAttachmentForJs(array $response): array
     {
-        // phpcs:enable
-
         $idPrefix = $this->site->idSitePrefix();
 
         $response['id'] = $idPrefix . $response['id']; // Unique ID, must be a number.
@@ -77,11 +71,10 @@ class Attachment
 
         if (!empty($query['global_media'])) {
             switch_to_blog($this->site->id());
-            add_filter('wp_prepare_attachment_for_js', [$this, 'prepareAttachmentForJs'], 0, 3);
+            add_filter('wp_prepare_attachment_for_js', [$this, 'prepareAttachmentForJs'], 0);
         }
 
         wp_ajax_query_attachments();
-        exit;
     }
 
     /**
@@ -104,7 +97,7 @@ class Attachment
             $_REQUEST['id'] = $attachmentId;
 
             $this->siteSwitcher->switchToBlog($this->site->id());
-            add_filter('wp_prepare_attachment_for_js', [$this, 'prepareAttachmentForJs'], 0, 3);
+            add_filter('wp_prepare_attachment_for_js', [$this, 'prepareAttachmentForJs'], 0);
             $this->siteSwitcher->restoreBlog();
         }
 
