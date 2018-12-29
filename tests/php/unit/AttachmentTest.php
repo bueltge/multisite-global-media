@@ -375,5 +375,78 @@ class AttachmentTest extends \MultisiteGlobalMedia\Tests\TestCase
 
         self::assertSame('<tag class="wp-image-1000001"></tag>', $response);
     }
-}
 
+    public function testAttachmentImageSrc()
+    {
+        $attachmentId = 1 . Site::SITE_ID_PREFIX_RIGHT_PAD . 1;
+        $responseMock = [
+            'attachment_url',
+            100,
+            100,
+        ];
+        $siteSwitcher = $this->createMock(SiteSwitcher::class);
+        $site = $this->createMock(Site::class);
+        $testee = new Attachment($site, $siteSwitcher);
+
+        Functions\expect('wp_get_attachment_image_src')
+            ->once()
+            ->with(1, 'attachment-size', false)
+            ->andReturn($responseMock);
+
+        $site
+            ->expects($this->once())
+            ->method('idSitePrefix')
+            ->willReturn(1 . Site::SITE_ID_PREFIX_RIGHT_PAD);
+
+        $site
+            ->expects($this->once())
+            ->method('id')
+            ->willReturn(1);
+
+        $siteSwitcher
+            ->expects($this->once())
+            ->method('switchToBlog')
+            ->with(1);
+
+        $siteSwitcher
+            ->expects($this->once())
+            ->method('restoreBlog');
+
+        $response = $testee->attachmentImageSrc(
+            false,
+            $attachmentId,
+            'attachment-size',
+            false
+        );
+
+        self::assertSame($responseMock, $response);
+    }
+
+    public function testAttachmentImageSrcReturnsOriginalImageDataIfGlobalSiteIdNotFound()
+    {
+        $siteId = 2;
+        $globalSiteId = 1;
+
+        $attachmentId = $siteId . Site::SITE_ID_PREFIX_RIGHT_PAD . 1;
+        $siteSwitcher = $this->createMock(SiteSwitcher::class);
+        $site = $this->createMock(Site::class);
+        $testee = new Attachment($site, $siteSwitcher);
+
+        Functions\expect('wp_get_attachment_image_src')
+            ->never();
+
+        $site
+            ->expects($this->once())
+            ->method('idSitePrefix')
+            ->willReturn($globalSiteId . Site::SITE_ID_PREFIX_RIGHT_PAD);
+
+        $response = $testee->attachmentImageSrc(
+            ['attachment_url', 100, 100],
+            $attachmentId,
+            'attachment-size',
+            false
+        );
+
+        self::assertSame(['attachment_url', 100, 100], $response);
+    }
+}

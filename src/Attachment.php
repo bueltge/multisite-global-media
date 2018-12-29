@@ -155,9 +155,9 @@ class Attachment
     }
 
     /**
-     * @param $image
-     * @param $attachmentId
-     * @param $size
+     * @param array|false $image
+     * @param int|string $attachmentId
+     * @param array|string $size
      * @param bool $icon
      * @return array|false
      *
