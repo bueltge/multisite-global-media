@@ -161,8 +161,7 @@ class Attachment
      * @param bool $icon
      * @return array|false
      *
-     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
-     * phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
+     * @wp-hook wp_get_attachment_image_src
      */
     public function attachmentImageSrc($image, $attachmentId, $size, bool $icon)
     {
