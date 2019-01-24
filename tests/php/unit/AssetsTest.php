@@ -32,7 +32,7 @@ class AssetsTest extends TestCase
                 'global_media',
                 'url/assets/js/global-media.js',
                 ['media-views'],
-                '0.1',
+                filemtime('url/assets/js/global-media.js'),
                 true
             );
 
