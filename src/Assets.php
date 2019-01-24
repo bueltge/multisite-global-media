@@ -34,11 +34,12 @@ class Assets
             return;
         }
 
+        $scriptFile = $this->pluginProperties->dirUrl() . '/assets/js/global-media.js';
         wp_register_script(
             'global_media',
-            $this->pluginProperties->dirUrl() . '/assets/js/global-media.js',
+            $scriptFile,
             ['media-views'],
-            '0.1',
+            filemtime($scriptFile),
             true
         );
         wp_enqueue_script('global_media');
