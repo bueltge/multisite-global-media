@@ -56,7 +56,7 @@ class Assets
             return;
         }
 
-        $styleFile = '/assets/css/global-media.css';
+        $styleFile = '/assets/css/global-media.css';var_dump(filemtime($this->pluginProperties->dirPath().$styleFile));exit;
         wp_register_style(
             'global_media',
             $this->pluginProperties->dirUrl().$styleFile,
