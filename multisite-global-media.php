@@ -81,7 +81,7 @@ function bootstrap()
     if (!isPhpVersionCompatible()) {
         adminNotice(
             sprintf(
-            // Translators: %s is the PHP version of the current installation, where is the plugin is active.
+                // Translators: %s is the PHP version of the current installation, where is the plugin is active.
                 __(
                     'Multisite Global Media require php version 7.0 at least. Your\'s is %s',
                     'multisite-global-media'
