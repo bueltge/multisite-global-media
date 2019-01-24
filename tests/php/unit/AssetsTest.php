@@ -86,7 +86,7 @@ class AssetsTest extends TestCase
                 'global_media',
                 'url/assets/css/global-media.css',
                 [],
-                '0.1'
+                filemtime('url/assets/css/global-media.css')
             );
 
         Functions\expect('wp_enqueue_style')

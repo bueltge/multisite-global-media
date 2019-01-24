@@ -56,11 +56,12 @@ class Assets
             return;
         }
 
+        $styleFile = $this->pluginProperties->dirUrl() . '/assets/css/global-media.css';
         wp_register_style(
             'global_media',
-            $this->pluginProperties->dirUrl() . '/assets/css/global-media.css',
+            $styleFile,
             [],
-            '0.1'
+            filemtime($styleFile)
         );
         wp_enqueue_style('global_media');
     }
