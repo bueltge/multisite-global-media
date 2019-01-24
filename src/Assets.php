@@ -8,6 +8,7 @@ namespace MultisiteGlobalMedia;
  */
 class Assets
 {
+
     /**
      * @var PluginProperties
      */
@@ -56,7 +57,7 @@ class Assets
             return;
         }
 
-        $styleFile = '/assets/css/global-media.css';var_dump(filemtime($this->pluginProperties->dirPath().$styleFile));exit;
+        $styleFile = '/assets/css/global-media.css';
         wp_register_style(
             'global_media',
             $this->pluginProperties->dirUrl().$styleFile,
