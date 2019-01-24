@@ -6,7 +6,7 @@ declare(strict_types=1);
  * Description: Multisite Global Media is a WordPress plugin which shares media across the Multisite network.
  * Network:     true
  * Plugin URI:  https://github.com/bueltge/multisite-global-media
- * Version:     0.1.0-dev-2
+ * Version:     0.1.0-dev-3
  * Author:      Dominik Schilling, Frank Bültge, Guido Scialfa
  * License:     MIT
  * License URI: ./LICENSE
@@ -18,12 +18,10 @@ declare(strict_types=1);
  * @package WordPress
  * @author  Dominik Schilling <d.schilling@inpsyde.com>, Frank Bültge <f.bueltge@inpsyde.com>
  * @license https://opensource.org/licenses/MIT
- * @version 2018-11-05
+ * @version 2019-01-24
  */
 
 namespace MultisiteGlobalMedia;
-
-use MultisiteGlobalMedia\WooCommerce;
 
 /**
  * @param string $message
@@ -107,42 +105,8 @@ function bootstrap()
         return;
     }
 
-    $pluginProperties = new PluginProperties(__FILE__);
-    $site = new Site();
-    $singleSwitcher = new SingleSwitcher();
-
-    $assets = new Assets($pluginProperties);
-    $attachment = new Attachment($site, $singleSwitcher);
-    $thumbnail = new Thumbnail($site, $singleSwitcher);
-
-    add_action('admin_enqueue_scripts', [$assets, 'enqueueScripts']);
-    add_action('admin_enqueue_scripts', [$assets, 'enqueueStyles']);
-    add_action('wp_ajax_query-attachments', [$attachment, 'ajaxQueryAttachments'], 0);
-    add_action('wp_ajax_get-attachment', [$attachment, 'ajaxGetAttachment'], 0);
-    add_action('wp_ajax_send-attachment-to-editor', [$attachment, 'ajaxSendAttachmentToEditor'], 0);
-    add_action('wp_get_attachment_image_src', [$attachment, 'attachmentImageSrc'], 99, 4);
-    add_filter('media_view_strings', [$attachment, 'mediaStrings']);
-
-    add_action('save_post', [$thumbnail, 'saveThumbnailMeta'], 99);
-    add_action('wp_ajax_get-post-thumbnail-html', [$thumbnail, 'ajaxGetPostThumbnailHtml'], 99);
-    add_filter('admin_post_thumbnail_html', [$thumbnail, 'adminPostThumbnailHtml'], 99, 3);
-    add_filter('post_thumbnail_html', [$thumbnail, 'postThumbnailHtml'], 99, 5);
-
-    if (\function_exists('wc')) {
-        wcBootstrap($site, $singleSwitcher);
-    }
-}
-
-/**
- * @param Site $site
- * @param SingleSwitcher $siteSwitcher
- */
-function wcBootstrap(Site $site, SingleSwitcher $siteSwitcher)
-{
-    $wooCommerceGallery = new WooCommerce\Gallery($site, $siteSwitcher);
-
-    add_action('woocommerce_new_product', [$wooCommerceGallery, 'saveGalleryIds']);
-    add_action('woocommerce_update_product', [$wooCommerceGallery, 'saveGalleryIds']);
+    $plugin = new Plugin(__FILE__);
+    $plugin->onLoad();
 }
 
 add_action('plugins_loaded', __NAMESPACE__ . '\\bootstrap');
