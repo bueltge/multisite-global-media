@@ -34,12 +34,12 @@ class Assets
             return;
         }
 
-        $scriptFile = $this->pluginProperties->dirUrl() . '/assets/js/global-media.js';
+        $scriptFile = '/assets/js/global-media.js';
         wp_register_script(
             'global_media',
-            $scriptFile,
+            $this->pluginProperties->dirUrl().$scriptFile,
             ['media-views'],
-            filemtime($scriptFile),
+            filemtime($this->pluginProperties->dirPath().$scriptFile),
             true
         );
         wp_enqueue_script('global_media');
@@ -56,12 +56,12 @@ class Assets
             return;
         }
 
-        $styleFile = $this->pluginProperties->dirUrl() . '/assets/css/global-media.css';
+        $styleFile = '/assets/css/global-media.css';
         wp_register_style(
             'global_media',
-            $styleFile,
+            $this->pluginProperties->dirUrl().$styleFile,
             [],
-            filemtime($styleFile)
+            filemtime($this->pluginProperties->dirPath().$styleFile)
         );
         wp_enqueue_style('global_media');
     }
