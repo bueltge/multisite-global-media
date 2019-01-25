@@ -20,6 +20,9 @@ class AssetsTest extends TestCase
 
     public function testEnqueueScriptsOnEditPostScreen()
     {
+        $pluginProperties = $this->createPartialMock(PluginProperties::class, ['dirUrl', 'dirPath']);
+        $testee = new Assets($pluginProperties);
+
         Functions\expect('get_current_screen')
             ->once()
             ->andReturn((object)[
@@ -30,9 +33,9 @@ class AssetsTest extends TestCase
             ->once()
             ->with(
                 'global_media',
-                'url/assets/js/global-media.js',
+                'asset_url/assets/js/global-media.js',
                 ['media-views'],
-                '1541447573',
+                'filemtime',
                 true
             );
 
@@ -40,14 +43,20 @@ class AssetsTest extends TestCase
             ->once()
             ->with('global_media');
 
-        $pluginProperties = $this->createPartialMock(PluginProperties::class, ['dirUrl']);
+        Functions\expect('filemtime')
+            ->once()
+            ->with('asset_path/assets/js/global-media.js')
+            ->andReturn('filemtime');
 
         $pluginProperties
             ->expects($this->once())
             ->method('dirUrl')
-            ->willReturn('url');
+            ->willReturn('asset_url');
 
-        $testee = new Assets($pluginProperties);
+        $pluginProperties
+            ->expects($this->once())
+            ->method('dirPath')
+            ->willReturn('asset_path');
 
         $testee->enqueueScripts();
     }
@@ -74,6 +83,9 @@ class AssetsTest extends TestCase
 
     public function testEnqueueStylesOnEditPostScreen()
     {
+        $pluginProperties = $this->createPartialMock(PluginProperties::class, ['dirUrl', 'dirPath']);
+        $testee = new Assets($pluginProperties);
+
         Functions\expect('get_current_screen')
             ->once()
             ->andReturn((object)[
@@ -84,23 +96,29 @@ class AssetsTest extends TestCase
             ->once()
             ->with(
                 'global_media',
-                'url/assets/css/global-media.css',
+                'asset_url/assets/css/global-media.css',
                 [],
-                '1541447573'
+                'filemtime'
             );
 
         Functions\expect('wp_enqueue_style')
             ->once()
             ->with('global_media');
 
-        $pluginProperties = $this->createPartialMock(PluginProperties::class, ['dirUrl']);
+        Functions\expect('filemtime')
+            ->once()
+            ->with('asset_path/assets/css/global-media.css')
+            ->andReturn('filemtime');
 
         $pluginProperties
             ->expects($this->once())
             ->method('dirUrl')
-            ->willReturn('url');
+            ->willReturn('asset_url');
 
-        $testee = new Assets($pluginProperties);
+        $pluginProperties
+            ->expects($this->once())
+            ->method('dirPath')
+            ->willReturn('asset_path');
 
         $testee->enqueueStyles();
     }

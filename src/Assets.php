@@ -38,9 +38,9 @@ class Assets
         $scriptFile = '/assets/js/global-media.js';
         wp_register_script(
             'global_media',
-            $this->pluginProperties->dirUrl().$scriptFile,
+            $this->pluginProperties->dirUrl() . $scriptFile,
             ['media-views'],
-            filemtime($this->pluginProperties->dirPath().$scriptFile),
+            filemtime($this->pluginProperties->dirPath() . $scriptFile),
             true
         );
         wp_enqueue_script('global_media');
@@ -60,9 +60,9 @@ class Assets
         $styleFile = '/assets/css/global-media.css';
         wp_register_style(
             'global_media',
-            $this->pluginProperties->dirUrl().$styleFile,
+            $this->pluginProperties->dirUrl() . $styleFile,
             [],
-            filemtime($this->pluginProperties->dirPath().$styleFile)
+            filemtime($this->pluginProperties->dirPath() . $styleFile)
         );
         wp_enqueue_style('global_media');
     }
