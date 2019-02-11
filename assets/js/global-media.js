@@ -3,10 +3,10 @@ var gm = gm || {}
 ;(function (wp, $) {
 
     if (!wp || !wp.media) {
-        return
+        return;
     }
 
-    _.extend(gm, {model: {}, view: {}, controller: {}, frames: {}})
+    _.extend(gm, { model: {}, view: {}, controller: {}, frames: {} });
 
     gm.controller.GlobalMediaLibary = wp.media.controller.Library.extend({
         defaults: _.defaults({
@@ -24,9 +24,9 @@ var gm = gm || {}
             contentUserSetting: false,
             displayUserSettings: true,
             allowLocalEdits: true,
-            library: wp.media.query({'global_media': true})
+            library: wp.media.query({ 'global_media': true })
         }, wp.media.controller.Library.prototype.defaults),
-    })
+    });
 
     /**
      * See wp.media.view.AttachmentsBrowser.
@@ -39,42 +39,42 @@ var gm = gm || {}
             _.defaults(this.options, {
                 display: false,
                 AttachmentView: wp.media.view.Attachment.Library
-            })
+            });
 
-            this.createToolbar()
-            this.createSidebar()
-            this.createAttachments()
-            this.updateContent()
+            this.createToolbar();
+            this.createSidebar();
+            this.createAttachments();
+            this.updateContent();
 
-            this.collection.on('add remove reset', this.updateContent, this)
+            this.collection.on('add remove reset', this.updateContent, this);
         },
 
         /**
          * @returns {wp.media.view.AttachmentsBrowser} Returns itself to allow chaining
          */
         dispose: function () {
-            this.options.selection.off(null, null, this)
-            wp.media.View.prototype.dispose.apply(this, arguments)
-            return this
+            this.options.selection.off(null, null, this);
+            wp.media.View.prototype.dispose.apply(this, arguments);
+            return this;
         },
 
         createToolbar: function () {
-            var LibraryViewSwitcher, Filters, toolbarOptions
+            var LibraryViewSwitcher, Filters, toolbarOptions;
 
             toolbarOptions = {
                 controller: this.controller
-            }
+            };
 
             /**
              * @member {wp.media.view.Toolbar}
              */
-            this.toolbar = new wp.media.view.Toolbar(toolbarOptions)
+            this.toolbar = new wp.media.view.Toolbar(toolbarOptions);
 
-            this.views.add(this.toolbar)
+            this.views.add(this.toolbar);
 
             this.toolbar.set('spinner', new wp.media.view.Spinner({
                 priority: -60
-            }))
+            }));
 
             // "Filters" will return a <select>, need to render
             // screen reader text before
@@ -84,13 +84,13 @@ var gm = gm || {}
                     'for': 'media-attachment-filters'
                 },
                 priority: -80
-            }).render())
+            }).render());
 
             this.toolbar.set('filters', new wp.media.view.AttachmentFilters.Uploaded({
                 controller: this.controller,
                 model: this.collection.props,
                 priority: -80
-            }).render())
+            }).render());
 
             // Search is an input, screen reader text needs to be rendered before
             this.toolbar.set('searchLabel', new wp.media.view.Label({
@@ -99,24 +99,24 @@ var gm = gm || {}
                     'for': 'media-search-input'
                 },
                 priority: 60
-            }).render())
+            }).render());
             this.toolbar.set('search', new wp.media.view.Search({
                 controller: this.controller,
                 model: this.collection.props,
                 priority: 60
-            }).render())
+            }).render());
         },
 
         updateContent: function () {
-            var view = this
+            var view = this;
 
             if (!this.collection.length) {
-                this.toolbar.get('spinner').show()
+                this.toolbar.get('spinner').show();
                 this.dfd = this.collection.more().done(function () {
-                    view.toolbar.get('spinner').hide()
-                })
+                    view.toolbar.get('spinner').hide();
+                });
             } else {
-                view.toolbar.get('spinner').hide()
+                view.toolbar.get('spinner').hide();
             }
         },
 
@@ -132,15 +132,21 @@ var gm = gm || {}
 
                 // The single `Attachment` view to be used in the `Attachments` view.
                 AttachmentView: this.options.AttachmentView
-            })
+            });
 
             // Add keydown listener to the instance of the Attachments view
-            this.attachments.listenTo(this.controller, 'attachment:keydown:arrow',
-                this.attachments.arrowEvent)
-            this.attachments.listenTo(this.controller, 'attachment:details:shift-tab',
-                this.attachments.restoreFocus)
+            this.attachments.listenTo(
+                this.controller, '' +
+                'attachment:keydown:arrow',
+                this.attachments.arrowEvent
+            );
+            this.attachments.listenTo(
+                this.controller,
+                'attachment:details:shift-tab',
+                this.attachments.restoreFocus
+            );
 
-            this.views.add(this.attachments)
+            this.views.add(this.attachments);
         },
 
         createSidebar: function () {
@@ -148,33 +154,33 @@ var gm = gm || {}
                 selection = options.selection,
                 sidebar = this.sidebar = new wp.media.view.Sidebar({
                     controller: this.controller
-                })
+                });
 
-            this.views.add(sidebar)
+            this.views.add(sidebar);
 
-            selection.on('selection:single', this.createSingle, this)
-            selection.on('selection:unsingle', this.disposeSingle, this)
+            selection.on('selection:single', this.createSingle, this);
+            selection.on('selection:unsingle', this.disposeSingle, this);
 
             if (selection.single()) {
-                this.createSingle()
+                this.createSingle();
             }
         },
 
         createSingle: function () {
             var sidebar = this.sidebar,
-                single = this.options.selection.single()
+                single = this.options.selection.single();
 
             sidebar.set('details', new wp.media.view.Attachment.Details({
                 controller: this.controller,
                 model: single,
                 priority: 80
-            }))
+            }));
 
             sidebar.set('compat', new wp.media.view.AttachmentCompat({
                 controller: this.controller,
                 model: single,
                 priority: 120
-            }))
+            }));
 
             sidebar.set('display', new wp.media.view.Settings.AttachmentDisplay({
                 controller: this.controller,
@@ -182,70 +188,70 @@ var gm = gm || {}
                 attachment: single,
                 priority: 160,
                 userSettings: this.model.get('displayUserSettings')
-            }))
+            }));
 
             // Show the sidebar on mobile
             if (this.model.id === 'insert') {
-                sidebar.$el.addClass('visible')
+                sidebar.$el.addClass('visible');
             }
         },
 
         disposeSingle: function () {
-            var sidebar = this.sidebar
-            sidebar.unset('details')
-            sidebar.unset('compat')
-            sidebar.unset('display')
+            var sidebar = this.sidebar;
+            sidebar.unset('details');
+            sidebar.unset('compat');
+            sidebar.unset('display');
             // Hide the sidebar on mobile
-            sidebar.$el.removeClass('visible')
+            sidebar.$el.removeClass('visible');
         }
-    })
+    });
 
     // supersede the default MediaFrame.Post view
-    var oldMediaFrame = wp.media.view.MediaFrame.Post
+    var oldMediaFrame = wp.media.view.MediaFrame.Post;
     wp.media.view.MediaFrame.Post = oldMediaFrame.extend({
 
         initialize: function () {
-            oldMediaFrame.prototype.initialize.apply(this, arguments)
+            oldMediaFrame.prototype.initialize.apply(this, arguments);
 
             this.states.add([
                 new gm.controller.GlobalMediaLibary()
-            ])
+            ]);
 
-            this.on('content:create:global-media', this.createGlobalMediaContent, this)
-            this.on('content:render:global-media', this.renderGlobalMediaContent, this)
+            this.on('content:create:global-media', this.createGlobalMediaContent, this);
+            this.on('content:render:global-media', this.renderGlobalMediaContent, this);
         },
 
         createGlobalMediaContent: function () {
-            var state = this.state()
+            var state = this.state();
 
             this.globalMediaView = new gm.view.GlobalMediaBrowser({
                 controller: this,
                 collection: state.get('library'),
                 selection: state.get('selection'),
                 model: state,
-            })
-            this.content.set(this.globalMediaView)
+            });
+            this.content.set(this.globalMediaView);
         },
 
         renderGlobalMediaContent: function () {
-            this.content.set(this.globalMediaView)
+            this.content.set(this.globalMediaView);
         }
-    })
+    });
 
     wp.media.view.MediaFrame.Select = wp.media.view.MediaFrame.Select.extend({
 
         initialize: function () {
-            wp.media.view.MediaFrame.prototype.initialize.apply(this, arguments)
+            wp.media.view.MediaFrame.prototype.initialize.apply(this, arguments);
 
             _.defaults(this.options, {
                 multiple: true,
                 editing: false,
                 state: 'library'
-            })
+            });
 
-            this.createSelection()
-            this.createStates()
-            this.bindHandlers()
+            this.createSelection();
+            this.createStates();
+            this.bindHandlers();
         },
 
         /**
@@ -254,12 +260,12 @@ var gm = gm || {}
          * @see media.controller.Region.render
          */
         bindHandlers: function () {
-            this.on('router:create:browse', this.createRouter, this)
-            this.on('router:render:browse', this.browseRouter, this)
-            this.on('content:create:browse', this.browseContent, this)
-            this.on('content:render:upload', this.uploadContent, this)
-            this.on('toolbar:create:select', this.createSelectToolbar, this)
-            this.on('content:create:browseGlobalMedia', this.browseGlobalMediaContent, this)
+            this.on('router:create:browse', this.createRouter, this);
+            this.on('router:render:browse', this.browseRouter, this);
+            this.on('content:create:browse', this.browseContent, this);
+            this.on('content:render:upload', this.uploadContent, this);
+            this.on('toolbar:create:select', this.createSelectToolbar, this);
+            this.on('content:create:browseGlobalMedia', this.browseGlobalMediaContent, this);
         },
 
         /**
@@ -281,7 +287,7 @@ var gm = gm || {}
                     text: 'Global Media',
                     priority: 60
                 },
-            })
+            });
         },
 
         /**
@@ -290,16 +296,16 @@ var gm = gm || {}
          * @param {wp.media.controller.Region} contentRegion
          */
         browseContent: function (contentRegion) {
-            var state = this.state()
-            var options = this.options
+            var state = this.state();
+            var options = this.options;
 
 
-            state.set('library', wp.media.query(_.defaults({}, options.library)))
+            state.set('library', wp.media.query(_.defaults({}, options.library)));
 
 
-            wp.media.controller.Library.prototype.initialize.apply(state, arguments)
+            wp.media.controller.Library.prototype.initialize.apply(state, arguments);
 
-            this.$el.removeClass('hide-toolbar')
+            this.$el.removeClass('hide-toolbar');
 
             // Browse our library of attachments.
             contentRegion.view = new wp.media.view.AttachmentsBrowser({
@@ -319,7 +325,7 @@ var gm = gm || {}
                 suggestedHeight: state.get('suggestedHeight'),
 
                 AttachmentView: state.get('AttachmentView')
-            })
+            });
         },
 
         /**
@@ -328,20 +334,20 @@ var gm = gm || {}
          * @param {wp.media.controller.Region} contentRegion
          */
         browseGlobalMediaContent: function (contentRegion) {
-            var state = this.state()
-            var options = this.options
+            var state = this.state();
+            var options = this.options;
 
 
             state.set('library', wp.media.query(_.defaults({
                 // Adding a new query parameter
                 'global_media': true,
 
-            }, options.library)))
+            }, options.library)));
 
 
-            wp.media.controller.Library.prototype.initialize.apply(state, arguments)
+            wp.media.controller.Library.prototype.initialize.apply(state, arguments);
 
-            this.$el.removeClass('hide-toolbar')
+            this.$el.removeClass('hide-toolbar');
 
             // Browse our library of attachments.
             contentRegion.view = new wp.media.view.AttachmentsBrowser({
@@ -361,8 +367,8 @@ var gm = gm || {}
                 suggestedHeight: state.get('suggestedHeight'),
 
                 AttachmentView: state.get('AttachmentView')
-            })
+            });
         },
-    })
+    });
 
-})(window.wp, jQuery)
+})(window.wp, jQuery);
