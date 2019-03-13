@@ -24,6 +24,56 @@ declare(strict_types=1);
 namespace MultisiteGlobalMedia;
 
 (function () {
+    /**
+     * @param string $message
+     * @param string $noticeType
+     * @param array $allowedMarkup
+     */
+    function adminNotice(string $message, string $noticeType, array $allowedMarkup = [])
+    {
+        add_action(
+            'admin_notices',
+            function () use ($message, $noticeType, $allowedMarkup) {
+                ?>
+                <div class="notice notice-<?= esc_attr($noticeType) ?>">
+                    <p><?= wp_kses($message, $allowedMarkup) ?></p>
+                </div>
+                <?php
+            }
+        );
+    }
+
+    /**
+     * @return bool
+     */
+    function autoload(): bool
+    {
+        if (\class_exists(PluginProperties::class)) {
+            return true;
+        }
+
+        $autoloader = plugin_dir_path(__FILE__).'/vendor/autoload.php';
+
+        if (!file_exists($autoloader)) {
+            return false;
+        }
+
+        /** @noinspection PhpIncludeInspection */
+        require_once $autoloader;
+
+        return true;
+    }
+
+    /**
+     * Compare PHP Version with our minimum.
+     *
+     * @return bool
+     */
+    function isPhpVersionCompatible(): bool
+    {
+        return PHP_VERSION_ID >= 70000;
+    }
+
     if (!isPhpVersionCompatible()) {
         adminNotice(
             sprintf(
@@ -54,53 +104,3 @@ namespace MultisiteGlobalMedia;
     $plugin = new Plugin(__FILE__);
     $plugin->onLoad();
 })();
-
-/**
- * @param string $message
- * @param string $noticeType
- * @param array $allowedMarkup
- */
-function adminNotice(string $message, string $noticeType, array $allowedMarkup = [])
-{
-    add_action(
-        'admin_notices',
-        function () use ($message, $noticeType, $allowedMarkup) {
-            ?>
-            <div class="notice notice-<?= esc_attr($noticeType) ?>">
-                <p><?= wp_kses($message, $allowedMarkup) ?></p>
-            </div>
-            <?php
-        }
-    );
-}
-
-/**
- * @return bool
- */
-function autoload(): bool
-{
-    if (\class_exists(PluginProperties::class)) {
-        return true;
-    }
-
-    $autoloader = plugin_dir_path(__FILE__).'/vendor/autoload.php';
-
-    if (!file_exists($autoloader)) {
-        return false;
-    }
-
-    /** @noinspection PhpIncludeInspection */
-    require_once $autoloader;
-
-    return true;
-}
-
-/**
- * Compare PHP Version with our minimum.
- *
- * @return bool
- */
-function isPhpVersionCompatible(): bool
-{
-    return PHP_VERSION_ID >= 70000;
-}
