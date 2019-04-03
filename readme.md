@@ -56,7 +56,7 @@ add_filter( 'global_media.site_id', function() {
 
 ## Installation
 ### Manual
-* Download the plugin as zip, use a clone of the repo or use Composer, see below
+* Download the plugin as zip (available inside the [release](https://github.com/bueltge/multisite-global-media/releases)), use a clone of the repo or use Composer, see below.
 * Install the plugin in your environment, recommend as [Must Use plugin](https://codex.wordpress.org/Must_Use_Plugins). See here for a quick [hint](https://github.com/bueltge/must-use-loader) for a helping solution [Must Use Loader](https://github.com/bueltge/must-use-loader).
 * Set the Site ID for the Global Media Library, see above the description to change the ID with a hook in a custom plugin.
 * Active the plugin for the whole network if you don't store it as Must Use Plugin.
