@@ -23,14 +23,18 @@ declare(strict_types=1);
 
 namespace MultisiteGlobalMedia;
 
-(function () {
+// phpcs:disable
+
+$bootstrap = \Closure::bind(function () {
     /**
      * @param string $message
      * @param string $noticeType
      * @param array $allowedMarkup
      */
-    function adminNotice(string $message, string $noticeType, array $allowedMarkup = [])
+    function adminNotice($message, $noticeType, array $allowedMarkup = [])
     {
+        \assert(\is_string($message) && \is_string($noticeType));
+
         add_action(
             'admin_notices',
             function () use ($message, $noticeType, $allowedMarkup) {
@@ -46,15 +50,15 @@ namespace MultisiteGlobalMedia;
     /**
      * @return bool
      */
-    function autoload(): bool
+    function autoload()
     {
         if (\class_exists(PluginProperties::class)) {
             return true;
         }
 
-        $autoloader = plugin_dir_path(__FILE__).'/vendor/autoload.php';
+        $autoloader = plugin_dir_path(__FILE__) . '/vendor/autoload.php';
 
-        if (!file_exists($autoloader)) {
+        if (!\file_exists($autoloader)) {
             return false;
         }
 
@@ -69,7 +73,7 @@ namespace MultisiteGlobalMedia;
      *
      * @return bool
      */
-    function isPhpVersionCompatible(): bool
+    function isPhpVersionCompatible()
     {
         return PHP_VERSION_ID >= 70000;
     }
@@ -77,7 +81,7 @@ namespace MultisiteGlobalMedia;
     if (!isPhpVersionCompatible()) {
         adminNotice(
             sprintf(
-                // Translators: %s is the PHP version of the current installation, where is the plugin is active.
+            // Translators: %s is the PHP version of the current installation, where is the plugin is active.
                 __(
                     'Multisite Global Media require php version 7.0 at least. Your\'s is %s',
                     'multisite-global-media'
@@ -103,4 +107,5 @@ namespace MultisiteGlobalMedia;
 
     $plugin = new Plugin(__FILE__);
     $plugin->onLoad();
-})();
+}, null);
+$bootstrap();
