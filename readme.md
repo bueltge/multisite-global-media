@@ -57,7 +57,8 @@ add_filter( 'global_media.site_id', function() {
 ## Installation
 ### Manual
 * Download the plugin as zip (available inside the [release](https://github.com/bueltge/multisite-global-media/releases)), use a clone of the repo or use Composer, see below.
-* Install the plugin in your environment, recommend as [Must Use plugin](https://codex.wordpress.org/Must_Use_Plugins). See here for a quick [hint](https://github.com/bueltge/must-use-loader) for a helping solution [Must Use Loader](https://github.com/bueltge/must-use-loader).
+* Install the plugin in your environment, recommend as [Must Use plugin](https://codex.wordpress.org/Must_Use_Plugins).
+* Optional: See here for a quick [hint](https://github.com/bueltge/must-use-loader) for a helping solution [Must Use Loader](https://github.com/bueltge/must-use-loader). This plugin is not necessary, but helpful if you use more as one plugin as Must Use plugin and use it in sub-directories.
 * Set the Site ID for the Global Media Library, see above the description to change the ID with a hook in a custom plugin.
 * Active the plugin for the whole network if you don't store it as Must Use Plugin.
 
@@ -82,14 +83,14 @@ Please give me feedback, contribute and file technical bugs on this
 [GitHub Repo](https://github.com/bueltge/Multisite-Global-Media/issues), use Issues.
 
 ### License
-Good news, this plugin is free for everyone! Since it's released under the MIT, you can use it free of charge on your personal or commercial blog.
+Good news, this plugin is free for everyone! Since it's released under the GPLv2+.
 
 ### Contact & Feedback
 The plugin is designed and developed by team members from the [Inpsyde](https://inpsyde.com/) crew. Special thanks and praise to Dominik Schilling and Guido Scialfa for his help and engagement.
 
 Please let me know if you like the plugin or you hate it or whatever.
 
-Please fork it, add an issue for ideas and bugs.
+Please fork it and improve the plugin. Add an issue for ideas and bugs. Also we say thank you for improvements on the documentation and help in the support.
 
 ### Disclaimer
 I'm German and my English might be gruesome here and there.
