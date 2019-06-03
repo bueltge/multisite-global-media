@@ -39,7 +39,7 @@ If you need to change the default Site ID '1' to another value, then you can do 
  ```php
 <?php
 /**
- * Plugin Name: MGM Site ID
+ * Plugin Name: Multisite Global Media Site ID
  * Plugin URI:  https://github.com/bueltge/multisite-global-media/
  * Description: Set my Multisite Global Media site in the network.
  * Version:     1.0.0
