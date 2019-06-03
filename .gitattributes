@@ -10,12 +10,15 @@
 # IDE
 .idea/              export-ignore
 
-# some
+# md & config
 CONTRIBUTING.md     export-ignore
-Gruntfile.js        export-ignore
 README.md           export-ignore
 composer.json       export-ignore
 package.json        export-ignore
+
+# scripts
+scripts/
+Gruntfile.js        export-ignore
 
 # tests
 .coveralls.yml export-ignore
