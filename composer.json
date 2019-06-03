@@ -8,7 +8,7 @@
         "multisite"
     ],
     "homepage": "https://github.com/bueltge/Multisite-Global-Media",
-    "license": "MIT",
+    "license": "GPL-2.0-or-later",
     "authors": [
         {
             "name": "Dominik Schilling",
