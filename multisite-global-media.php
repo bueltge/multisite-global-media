@@ -8,7 +8,7 @@ declare(strict_types=1);
  * Plugin URI:  https://github.com/bueltge/multisite-global-media
  * Version:     0.1.0-dev-3
  * Author:      Dominik Schilling, Frank Bültge, Guido Scialfa
- * License:     MIT
+ * License:     GPLv2+
  * License URI: ./LICENSE
  * Text Domain: global_media
  * Domain Path: /languages
@@ -17,7 +17,7 @@ declare(strict_types=1);
  *
  * @package WordPress
  * @author  Dominik Schilling <d.schilling@inpsyde.com>, Frank Bültge <f.bueltge@inpsyde.com>
- * @license https://opensource.org/licenses/MIT
+ * @license https://opensource.org/licenses/GPL-2.0
  * @version 2019-01-24
  */
 
