@@ -1,7 +1,6 @@
 # Multisite Global Media
 
 [![Build Status](https://img.shields.io/travis/com/bueltge/multisite-global-media.svg?style=flat-square)](https://travis-ci.org/bueltge/multisite-global-media)
-[![CodeCove](https://img.shields.io/codecov/c/github/bueltge/multisite-global-media.svg?style=flat-square)](https://codecov.io/gh/bueltge/multisite-global-media)
 [![Php Min Version](https://img.shields.io/packagist/php-v/bueltge/multisite-global-media.svg?style=flat-square)](https://packagist.org/packages/bueltge/multisite-global-media)
 [![MIT License](https://img.shields.io/github/license/bueltge/multisite-global-media.svg?style=flat-square)](https://opensource.org/licenses/MIT)
 
