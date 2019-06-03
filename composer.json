@@ -48,8 +48,14 @@
         }
     },
     "config": {
+        "optimize-autoloader": true,
         "platform": {
             "php": "7.0.0"
         }
+    },
+    "scripts": {
+        "zip": "composer archive --format=zip --file=dist",
+        "build": "./scripts/build",
+        "analyze": "phpstan analyse src"
     }
 }
