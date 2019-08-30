@@ -49,6 +49,14 @@ class Plugin
         add_filter('admin_post_thumbnail_html', [$thumbnail, 'adminPostThumbnailHtml'], 99, 3);
         add_filter('post_thumbnail_html', [$thumbnail, 'postThumbnailHtml'], 99, 5);
 
+
+        // todo for now we dont support gutenberg editor :D
+        //disable gutenberg for posts
+        add_filter('use_block_editor_for_post', '__return_false', 10);
+        //disable gutenberg for post types
+        add_filter('use_block_editor_for_post_type', '__return_false', 10);
+
+
         if (\function_exists('wc')) {
             $this->wcBootstrap($site, $singleSwitcher);
         }

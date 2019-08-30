@@ -140,10 +140,13 @@ class Thumbnail
             $removeImageLabel = $postTypeObject->labels->remove_featured_image;
         }
 
-        return $this->replaceRemovePostThumbnailMarkup(
+        $content = $this->replaceRemovePostThumbnailMarkup(
             $removeImageLabel,
             $content
         );
+
+        return $this->site->replaceGlobalUrlPath($content);
+
     }
 
     /**

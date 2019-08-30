@@ -47,4 +47,16 @@ class Site
     {
         return ($this->id() === (int)$GLOBALS['current_blog']->blog_id);
     }
+
+    /**
+     * Replaces current site URLs with Global Site URLs
+     * It Prevents thumbnail images from not being loaded .
+     * @param $url string current site url
+     * @return string fixed url
+     */
+    public function replaceGlobalUrlPath($url)
+    {
+        return str_replace($GLOBALS['current_blog']->path, get_blog_details($this->id())->path, $url);
+    }
+
 }

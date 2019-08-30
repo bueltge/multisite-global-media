@@ -46,6 +46,10 @@ class Attachment
         $idPrefix = $this->site->idSitePrefix();
 
         $response['id'] = $idPrefix . $response['id']; // Unique ID, must be a number.
+        $response['url'] = $this->site->replaceGlobalUrlPath($response['url']);
+        $response['sizes']['thumbnail']['url'] = $this->site->replaceGlobalUrlPath($response['sizes']['thumbnail']['url']);
+        $response['sizes']['medium']['url'] = $this->site->replaceGlobalUrlPath($response['sizes']['medium']['url']);
+        $response['sizes']['full']['url'] = $this->site->replaceGlobalUrlPath($response['sizes']['full']['url']);
         $response['nonces']['update'] = false;
         $response['nonces']['edit'] = false;
         $response['nonces']['delete'] = false;
@@ -64,9 +68,7 @@ class Attachment
     {
         // phpcs:disable WordPress.CSRF.NonceVerification.NoNonceVerification
         // phpcs:disable
-        $query = isset($_REQUEST['query'])
-            ? (array)wp_unslash($_REQUEST['query'])
-            : [];
+        $query = isset($_REQUEST['query']) ? (array)$_REQUEST['query'] : array();
         // phpcs:enable
 
         if (!empty($query['global_media'])) {
@@ -176,7 +178,10 @@ class Attachment
 
         $attachmentId = $this->stripSiteIdPrefixFromAttachmentId($idPrefix, $attachmentId);
         $this->siteSwitcher->switchToBlog($this->site->id());
+
         $image = wp_get_attachment_image_src($attachmentId, $size, $icon);
+        if ($image) $image[0] = $this->site->replaceGlobalUrlPath($image[0]);
+
         $this->siteSwitcher->restoreBlog();
 
         return $image;
