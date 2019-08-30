@@ -16,13 +16,11 @@ class Gallery
 {
     use Helper;
 
-    const FILTER_ATTACHMENT_IMAGE_SRC = 'wp_get_attachment_image_src';
-
     const DEFAULT_PRODUCT_TYPE = 'simple';
     const POST_PRODUCT_TYPE = 'product-type';
-    const POST_PRODUCT_IMAGE_GALLERY = 'product_image_gallery';
-
     const META_KEY_PRODUCT_GALLERY = '_product_image_gallery';
+    const POST_PRODUCT_IMAGE_GALLERY = 'product_image_gallery';
+    const FILTER_ATTACHMENT_IMAGE_SRC = 'wp_get_attachment_image_src';
 
     /**
      * @var Site
