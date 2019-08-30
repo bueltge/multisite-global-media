@@ -34,12 +34,12 @@ class Attachment
     /**
      * Prepare media for javascript
      *
-     * @since   2015-01-26
-     * @version 2018-08-29
-     *
      * @param array $response Array of prepared attachment data.
      *
      * @return array Array of prepared attachment data.
+     * @since   2015-01-26
+     * @version 2018-08-29
+     *
      */
     public function prepareAttachmentForJs(array $response): array
     {
@@ -61,8 +61,8 @@ class Attachment
     /**
      * Same as wp_ajax_query_attachments() but with switch_to_blog support.
      *
-     * @since   2015-01-26
      * @return void
+     * @since   2015-01-26
      */
     public function ajaxQueryAttachments()
     {
@@ -82,8 +82,8 @@ class Attachment
     /**
      * Get attachment
      *
-     * @since   2015-01-26
      * @return  void
+     * @since   2015-01-26
      */
     public function ajaxGetAttachment()
     {
@@ -109,8 +109,8 @@ class Attachment
     /**
      * Send media via AJAX call to editor
      *
-     * @since   2015-01-26
      * @return  void
+     * @since   2015-01-26
      */
     public function ajaxSendAttachmentToEditor()
     {
@@ -137,12 +137,12 @@ class Attachment
     /**
      * Send media to editor
      *
-     * @since   2015-01-26
-     *
      * @param string $html
      * @param int $id
      *
      * @return string $html
+     * @since   2015-01-26
+     *
      */
     public function mediaSendToEditor(string $html, int $id): string
     {
@@ -180,8 +180,9 @@ class Attachment
         $this->siteSwitcher->switchToBlog($this->site->id());
 
         $image = wp_get_attachment_image_src($attachmentId, $size, $icon);
-        if ($image) $image[0] = $this->site->replaceGlobalUrlPath($image[0]);
-
+        if ($image) {
+            $image[0] = $this->site->replaceGlobalUrlPath($image[0]);
+        }
         $this->siteSwitcher->restoreBlog();
 
         return $image;
@@ -190,11 +191,11 @@ class Attachment
     /**
      * Define Strings for translation
      *
-     * @since   2015-01-26
-     *
      * @param array $strings
      *
      * @return array
+     * @since   2015-01-26
+     *
      */
     public function mediaStrings(array $strings): array
     {
