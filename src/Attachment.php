@@ -68,7 +68,7 @@ class Attachment
     {
         // phpcs:disable WordPress.CSRF.NonceVerification.NoNonceVerification
         // phpcs:disable
-        $query = isset($_REQUEST['query']) ? (array)$_REQUEST['query'] : array();
+        $query = isset($_REQUEST['query']) ? (array)wp_unslash($_REQUEST['query']) : [];
         // phpcs:enable
 
         if (!empty($query['global_media'])) {

@@ -72,13 +72,13 @@ class Plugin
         add_action('wp_ajax_query-attachments', [$this->attachment, 'ajaxQueryAttachments'], 0);
         add_action('wp_ajax_get-attachment', [$this->attachment, 'ajaxGetAttachment'], 0);
         add_action('wp_ajax_send-attachment-to-editor', [$this->attachment, 'ajaxSendAttachmentToEditor'], 0);
-        add_action('wp_get_attachment_image_src', [$this->attachment, 'attachmentImageSrc'], PHP_INT_MAX, 4);
+        add_action('wp_get_attachment_image_src', [$this->attachment, 'attachmentImageSrc'], 99, 4);
         add_filter('media_view_strings', [$this->attachment, 'mediaStrings']);
 
-        add_action('save_post', [$this->thumbnail, 'saveThumbnailMeta'], PHP_INT_MAX);
-        add_action('wp_ajax_get-post-thumbnail-html', [$this->thumbnail, 'ajaxGetPostThumbnailHtml'], PHP_INT_MAX);
-        add_filter('admin_post_thumbnail_html', [$this->thumbnail, 'adminPostThumbnailHtml'], PHP_INT_MAX, 3);
-        add_filter('post_thumbnail_html', [$this->thumbnail, 'postThumbnailHtml'], PHP_INT_MAX, 5);
+        add_action('save_post', [$this->thumbnail, 'saveThumbnailMeta'], 99);
+        add_action('wp_ajax_get-post-thumbnail-html', [$this->thumbnail, 'ajaxGetPostThumbnailHtml'], 99);
+        add_filter('admin_post_thumbnail_html', [$this->thumbnail, 'adminPostThumbnailHtml'], 99, 3);
+        add_filter('post_thumbnail_html', [$this->thumbnail, 'postThumbnailHtml'], 99, 5);
 
 
         // todo for now we dont support gutenberg editor :D
