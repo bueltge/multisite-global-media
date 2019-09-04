@@ -35,6 +35,7 @@ class Plugin
         $assets = new Assets($pluginProperties);
         $attachment = new Attachment($site, $singleSwitcher);
         $thumbnail = new Thumbnail($site, $singleSwitcher);
+        $rest = new Rest($site);
 
         add_action('admin_enqueue_scripts', [$assets, 'enqueueScripts']);
         add_action('admin_enqueue_scripts', [$assets, 'enqueueStyles']);
@@ -48,6 +49,9 @@ class Plugin
         add_action('wp_ajax_get-post-thumbnail-html', [$thumbnail, 'ajaxGetPostThumbnailHtml'], 99);
         add_filter('admin_post_thumbnail_html', [$thumbnail, 'adminPostThumbnailHtml'], 99, 3);
         add_filter('post_thumbnail_html', [$thumbnail, 'postThumbnailHtml'], 99, 5);
+
+        add_filter('register_post_type_args', [$rest, 'registerPostTypeArgs'], 10, 2);
+        add_filter('rest_request_after_callbacks', [$rest, 'restRequestAfterCallbacks'], 10, 3);
 
         if (\function_exists('wc')) {
             $this->wcBootstrap($site, $singleSwitcher);
