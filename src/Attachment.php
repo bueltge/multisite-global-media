@@ -197,4 +197,57 @@ class Attachment
 
         return $strings;
     }
+
+    /**
+     * @see wp_make_content_images_responsive
+     */
+    public function makeContentImagesResponsive($content)
+    {
+        if (!preg_match_all('/<img [^>]+>/', $content, $matches)) {
+            return $content;
+        }
+
+        $selectedImages = $attachmentIds = array();
+
+        foreach ($matches[0] as $image) {
+            if (false === strpos($image, ' srcset=') && preg_match('/wp-image-([0-9]+)/i', $image, $classId) &&
+                ($attachmentId = absint($classId[1]))) {
+
+                /*
+                * If exactly the same image tag is used more than once, overwrite it.
+                * All identical tags will be replaced later with 'str_replace()'.
+                */
+                $selectedImages[$image] = $attachmentId;
+                // Overwrite the ID when the same image is included more than once.
+                $attachmentIds[$attachmentId] = true;
+            }
+        }
+
+        if (count($attachmentIds) > 1) {
+            /*
+            * Warm the object cache with post and meta information for all found
+            * images to avoid making individual database calls.
+            */
+            _prime_post_caches(array_keys($attachmentIds), false, true);
+        }
+
+        $idPrefix = $this->site->idSitePrefix();
+
+        foreach ($selectedImages as $image => $attachmentId) {
+            if (!$this->idPrefixIncludedInAttachmentId($attachmentId, $idPrefix)) {
+                $imageMeta = wp_get_attachment_metadata($attachmentId);
+                $content = str_replace($image, wp_image_add_srcset_and_sizes($image, $imageMeta, $attachmentId), $content);
+                continue;
+            }
+
+            $globalAttachmentId = $this->stripSiteIdPrefixFromAttachmentId($idPrefix, $attachmentId);
+
+            $this->siteSwitcher->switchToBlog($this->site->id());
+            $imageMeta = wp_get_attachment_metadata($globalAttachmentId);
+            $content = str_replace($image, wp_image_add_srcset_and_sizes($image, $imageMeta, $attachmentId), $content);
+            $this->siteSwitcher->restoreBlog();
+        }
+
+        return $content;
+    }
 }

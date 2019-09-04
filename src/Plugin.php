@@ -45,6 +45,9 @@ class Plugin
         add_action('wp_get_attachment_image_src', [$attachment, 'attachmentImageSrc'], 99, 4);
         add_filter('media_view_strings', [$attachment, 'mediaStrings']);
 
+        remove_filter('the_content', 'wp_make_content_images_responsive');
+        add_filter('the_content', [$attachment, 'makeContentImagesResponsive']);
+
         add_action('save_post', [$thumbnail, 'saveThumbnailMeta'], 99);
         add_action('wp_ajax_get-post-thumbnail-html', [$thumbnail, 'ajaxGetPostThumbnailHtml'], 99);
         add_filter('admin_post_thumbnail_html', [$thumbnail, 'adminPostThumbnailHtml'], 99, 3);
