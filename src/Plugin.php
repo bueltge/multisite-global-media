@@ -44,6 +44,11 @@ class Plugin
     private $thumbnail;
 
     /**
+     * @var Rest
+     */
+    private $rest;
+
+    /**
      * Plugin constructor.
      *
      * @param $file
@@ -58,6 +63,7 @@ class Plugin
         $this->assets = new Assets($this->pluginProperties);
         $this->attachment = new Attachment($this->site, $this->singleSwitcher);
         $this->thumbnail = new Thumbnail($this->site, $this->singleSwitcher);
+        $this->rest = new Rest($this->site);
     }
 
     /**
@@ -81,11 +87,8 @@ class Plugin
         add_filter('post_thumbnail_html', [$this->thumbnail, 'postThumbnailHtml'], 99, 5);
 
 
-        // todo for now we dont support gutenberg editor :D
-        //disable gutenberg for posts
-        add_filter('use_block_editor_for_post', '__return_false', 10);
-        //disable gutenberg for post types
-        add_filter('use_block_editor_for_post_type', '__return_false', 10);
+        add_filter('register_post_type_args', [$this->rest, 'registerPostTypeArgs'], 10, 2);
+        add_filter('rest_request_after_callbacks', [$this->rest, 'restRequestAfterCallbacks'], 10, 3);
 
 
         add_action('plugins_loaded', [$this, 'checkPluginsActive']);
@@ -99,20 +102,17 @@ class Plugin
     public function checkPluginsActive()
     {
         if (defined('WC_VERSION')) {
-            $this->wcBootstrap($this->site, $this->singleSwitcher);
+            $this->wcBootstrap();
         }
     }
 
 
     /**
      * Integration for WooCommerce and his gallery support.
-     *
-     * @param Site $site
-     * @param SingleSwitcher $siteSwitcher
      */
-    public function wcBootstrap(Site $site, SingleSwitcher $siteSwitcher)
+    public function wcBootstrap()
     {
-        $wooCommerceGallery = new WooCommerce\Gallery($site, $siteSwitcher);
+        $wooCommerceGallery = new WooCommerce\Gallery($this->site, $this->singleSwitcher);
 
         add_action('woocommerce_new_product', [$wooCommerceGallery, 'saveGalleryIds']);
         add_action('woocommerce_update_product', [$wooCommerceGallery, 'saveGalleryIds']);
