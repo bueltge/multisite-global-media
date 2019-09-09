@@ -36,7 +36,7 @@ class RestController extends WP_REST_Attachments_Controller
     /**
      * {@inheritDoc}
      */
-    public function get_item_permissions_check($request)
+    public function get_item_permissions_check($request) // phpcs:ignore PSR1.Methods.CamelCapsMethodName.NotCamelCaps
     {
         $idPrefix = $this->site->idSitePrefix();
 
@@ -58,7 +58,7 @@ class RestController extends WP_REST_Attachments_Controller
     /**
      * {@inheritDoc}
      */
-    public function get_item($request)
+    public function get_item($request) // phpcs:ignore PSR1.Methods.CamelCapsMethodName.NotCamelCaps
     {
         $idPrefix = $this->site->idSitePrefix();
 
