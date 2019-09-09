@@ -201,16 +201,19 @@ class Attachment
     /**
      * @see wp_make_content_images_responsive
      */
-    public function makeContentImagesResponsive($content)
+    public function makeContentImagesResponsive(string $content): string
     {
         if (!preg_match_all('/<img [^>]+>/', $content, $matches)) {
             return $content;
         }
 
-        $selectedImages = $attachmentIds = array();
+        $selectedImages = $attachmentIds = [];
 
         foreach ($matches[0] as $image) {
-            if (false === strpos($image, ' srcset=') && preg_match('/wp-image-([0-9]+)/i', $image, $classId) && ($attachmentId = absint($classId[1]))) {
+            $hasSrcset = strpos($image, ' srcset=') !== false;
+            $hasClassId = preg_match('/wp-image-([0-9]+)/i', $image, $classId);
+            $attachmentId = !$hasSrcset && $hasClassId ? absint($classId[1]) : null;
+            if ($attachmentId) {
                 /*
                 * If exactly the same image tag is used more than once, overwrite it.
                 * All identical tags will be replaced later with 'str_replace()'.

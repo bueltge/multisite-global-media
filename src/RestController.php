@@ -25,18 +25,18 @@ class RestController extends WP_REST_Attachments_Controller
     /**
      * {@inheritDoc}
      */
-    public function __construct($post_type)
+    public function __construct($post_type) // phpcs:ignore
     {
         $this->site = new Site();
         $this->siteSwitcher = new SingleSwitcher();
 
-        parent::__construct($post_type);
+        parent::__construct($post_type); // phpcs:ignore Inpsyde.CodeQuality.VariablesName.SnakeCaseVar
     }
 
     /**
      * {@inheritDoc}
      */
-    public function get_item_permissions_check($request) // phpcs:ignore PSR1.Methods.CamelCapsMethodName.NotCamelCaps
+    public function get_item_permissions_check($request) // phpcs:ignore
     {
         $idPrefix = $this->site->idSitePrefix();
 
@@ -58,7 +58,7 @@ class RestController extends WP_REST_Attachments_Controller
     /**
      * {@inheritDoc}
      */
-    public function get_item($request) // phpcs:ignore PSR1.Methods.CamelCapsMethodName.NotCamelCaps
+    public function get_item($request) // phpcs:ignore
     {
         $idPrefix = $this->site->idSitePrefix();
 
