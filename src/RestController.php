@@ -6,7 +6,7 @@ namespace MultisiteGlobalMedia;
 use WP_REST_Attachments_Controller;
 
 /**
- * Class Rest
+ * Class RestController
  */
 class RestController extends WP_REST_Attachments_Controller
 {
@@ -44,7 +44,7 @@ class RestController extends WP_REST_Attachments_Controller
             return parent::get_item_permissions_check($request);
         }
 
-        // clone so the original id is avilable in other methods.
+        // clone so the original id is available in other methods.
         $requestClone = clone $request;
         $requestClone['id'] = $this->stripSiteIdPrefixFromAttachmentId($idPrefix, $request['id']);
 

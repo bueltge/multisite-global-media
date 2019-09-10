@@ -14,6 +14,7 @@ class Rest
     use Helper;
 
     const META_KEY_THUMBNAIL_ID = '_thumbnail_id';
+    const REST_FIELD_THUMBNAIL_ID = 'featured_media';
 
     /**
      * @var Site
@@ -37,6 +38,8 @@ class Rest
      * @param array $args
      * @param string $post_type
      * @return array
+     *
+     * @wp-hook register_post_type_args
      */
     public function registerPostTypeArgs(array $args, string $postType): array
     {
@@ -55,6 +58,8 @@ class Rest
      * @param array $handler
      * @param WP_REST_Request $request
      * @return WP_HTTP_Response|WP_Error
+     *
+     * @wp-hook rest_request_after_callbacks
      */
     public function restRequestAfterCallbacks($response, array $handler, WP_REST_Request $request) // phpcs:ignore
     {
@@ -63,13 +68,13 @@ class Rest
         }
 
         $idPrefix = $this->site->idSitePrefix();
-        $attachmentId = (int) $request['featured_media'];
+        $attachmentId = (int) $request[self::REST_FIELD_THUMBNAIL_ID];
         $postId = (int) $request['id'];
         if ($attachmentId && $this->idPrefixIncludedInAttachmentId($attachmentId, $idPrefix)) {
             update_post_meta($postId, self::META_KEY_THUMBNAIL_ID, $attachmentId);
 
             $data = $response->get_data();
-            $data['featured_media'] = $attachmentId;
+            $data[self::REST_FIELD_THUMBNAIL_ID] = $attachmentId;
             $response->set_data($data);
         }
 

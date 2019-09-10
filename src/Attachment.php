@@ -199,7 +199,14 @@ class Attachment
     }
 
     /**
+     * Add srcset to images in content.
+     *
      * @see wp_make_content_images_responsive
+     *
+     * @param string $content
+     * @return string
+     *
+     * @wp-hook the_content
      */
     public function makeContentImagesResponsive(string $content): string
     {
@@ -214,10 +221,8 @@ class Attachment
             $hasClassId = preg_match('/wp-image-([0-9]+)/i', $image, $classId);
             $attachmentId = !$hasSrcset && $hasClassId ? absint($classId[1]) : null;
             if ($attachmentId) {
-                /*
-                * If exactly the same image tag is used more than once, overwrite it.
-                * All identical tags will be replaced later with 'str_replace()'.
-                */
+                // If exactly the same image tag is used more than once, overwrite it.
+                // All identical tags will be replaced later with 'str_replace()'.
                 $selectedImages[$image] = $attachmentId;
                 // Overwrite the ID when the same image is included more than once.
                 $attachmentIds[$attachmentId] = true;
@@ -225,10 +230,8 @@ class Attachment
         }
 
         if (count($attachmentIds) > 1) {
-            /*
-            * Warm the object cache with post and meta information for all found
-            * images to avoid making individual database calls.
-            */
+            // Warm the object cache with post and meta information for all found
+            // images to avoid making individual database calls.
             _prime_post_caches(array_keys($attachmentIds), false, true);
         }
 
