@@ -61,8 +61,11 @@ class Rest
      *
      * @wp-hook rest_request_after_callbacks
      */
-    public function restRequestAfterCallbacks($response, array $handler, WP_REST_Request $request) // phpcs:ignore
+    // phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+    // phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
+    public function restRequestAfterCallbacks($response, array $handler, WP_REST_Request $request)
     {
+        // phpcs:enable
         if (!isset($handler['callback'][0]) || !($handler['callback'][0] instanceof WP_REST_Posts_Controller)) {
             return $response;
         }

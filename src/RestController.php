@@ -25,8 +25,11 @@ class RestController extends WP_REST_Attachments_Controller
     /**
      * {@inheritDoc}
      */
-    public function __construct($post_type) // phpcs:ignore
+    // phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+    // phpcs:disable Inpsyde.CodeQuality.VariablesName.SnakeCaseVar
+    public function __construct($post_type)
     {
+        // phpcs:enable
         $this->site = new Site();
         $this->siteSwitcher = new SingleSwitcher();
 
@@ -36,8 +39,13 @@ class RestController extends WP_REST_Attachments_Controller
     /**
      * {@inheritDoc}
      */
-    public function get_item_permissions_check($request) // phpcs:ignore
+    // phpcs:disable Inpsyde.CodeQuality.NoAccessors.NoGetter
+    // phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+    // phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
+    // phpcs:disable PSR1.Methods.CamelCapsMethodName.NotCamelCaps
+    public function get_item_permissions_check($request)
     {
+        // phpcs:enable
         $idPrefix = $this->site->idSitePrefix();
 
         if (!$this->idPrefixIncludedInAttachmentId($request['id'], $idPrefix)) {
@@ -58,8 +66,13 @@ class RestController extends WP_REST_Attachments_Controller
     /**
      * {@inheritDoc}
      */
-    public function get_item($request) // phpcs:ignore
+    // phpcs:disable Inpsyde.CodeQuality.NoAccessors.NoGetter
+    // phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+    // phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
+    // phpcs:disable PSR1.Methods.CamelCapsMethodName.NotCamelCaps
+    public function get_item($request)
     {
+        // phpcs:enable
         $idPrefix = $this->site->idSitePrefix();
 
         if (!$this->idPrefixIncludedInAttachmentId((int) $request['id'], $idPrefix)) {
