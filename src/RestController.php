@@ -7,6 +7,8 @@ use WP_REST_Attachments_Controller;
 
 /**
  * Class RestController
+ *
+ * Disable our codestyle for several topics, because we extend a WP core class, method.
  */
 class RestController extends WP_REST_Attachments_Controller
 {
