@@ -221,7 +221,7 @@ class Attachment
 
         foreach ($matches[0] as $image) {
             $hasSrcset = strpos($image, ' srcset=') !== false;
-            $hasClassId = preg_match('/wp-image-([0-9]+)/i', $image, $classId);
+            $hasClassId = preg_match('/wp-image-(\d+)/i', $image, $classId);
             $attachmentId = !$hasSrcset && $hasClassId
                 ? absint($classId[1])
                 : null;
@@ -237,7 +237,7 @@ class Attachment
         if (count($attachmentIds) > 1) {
             // Warm the object cache with post and meta information for all found
             // images to avoid making individual database calls.
-            _prime_post_caches(array_keys($attachmentIds), false, true);
+            _prime_post_caches(array_keys($attachmentIds), false);
         }
 
         $idPrefix = $this->site->idSitePrefix();
