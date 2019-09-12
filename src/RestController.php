@@ -10,6 +10,7 @@ use WP_REST_Attachments_Controller;
  */
 class RestController extends WP_REST_Attachments_Controller
 {
+
     use Helper;
 
     /**
