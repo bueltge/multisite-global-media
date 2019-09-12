@@ -25,9 +25,10 @@ class RestController extends WP_REST_Attachments_Controller
 
     /**
      * {@inheritDoc}
+     *
+     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+     * phpcs:disable Inpsyde.CodeQuality.VariablesName.SnakeCaseVar
      */
-    // phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
-    // phpcs:disable Inpsyde.CodeQuality.VariablesName.SnakeCaseVar
     public function __construct($post_type)
     {
         // phpcs:enable
@@ -39,23 +40,24 @@ class RestController extends WP_REST_Attachments_Controller
 
     /**
      * {@inheritDoc}
+     *
+     * phpcs:disable Inpsyde.CodeQuality.NoAccessors.NoGetter
+     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+     * phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
+     * phpcs:disable PSR1.Methods.CamelCapsMethodName.NotCamelCaps
      */
-    // phpcs:disable Inpsyde.CodeQuality.NoAccessors.NoGetter
-    // phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
-    // phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
-    // phpcs:disable PSR1.Methods.CamelCapsMethodName.NotCamelCaps
     public function get_item_permissions_check($request)
     {
         // phpcs:enable
         $idPrefix = $this->site->idSitePrefix();
 
-        if (!$this->idPrefixIncludedInAttachmentId($request['id'], $idPrefix)) {
+        if (!$this->idPrefixIncludedInAttachmentId((int) $request['id'], $idPrefix)) {
             return parent::get_item_permissions_check($request);
         }
 
-        // clone so the original id is available in other methods.
+        // Clone so the original id is available in other methods.
         $requestClone = clone $request;
-        $requestClone['id'] = $this->stripSiteIdPrefixFromAttachmentId($idPrefix, $request['id']);
+        $requestClone['id'] = $this->stripSiteIdPrefixFromAttachmentId($idPrefix, (int) $request['id']);
 
         $this->siteSwitcher->switchToBlog($this->site->id());
         $response = parent::get_item_permissions_check($requestClone);
@@ -66,11 +68,12 @@ class RestController extends WP_REST_Attachments_Controller
 
     /**
      * {@inheritDoc}
+     *
+     * phpcs:disable Inpsyde.CodeQuality.NoAccessors.NoGetter
+     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+     * phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
+     * phpcs:disable PSR1.Methods.CamelCapsMethodName.NotCamelCaps
      */
-    // phpcs:disable Inpsyde.CodeQuality.NoAccessors.NoGetter
-    // phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
-    // phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
-    // phpcs:disable PSR1.Methods.CamelCapsMethodName.NotCamelCaps
     public function get_item($request)
     {
         // phpcs:enable
