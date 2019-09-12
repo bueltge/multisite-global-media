@@ -10,7 +10,7 @@ declare(strict_types=1);
  * Author:      Dominik Schilling, Frank Bültge, Guido Scialfa
  * License:     GPLv2+
  * License URI: ./LICENSE
- * Text Domain: global_media
+ * Text Domain: multisite-global-media
  * Domain Path: /languages
  *
  * Php Version 7

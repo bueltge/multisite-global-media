@@ -193,7 +193,7 @@ class Attachment
      */
     public function mediaStrings(array $strings): array
     {
-        $strings['globalMediaTitle'] = esc_html__('Global Media', 'global_media');
+        $strings['globalMediaTitle'] = esc_html__('Global Media', 'multisite-global-media');
 
         return $strings;
     }
