@@ -149,9 +149,7 @@ class Attachment
 
         $search = 'wp-image-' . $id;
         $replace = 'wp-image-' . $newId;
-        $html = str_replace($search, $replace, $html);
-
-        return $html;
+        return str_replace($search, $replace, $html);
     }
 
     /**
