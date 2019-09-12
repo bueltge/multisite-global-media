@@ -1,4 +1,5 @@
 <?php # -*- coding: utf-8 -*-
+declare(strict_types=1);
 // phpcs:disable
 
 namespace MultisiteGlobalMedia\Tests\Unit;
@@ -6,6 +7,7 @@ namespace MultisiteGlobalMedia\Tests\Unit;
 use Brain\Monkey\Filters;
 use MultisiteGlobalMedia\Site;
 use MultisiteGlobalMedia\Tests\TestCase;
+use PHPUnit\Framework\Exception;
 
 class SiteTest extends TestCase
 {
@@ -13,7 +15,11 @@ class SiteTest extends TestCase
     {
         $testee = new Site();
 
-        self::assertInstanceOf(Site::class, $testee);
+        try {
+            self::assertInstanceOf(Site::class, $testee);
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        }
     }
 
     public function testSiteIdFilterIsApplied()

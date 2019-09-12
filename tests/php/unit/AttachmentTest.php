@@ -1,4 +1,5 @@
 <?php # -*- coding: utf-8 -*-
+declare(strict_types=1);
 // phpcs:disable
 
 namespace MultisiteGlobalMedia\Tests\Unit;
@@ -8,8 +9,9 @@ use Brain\Monkey\Filters;
 use MultisiteGlobalMedia\Attachment;
 use MultisiteGlobalMedia\Site;
 use MultisiteGlobalMedia\SiteSwitcher;
+use MultisiteGlobalMedia\Tests\TestCase;
 
-class AttachmentTest extends \MultisiteGlobalMedia\Tests\TestCase
+class AttachmentTest extends TestCase
 {
     public function testInstance()
     {
