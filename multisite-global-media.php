@@ -18,14 +18,15 @@ declare(strict_types=1);
  * @package WordPress
  * @author  Dominik Schilling <d.schilling@inpsyde.com>, Frank Bültge <f.bueltge@inpsyde.com>
  * @license https://opensource.org/licenses/GPL-2.0
- * @version 2019-01-24
+ * @version 2019-09-12
  */
 
 namespace MultisiteGlobalMedia;
 
 // phpcs:disable
 
-$bootstrap = \Closure::bind(function () {
+$bootstrap = \Closure::bind(
+    static function () {
     /**
      * @param string $message
      * @param string $noticeType
