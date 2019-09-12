@@ -197,4 +197,61 @@ class Attachment
 
         return $strings;
     }
+
+    /**
+     * Add srcset to images in content.
+     *
+     * @see wp_make_content_images_responsive
+     *
+     * @param string $content
+     * @return string
+     *
+     * @wp-hook the_content
+     */
+    public function makeContentImagesResponsive(string $content): string
+    {
+        if (!preg_match_all('/<img [^>]+>/', $content, $matches)) {
+            return $content;
+        }
+
+        $selectedImages = $attachmentIds = [];
+
+        foreach ($matches[0] as $image) {
+            $hasSrcset = strpos($image, ' srcset=') !== false;
+            $hasClassId = preg_match('/wp-image-([0-9]+)/i', $image, $classId);
+            $attachmentId = !$hasSrcset && $hasClassId ? absint($classId[1]) : null;
+            if ($attachmentId) {
+                // If exactly the same image tag is used more than once, overwrite it.
+                // All identical tags will be replaced later with 'str_replace()'.
+                $selectedImages[$image] = $attachmentId;
+                // Overwrite the ID when the same image is included more than once.
+                $attachmentIds[$attachmentId] = true;
+            }
+        }
+
+        if (count($attachmentIds) > 1) {
+            // Warm the object cache with post and meta information for all found
+            // images to avoid making individual database calls.
+            _prime_post_caches(array_keys($attachmentIds), false, true);
+        }
+
+        $idPrefix = $this->site->idSitePrefix();
+
+        foreach ($selectedImages as $image => $attachmentId) {
+            if (!$this->idPrefixIncludedInAttachmentId($attachmentId, $idPrefix)) {
+                $imageMeta = wp_get_attachment_metadata($attachmentId);
+                $content = str_replace($image, wp_image_add_srcset_and_sizes($image, $imageMeta, $attachmentId), $content);
+                continue;
+            }
+
+            $globalAttachmentId = $this->stripSiteIdPrefixFromAttachmentId($idPrefix, $attachmentId);
+
+            $this->siteSwitcher->switchToBlog($this->site->id());
+            $imageMeta = wp_get_attachment_metadata($globalAttachmentId);
+            $content = str_replace($image, wp_image_add_srcset_and_sizes($image, $imageMeta, $attachmentId), $content);
+            $this->siteSwitcher->restoreBlog();
+        }
+
+        return $content;
+    }
 }
