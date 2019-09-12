@@ -8,6 +8,7 @@ namespace MultisiteGlobalMedia;
  */
 class Attachment
 {
+
     use Helper;
 
     /**
@@ -22,6 +23,7 @@ class Attachment
 
     /**
      * Attachment constructor.
+     *
      * @param Site $site
      * @param SiteSwitcher $siteSwitcher
      */
@@ -34,18 +36,18 @@ class Attachment
     /**
      * Prepare media for javascript
      *
-     * @since   2015-01-26
-     * @version 2018-08-29
-     *
      * @param array $response Array of prepared attachment data.
      *
      * @return array Array of prepared attachment data.
+     * @since   2015-01-26
+     * @version 2018-08-29
+     *
      */
     public function prepareAttachmentForJs(array $response): array
     {
         $idPrefix = $this->site->idSitePrefix();
 
-        $response['id'] = $idPrefix . $response['id']; // Unique ID, must be a number.
+        $response['id'] = $idPrefix.$response['id']; // Unique ID, must be a number.
         $response['nonces']['update'] = false;
         $response['nonces']['edit'] = false;
         $response['nonces']['delete'] = false;
@@ -57,15 +59,15 @@ class Attachment
     /**
      * Same as wp_ajax_query_attachments() but with switch_to_blog support.
      *
-     * @since   2015-01-26
      * @return void
+     * @since   2015-01-26
      */
     public function ajaxQueryAttachments()
     {
         // phpcs:disable WordPress.CSRF.NonceVerification.NoNonceVerification
         // phpcs:disable
         $query = isset($_REQUEST['query'])
-            ? (array)wp_unslash($_REQUEST['query'])
+            ? (array) wp_unslash($_REQUEST['query'])
             : [];
         // phpcs:enable
 
@@ -80,15 +82,15 @@ class Attachment
     /**
      * Get attachment
      *
-     * @since   2015-01-26
      * @return  void
+     * @since   2015-01-26
      */
     public function ajaxGetAttachment()
     {
         // phpcs:disable WordPress.CSRF.NonceVerification.NoNonceVerification
         // phpcs:disable WordPress.VIP.ValidatedSanitizedInput.InputNotSanitized
         // phpcs:disable WordPress.VIP.ValidatedSanitizedInput.InputNotValidated
-        $attachmentId = (int)wp_unslash($_REQUEST['id']);
+        $attachmentId = (int) wp_unslash($_REQUEST['id']);
         // phpcs:enable
         $idPrefix = $this->site->idSitePrefix();
 
@@ -107,8 +109,8 @@ class Attachment
     /**
      * Send media via AJAX call to editor
      *
-     * @since   2015-01-26
      * @return  void
+     * @since   2015-01-26
      */
     public function ajaxSendAttachmentToEditor()
     {
@@ -116,7 +118,7 @@ class Attachment
         // phpcs:disable WordPress.VIP.ValidatedSanitizedInput.InputNotSanitized
         // phpcs:disable WordPress.VIP.ValidatedSanitizedInput.InputNotValidated
         $attachment = wp_unslash($_POST['attachment']);
-        $attachmentId = (int)$attachment['id'];
+        $attachmentId = (int) $attachment['id'];
         $idPrefix = $this->site->idSitePrefix();
 
         if ($this->idPrefixIncludedInAttachmentId($attachmentId, $idPrefix)) {
@@ -135,20 +137,21 @@ class Attachment
     /**
      * Send media to editor
      *
-     * @since   2015-01-26
-     *
      * @param string $html
      * @param int $id
      *
      * @return string $html
+     * @since   2015-01-26
+     *
      */
     public function mediaSendToEditor(string $html, int $id): string
     {
         $idPrefix = $this->site->idSitePrefix();
-        $newId = $idPrefix . $id; // Unique ID, must be a number.
+        $newId = $idPrefix.$id; // Unique ID, must be a number.
 
-        $search = 'wp-image-' . $id;
-        $replace = 'wp-image-' . $newId;
+        $search = 'wp-image-'.$id;
+        $replace = 'wp-image-'.$newId;
+
         return str_replace($search, $replace, $html);
     }
 
@@ -157,6 +160,7 @@ class Attachment
      * @param int|string $attachmentId
      * @param array|string $size
      * @param bool $icon
+     *
      * @return array|false
      *
      * @wp-hook wp_get_attachment_image_src
@@ -165,7 +169,7 @@ class Attachment
     {
         // phpcs:enable
 
-        $attachmentId = (int)$attachmentId;
+        $attachmentId = (int) $attachmentId;
         $idPrefix = $this->site->idSitePrefix();
 
         if (!$this->idPrefixIncludedInAttachmentId($attachmentId, $idPrefix)) {
@@ -183,11 +187,11 @@ class Attachment
     /**
      * Define Strings for translation
      *
-     * @since   2015-01-26
-     *
      * @param array $strings
      *
      * @return array
+     * @since   2015-01-26
+     *
      */
     public function mediaStrings(array $strings): array
     {
@@ -199,12 +203,13 @@ class Attachment
     /**
      * Add srcset to images in content.
      *
-     * @see wp_make_content_images_responsive
-     *
      * @param string $content
+     *
      * @return string
      *
      * @wp-hook the_content
+     * @see wp_make_content_images_responsive
+     *
      */
     public function makeContentImagesResponsive(string $content): string
     {
@@ -217,7 +222,9 @@ class Attachment
         foreach ($matches[0] as $image) {
             $hasSrcset = strpos($image, ' srcset=') !== false;
             $hasClassId = preg_match('/wp-image-([0-9]+)/i', $image, $classId);
-            $attachmentId = !$hasSrcset && $hasClassId ? absint($classId[1]) : null;
+            $attachmentId = !$hasSrcset && $hasClassId
+                ? absint($classId[1])
+                : null;
             if ($attachmentId) {
                 // If exactly the same image tag is used more than once, overwrite it.
                 // All identical tags will be replaced later with 'str_replace()'.
@@ -238,7 +245,11 @@ class Attachment
         foreach ($selectedImages as $image => $attachmentId) {
             if (!$this->idPrefixIncludedInAttachmentId($attachmentId, $idPrefix)) {
                 $imageMeta = wp_get_attachment_metadata($attachmentId);
-                $content = str_replace($image, wp_image_add_srcset_and_sizes($image, $imageMeta, $attachmentId), $content);
+                $content = str_replace(
+                    $image,
+                    wp_image_add_srcset_and_sizes($image, $imageMeta, $attachmentId),
+                    $content
+                );
                 continue;
             }
 
