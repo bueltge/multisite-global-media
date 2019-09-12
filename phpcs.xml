@@ -12,14 +12,27 @@
     <!-- Use only php files. -->
     <arg name="extensions" value="php"/>
 
+    <file>multisite-global-media.php</file>
     <file>./src</file>
     <file>./tests</file>
 
-    <config name="global_media" value="Multisite Global Media"/>
+    <!-- https://github.com/PHPCompatibility/PHPCompatibility#sniffing-your-code-for-compatibility-with-specific-php-versions -->
+    <config name="testVersion" value="7.0-7.4"/>
+
+    <!-- Rules: WordPress Coding Standards -->
+    <!-- https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards -->
+    <!-- https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards/wiki/Customizable-sniff-properties -->
+    <config name="minimum_supported_wp_version" value="5.0"/>
+
     <!-- Code Reviews Rules -->
     <rule ref="Inpsyde">
         <exclude name="WordPress.VIP.SuperGlobalInputUsage.AccessDetected"/>
         <exclude name="Inpsyde.CodeQuality.LineLength.TooLong"/>
+    </rule>
+    <rule ref="WordPress.WP.I18n">
+        <properties>
+            <property name="text_domain" type="array" value="multisite-global-media"/>
+        </properties>
     </rule>
 
 </ruleset>
