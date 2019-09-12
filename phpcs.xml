@@ -4,6 +4,14 @@
         Rules for the Multisite Global Media project, a WordPress Multisite plugin.
     </description>
 
+    <!-- Annotated ruleset: https://github.com/squizlabs/PHP_CodeSniffer/wiki/Annotated-ruleset.xml -->
+    <!-- Display process. -->
+    <arg value="sp"/>
+    <!-- Use colors on output. -->
+    <arg name="colors"/>
+    <!-- Use only php files. -->
+    <arg name="extensions" value="php"/>
+
     <file>./src</file>
     <file>./tests</file>
 
