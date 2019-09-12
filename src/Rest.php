@@ -11,8 +11,8 @@ use WP_REST_Request;
  */
 class Rest
 {
-    use Helper;
 
+    use Helper;
     const META_KEY_THUMBNAIL_ID = '_thumbnail_id';
     const REST_FIELD_THUMBNAIL_ID = 'featured_media';
 
@@ -37,6 +37,7 @@ class Rest
      *
      * @param array $args
      * @param string $post_type
+     *
      * @return array
      *
      * @wp-hook register_post_type_args
@@ -46,6 +47,7 @@ class Rest
         if ($postType === 'attachment') {
             $args['rest_controller_class'] = RestController::class;
         }
+
         return $args;
     }
 
@@ -57,6 +59,7 @@ class Rest
      * @param WP_HTTP_Response|WP_Error $response
      * @param array $handler
      * @param WP_REST_Request $request
+     *
      * @return WP_HTTP_Response|WP_Error
      *
      * @wp-hook rest_request_after_callbacks
