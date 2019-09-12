@@ -36,7 +36,7 @@ class Rest
      * REST controller.
      *
      * @param array $args
-     * @param string $post_type
+     * @param string $postType
      *
      * @return array
      *
