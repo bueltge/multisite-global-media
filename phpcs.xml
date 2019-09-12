@@ -5,6 +5,7 @@
     </description>
 
     <file>./src</file>
+    <file>./tests</file>
 
     <config name="global_media" value="Multisite Global Media"/>
     <!-- Code Reviews Rules -->
