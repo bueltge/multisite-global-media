@@ -31,10 +31,10 @@ class AttachmentTest extends TestCase
         $site
             ->expects($this->once())
             ->method('idSitePrefix')
-            ->willReturn('1' . Site::SITE_ID_PREFIX_RIGHT_PAD);
+            ->willReturn(1 . Site::SITE_ID_PREFIX_RIGHT_PAD);
 
         $attachmentDataMock = [
-            'id' => 'ID',
+            'id' => '',
             'editLink' => true,
             'nonces' => [
                 'update' => true,
@@ -43,7 +43,7 @@ class AttachmentTest extends TestCase
             ],
         ];
         $attachmentDataExpected = [
-            'id' => '1' . Site::SITE_ID_PREFIX_RIGHT_PAD . 'ID',
+            'id' => intval(1 . Site::SITE_ID_PREFIX_RIGHT_PAD),
             'editLink' => false,
             'nonces' => [
                 'update' => false,
