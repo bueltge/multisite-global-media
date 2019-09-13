@@ -47,7 +47,7 @@ class Attachment
     {
         $idPrefix = $this->site->idSitePrefix();
 
-        $response['id'] = intval($idPrefix.$response['id']); // Unique ID, must be a number.
+        $response['id'] = (int) ($idPrefix.$response['id']); // Unique ID, must be a number.
         $response['nonces']['update'] = false;
         $response['nonces']['edit'] = false;
         $response['nonces']['delete'] = false;
