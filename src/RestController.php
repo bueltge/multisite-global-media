@@ -85,8 +85,8 @@ class RestController extends WP_REST_Attachments_Controller
             return parent::get_item($request);
         }
 
-        $attachmentId = $request['id'];
-        $request['id'] = $this->stripSiteIdPrefixFromAttachmentId($idPrefix, (int) $attachmentId);
+        $attachmentId = (int) $request['id'];
+        $request['id'] = $this->stripSiteIdPrefixFromAttachmentId($idPrefix, $attachmentId);
         $this->siteSwitcher->switchToBlog($this->site->id());
         $response = parent::get_item($request);
         $data = $response->get_data();
