@@ -29,6 +29,9 @@
         <exclude name="WordPress.VIP.SuperGlobalInputUsage.AccessDetected"/>
         <exclude name="Inpsyde.CodeQuality.LineLength.TooLong"/>
     </rule>
+    <rule ref="PSR1.Files.SideEffects.FoundWithSymbols">
+        <exclude-pattern>./tests/php/bootstrap.php</exclude-pattern>
+    </rule>
     <rule ref="WordPress.WP.I18n">
         <properties>
             <property name="text_domain" type="array" value="multisite-global-media"/>
