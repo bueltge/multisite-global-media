@@ -11,7 +11,7 @@ class Site
     const SITE_ID = 'global_media.site_id';
     const META_KEY_SITE_ID = 'global_media_site_id';
 
-    const SITE_ID_PREFIX_RIGHT_PAD = 00000;
+    const SITE_ID_PREFIX_RIGHT_PAD = '00000';
 
     /**
      * Return the ID of site that store the media files.
