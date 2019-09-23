@@ -23,7 +23,7 @@ install:
   - if [[ $NIGHLTY == true ]]; then composer require "phpunit/phpunit:^8"; fi
 
 script:
-  - ./vendor/bin/phpunit --coverage-text --coverage-clover=coverage.xml
+  - ./vendor/bin/phpunit
 
 after_success:
   - if [[ $COVERAGE == true ]]; then bash <(curl -s https://codecov.io/bash); fi
