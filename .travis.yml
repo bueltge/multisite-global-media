@@ -1,16 +1,32 @@
 language: php
-php:
-  - '7.1'
-  - '7.2'
-  - '7.3'
-  - nightly
+
+matrix:
+  fast_finish: true
+  include:
+    - php: 7.0
+    - php: 7.1
+    - php: 7.2
+      env:
+        - COVERAGE=true
+        - ./vendor/bin/phpunit --testdox --coverage-clover=coverage/report/coverage.xml
+        - ./vendor/bin/phpstan analyze
+        - ./vendor/bin/phpcs
+    - php: 7.3
+    - php: nightly
+      env: NIGHLTY=true
+  allow_failures:
+    - php: nightly
+
 install:
   composer install
+  - if [[ $NIGHLTY == true ]]; then composer require "phpunit/phpunit:^8"; fi
 
 script:
-  - ./vendor/bin/phpunit --testdox --coverage-clover=coverage/report/coverage.xml
-  - ./vendor/bin/phpstan analyze
-  - ./vendor/bin/phpcs
+  - ./vendor/bin/phpunit
 
 after_success:
-  - bash <(curl -s https://codecov.io/bash)
+  - if [[ $COVERAGE == true ]]; then bash <(curl -s https://codecov.io/bash); fi
+
+notifications:
+  email:
+    on_success: never
