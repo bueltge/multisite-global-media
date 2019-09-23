@@ -1,0 +1,22 @@
+filter:
+  paths: [src/*, multisite-global-media.php]
+  excluded_paths: [vendor/*, tests/*, test/*]
+
+before_commands:
+  - 'composer install --dev --prefer-source'
+
+tools:
+  external_code_coverage:
+    timeout: 100
+    runs: 1
+  php_mess_detector: true
+  php_code_sniffer: true
+  sensiolabs_security_checker: true
+  php_code_coverage: true
+  php_pdepend: true
+  php_loc:
+    enabled: true
+    excluded_dirs: [vendor, tests, test]
+  php_cpd:
+    enabled: true
+    excluded_dirs: [vendor, tests, test]
