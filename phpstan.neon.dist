@@ -10,5 +10,8 @@ parameters:
     autoload_files:
         - %currentWorkingDirectory%/multisite-global-media.php
     ignoreErrors:
-        # Uses func_get_args()
-        - '#^Function apply_filters invoked with [34567] parameters, 2 required\.$#'
+        # Ignore WooCommerce errors
+        - '#^Call to static method get_product_type\(\) on an unknown class WC_Product_Factory\.$#'
+        - '#^Call to static method get_product_classname\(\) on an unknown class WC_Product_Factory\.$#'
+        - '#^PHPDoc tag @var for variable \$product contains unknown class WC_Product\.$#'
+        - '#^Call to method get_id\(\) on an unknown class WC_Product\.$#'
