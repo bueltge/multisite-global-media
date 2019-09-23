@@ -1,14 +1,15 @@
 language: php
 php:
-  - '7.0'
   - '7.1'
   - '7.2'
   - '7.3'
+  - nightly
 install:
   composer install
 
 script:
   - ./vendor/bin/phpunit --testdox --coverage-clover=coverage/report/coverage.xml
+  - ./vendor/bin/phpstan analyze
   - ./vendor/bin/phpcs
 
 after_success:
