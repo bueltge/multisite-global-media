@@ -26,7 +26,7 @@ namespace MultisiteGlobalMedia;
 // phpcs:disable
 
 $bootstrap = \Closure::bind(
-    static function () {
+    static function() {
         /**
          * @param string $message
          * @param string $noticeType
@@ -38,7 +38,7 @@ $bootstrap = \Closure::bind(
 
             add_action(
                 'admin_notices',
-                function () use ($message, $noticeType, $allowedMarkup) {
+                static function() use ($message, $noticeType, $allowedMarkup) {
                     ?>
                     <div class="notice notice-<?= esc_attr($noticeType) ?>">
                         <p><?= wp_kses($message, $allowedMarkup) ?></p>
