@@ -8,8 +8,8 @@ namespace MultisiteGlobalMedia;
  */
 class Thumbnail
 {
-    use Helper;
 
+    use Helper;
     const META_KEY_THUMBNAIL_ID = '_thumbnail_id';
 
     /**
@@ -37,15 +37,16 @@ class Thumbnail
     /**
      * Fires once a post has been saved.
      *
+     * @param int $postId Post ID.
+     *
      * @since 1.5.0
      *
-     * @param int $postId Post ID.
      */
     public function saveThumbnailMeta(int $postId)
     {
         $idPrefix = $this->site->idSitePrefix();
 
-        $attachmentId = (int)filter_input(
+        $attachmentId = (int) filter_input(
             INPUT_POST,
             self::META_KEY_THUMBNAIL_ID,
             FILTER_SANITIZE_NUMBER_INT
@@ -63,10 +64,11 @@ class Thumbnail
     /**
      * Ajax handler for retrieving HTML for the featured image.
      *
-     * @since 4.6.0
-     *
      * @param int $postId
      * @param int $attachmentId
+     *
+     * @since 4.6.0
+     *
      */
     public function ajaxGetPostThumbnailHtml(int $postId, int $attachmentId): void
     {
@@ -96,6 +98,25 @@ class Thumbnail
     }
 
     /**
+     * Replace the remove post thumbnail markup with the image or without
+     *
+     * @param string $replace
+     * @param string $subject
+     *
+     * @return string
+     */
+    private function replaceRemovePostThumbnailMarkup(string $replace, string $subject): string
+    {
+        $search = '<p class="hide-if-no-js"><a href="#" id="remove-post-thumbnail"></a></p>';
+        $replace = sprintf(
+            '<p class="hide-if-no-js"><a href="#" id="remove-post-thumbnail">%s</a></p>',
+            $replace
+        );
+
+        return str_replace($search, $replace, $subject);
+    }
+
+    /**
      * Filters the admin post thumbnail HTML markup to return.
      *
      * @param string $content Admin post thumbnail HTML markup.
@@ -110,7 +131,7 @@ class Thumbnail
     {
         // phpcs:enable
 
-        $attachmentId = (int)$attachmentId;
+        $attachmentId = (int) $attachmentId;
         $idPrefix = $this->site->idSitePrefix();
 
         if (false === $this->idPrefixIncludedInAttachmentId($attachmentId, $idPrefix)) {
@@ -125,8 +146,8 @@ class Thumbnail
         $content = _wp_post_thumbnail_html($attachmentId, $post);
         $this->siteSwitcher->restoreBlog();
 
-        $search = 'value="' . $attachmentId . '"';
-        $replace = 'value="' . $idPrefix . $attachmentId . '"';
+        $search = 'value="'.$attachmentId.'"';
+        $replace = 'value="'.$idPrefix.$attachmentId.'"';
         $content = str_replace($search, $replace, $content);
 
         $post = get_post($postId);
@@ -149,8 +170,6 @@ class Thumbnail
     /**
      * Filters the post thumbnail HTML.
      *
-     * @since 2.9.0
-     *
      * @param string $html The post thumbnail HTML.
      * @param int $postId The post ID.
      * @param string $attachmentId The post thumbnail ID.
@@ -161,6 +180,8 @@ class Thumbnail
      * @return string
      *
      * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+     * @since 2.9.0
+     *
      */
     public function postThumbnailHtml(
         string $html,
@@ -169,10 +190,9 @@ class Thumbnail
         $size,
         $attr
     ): string {
-
         // phpcs:enable
 
-        $attachmentId = (int)$attachmentId;
+        $attachmentId = (int) $attachmentId;
         $siteId = $this->site->id();
         $idPrefix = $this->site->idSitePrefix();
 
@@ -184,23 +204,5 @@ class Thumbnail
         }
 
         return $html;
-    }
-
-    /**
-     * Replace the remove post thumbnail markup with the image or without
-     *
-     * @param string $replace
-     * @param string $subject
-     * @return string
-     */
-    private function replaceRemovePostThumbnailMarkup(string $replace, string $subject): string
-    {
-        $search = '<p class="hide-if-no-js"><a href="#" id="remove-post-thumbnail"></a></p>';
-        $replace = sprintf(
-            '<p class="hide-if-no-js"><a href="#" id="remove-post-thumbnail">%s</a></p>',
-            $replace
-        );
-
-        return str_replace($search, $replace, $subject);
     }
 }
