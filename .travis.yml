@@ -19,8 +19,10 @@ matrix:
       env: NIGHLTY=true
   allow_failures:
     - php: 7.0
+    - php: 7.2
+      env:
+        - PHPCS=true
     - php: nightly
-    - env: PHPCS=true
 
 install:
   - if [[ $NIGHLTY == true ]]; then composer require "phpunit/phpunit:^8"; fi
