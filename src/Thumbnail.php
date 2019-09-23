@@ -68,7 +68,7 @@ class Thumbnail
      * @param int $postId
      * @param int $attachmentId
      */
-    public function ajaxGetPostThumbnailHtml(int $postId, int $attachmentId)
+    public function ajaxGetPostThumbnailHtml(int $postId, int $attachmentId): void
     {
         $idPrefix = $this->site->idSitePrefix();
 
