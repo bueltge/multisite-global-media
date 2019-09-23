@@ -7,9 +7,8 @@ matrix:
     - php: 7.1
     - php: 7.2
       env:
-        - COVERAGE=true
+        - PHPCS=true
       script:
-        - ./vendor/bin/phpunit --testdox --coverage-clover=coverage.xml
         - ./vendor/bin/phpcs
     - php: 7.3
     - php: nightly
@@ -19,14 +18,14 @@ matrix:
     - php: nightly
 
 install:
-  - composer install
   - if [[ $NIGHLTY == true ]]; then composer require "phpunit/phpunit:^8"; fi
+  - composer install
 
 script:
-  - ./vendor/bin/phpunit
+  - ./vendor/bin/phpunit --coverage-text --coverage-clover=coverage.xml
 
 after_success:
-  - if [[ $COVERAGE == true ]]; then bash <(curl -s https://codecov.io/bash); fi
+  - if [[ $PHPCS == true ]]; then bash <(curl -s https://codecov.io/bash); fi
   - wget https://scrutinizer-ci.com/ocular.phar; php ocular.phar code-coverage:upload --format=php-clover coverage.xml;
 
 notifications:
