@@ -8,6 +8,7 @@ matrix:
     - php: 7.2
       env:
         - COVERAGE=true
+      script:
         - ./vendor/bin/phpunit --testdox --coverage-clover=coverage/report/coverage.xml
         - ./vendor/bin/phpstan analyze
         - ./vendor/bin/phpcs
