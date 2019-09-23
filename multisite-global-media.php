@@ -27,86 +27,88 @@ namespace MultisiteGlobalMedia;
 
 $bootstrap = \Closure::bind(
     static function () {
-    /**
-     * @param string $message
-     * @param string $noticeType
-     * @param array $allowedMarkup
-     */
-    function adminNotice($message, $noticeType, array $allowedMarkup = [])
-    {
-        \assert(\is_string($message) && \is_string($noticeType));
+        /**
+         * @param string $message
+         * @param string $noticeType
+         * @param array $allowedMarkup
+         */
+        function adminNotice($message, $noticeType, array $allowedMarkup = [])
+        {
+            \assert(\is_string($message) && \is_string($noticeType));
 
-        add_action(
-            'admin_notices',
-            function () use ($message, $noticeType, $allowedMarkup) {
-                ?>
-                <div class="notice notice-<?= esc_attr($noticeType) ?>">
-                    <p><?= wp_kses($message, $allowedMarkup) ?></p>
-                </div>
-                <?php
+            add_action(
+                'admin_notices',
+                function () use ($message, $noticeType, $allowedMarkup) {
+                    ?>
+                    <div class="notice notice-<?= esc_attr($noticeType) ?>">
+                        <p><?= wp_kses($message, $allowedMarkup) ?></p>
+                    </div>
+                    <?php
+                }
+            );
+        }
+
+        /**
+         * @return bool
+         */
+        function autoload()
+        {
+            if (\class_exists(PluginProperties::class)) {
+                return true;
             }
-        );
-    }
 
-    /**
-     * @return bool
-     */
-    function autoload()
-    {
-        if (\class_exists(PluginProperties::class)) {
+            $autoloader = plugin_dir_path(__FILE__).'/vendor/autoload.php';
+
+            if (!\file_exists($autoloader)) {
+                return false;
+            }
+
+            /** @noinspection PhpIncludeInspection */
+            require_once $autoloader;
+
             return true;
         }
 
-        $autoloader = plugin_dir_path(__FILE__) . '/vendor/autoload.php';
-
-        if (!\file_exists($autoloader)) {
-            return false;
+        /**
+         * Compare PHP Version with our minimum.
+         *
+         * @return bool
+         */
+        function isPhpVersionCompatible()
+        {
+            return PHP_VERSION_ID >= 70000;
         }
 
-        /** @noinspection PhpIncludeInspection */
-        require_once $autoloader;
+        if (!isPhpVersionCompatible()) {
+            adminNotice(
+                sprintf(
+                // Translators: %s is the PHP version of the current installation, where is the plugin is active.
+                    __(
+                        'Multisite Global Media require php version 7.0 at least. Your\'s is %s',
+                        'multisite-global-media'
+                    ),
+                    PHP_VERSION
+                ),
+                'error'
+            );
 
-        return true;
-    }
-
-    /**
-     * Compare PHP Version with our minimum.
-     *
-     * @return bool
-     */
-    function isPhpVersionCompatible()
-    {
-        return PHP_VERSION_ID >= 70000;
-    }
-
-    if (!isPhpVersionCompatible()) {
-        adminNotice(
-            sprintf(
-            // Translators: %s is the PHP version of the current installation, where is the plugin is active.
+            return;
+        }
+        if (!autoload()) {
+            adminNotice(
                 __(
-                    'Multisite Global Media require php version 7.0 at least. Your\'s is %s',
+                    'No suitable autoloader found. Multisite Global Media cannot be loaded correctly.',
                     'multisite-global-media'
                 ),
-                PHP_VERSION
-            ),
-            'error'
-        );
+                'error'
+            );
 
-        return;
-    }
-    if (!autoload()) {
-        adminNotice(
-            __(
-                'No suitable autoloader found. Multisite Global Media cannot be loaded correctly.',
-                'multisite-global-media'
-            ),
-            'error'
-        );
+            return;
+        }
 
-        return;
-    }
-
-    $plugin = new Plugin(__FILE__);
-    $plugin->onLoad();
-}, null);
+        $plugin = new Plugin(__FILE__);
+        $plugin->onLoad();
+    },
+    null
+);
 $bootstrap();

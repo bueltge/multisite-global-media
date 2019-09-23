@@ -8,21 +8,10 @@ namespace MultisiteGlobalMedia;
  */
 class Site
 {
+
     const SITE_ID = 'global_media.site_id';
     const META_KEY_SITE_ID = 'global_media_site_id';
-
     const SITE_ID_PREFIX_RIGHT_PAD = '00000';
-
-    /**
-     * Return the ID of site that store the media files.
-     *
-     * @since  2017-12-01
-     * @return integer The site ID.
-     */
-    public function id(): int
-    {
-        return (int)apply_filters(self::SITE_ID, 1);
-    }
 
     /**
      * Return the site id prefix for attachments
@@ -31,7 +20,18 @@ class Site
      */
     public function idSitePrefix(): string
     {
-        return $this->id() . self::SITE_ID_PREFIX_RIGHT_PAD;
+        return $this->id().self::SITE_ID_PREFIX_RIGHT_PAD;
+    }
+
+    /**
+     * Return the ID of site that store the media files.
+     *
+     * @return integer The site ID.
+     * @since  2017-12-01
+     */
+    public function id(): int
+    {
+        return (int) apply_filters(self::SITE_ID, 1);
     }
 
     /**
@@ -45,6 +45,6 @@ class Site
      */
     public function isMediaSite(): bool
     {
-        return ($this->id() === (int)$GLOBALS['current_blog']->blog_id);
+        return ($this->id() === (int) $GLOBALS['current_blog']->blog_id);
     }
 }

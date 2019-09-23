@@ -8,19 +8,18 @@ namespace MultisiteGlobalMedia;
  */
 trait Helper
 {
+
     /**
      * Check if the given site Id prefix exists into the give attachment id
      *
      * @param int $attachmentId
      * @param string $siteIdPrefix
+     *
      * @return bool
      */
-    private function idPrefixIncludedInAttachmentId(
-        int $attachmentId,
-        string $siteIdPrefix
-    ): bool {
-
-        return false !== strpos((string)$attachmentId, $siteIdPrefix);
+    private function idPrefixIncludedInAttachmentId(int $attachmentId, string $siteIdPrefix): bool
+    {
+        return false !== strpos((string) $attachmentId, $siteIdPrefix);
     }
 
     /**
@@ -28,10 +27,11 @@ trait Helper
      *
      * @param string $idPrefix
      * @param int $attachmentId
+     *
      * @return int
      */
     private function stripSiteIdPrefixFromAttachmentId(string $idPrefix, int $attachmentId): int
     {
-        return (int)str_replace($idPrefix, '', (string)$attachmentId);
+        return (int) str_replace($idPrefix, '', (string) $attachmentId);
     }
 }
