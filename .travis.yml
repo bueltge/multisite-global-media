@@ -8,7 +8,7 @@ matrix:
     - php: 7.2
       env:
         - COVERAGE=true
-        - ./vendor/bin/phpunit --testdox --coverage-clover=coverage/report/coverage.xml
+        - ./vendor/bin/phpunit --testdox --coverage-clover=coverage.xml
         - ./vendor/bin/phpstan analyze
         - ./vendor/bin/phpcs
     - php: 7.3
@@ -23,7 +23,7 @@ install:
   - if [[ $NIGHLTY == true ]]; then composer require "phpunit/phpunit:^8"; fi
 
 script:
-  - ./vendor/bin/phpunit
+  - ./vendor/bin/phpunit --coverage-text --coverage-clover=coverage.xml
 
 after_success:
   - if [[ $COVERAGE == true ]]; then bash <(curl -s https://codecov.io/bash); fi
