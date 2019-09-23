@@ -16,7 +16,7 @@ class Plugin
     /**
      * Plugin constructor.
      *
-     * @param $file
+     * @param string $file
      */
     public function __construct(string $file)
     {
