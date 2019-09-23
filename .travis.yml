@@ -9,6 +9,7 @@ matrix:
       env:
         - COVERAGE=true
       script:
+        - composer update
         - ./vendor/bin/phpunit --testdox --coverage-clover=coverage.xml
         - ./vendor/bin/phpstan analyze
         - ./vendor/bin/phpcs
