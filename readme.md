@@ -51,7 +51,7 @@ add_filter( 'global_media.site_id', function() {
 
 ```
 
-4. Activation is not necassary if you store this plugin inside the [Must Use Plugin](https://codex.wordpress.org/Must_Use_Plugins) directory /wp-content/mu-plugins/.
+4. Activation is not necessary if you store this plugin inside the [Must Use Plugin](https://codex.wordpress.org/Must_Use_Plugins) directory /wp-content/mu-plugins/.
 
 ## Installation
 ### Manual
