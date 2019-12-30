@@ -1,8 +1,10 @@
 <?php # -*- coding: utf-8 -*-
 declare(strict_types=1);
 
-namespace MultisiteGlobalMedia;
+namespace MultisiteGlobalMedia\Rest;
 
+use MultisiteGlobalMedia\Helper;
+use MultisiteGlobalMedia\Site;
 use WP_Error;
 use WP_HTTP_Response;
 use WP_REST_Posts_Controller;
@@ -13,7 +15,6 @@ use WP_REST_Request;
  */
 class Rest
 {
-
     use Helper;
     const META_KEY_THUMBNAIL_ID = '_thumbnail_id';
     const REST_FIELD_THUMBNAIL_ID = 'featured_media';
@@ -65,9 +66,10 @@ class Rest
      * @return WP_HTTP_Response|WP_Error
      *
      * @wp-hook rest_request_after_callbacks
+     *
+     * phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
+     * phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
      */
-    // phpcs:disable Inpsyde.CodeQuality.ArgumentTypeDeclaration.NoArgumentType
-    // phpcs:disable Inpsyde.CodeQuality.ReturnTypeDeclaration.NoReturnType
     public function restRequestAfterCallbacks($response, array $handler, WP_REST_Request $request)
     {
         // phpcs:enable
@@ -76,8 +78,8 @@ class Rest
         }
 
         $idPrefix = $this->site->idSitePrefix();
-        $attachmentId = (int) $request[self::REST_FIELD_THUMBNAIL_ID];
-        $postId = (int) $request['id'];
+        $attachmentId = (int)$request[self::REST_FIELD_THUMBNAIL_ID];
+        $postId = (int)$request['id'];
         if ($attachmentId && $this->idPrefixIncludedInAttachmentId($attachmentId, $idPrefix)) {
             update_post_meta($postId, self::META_KEY_THUMBNAIL_ID, $attachmentId);
 

@@ -1,8 +1,12 @@
 <?php # -*- coding: utf-8 -*-
 declare(strict_types=1);
 
-namespace MultisiteGlobalMedia;
+namespace MultisiteGlobalMedia\Rest;
 
+use MultisiteGlobalMedia\Helper;
+use MultisiteGlobalMedia\SingleSwitcher;
+use MultisiteGlobalMedia\Site;
+use MultisiteGlobalMedia\SiteSwitcher;
 use WP_REST_Attachments_Controller;
 
 /**
@@ -12,7 +16,6 @@ use WP_REST_Attachments_Controller;
  */
 class RestController extends WP_REST_Attachments_Controller
 {
-
     use Helper;
 
     /**
@@ -37,7 +40,8 @@ class RestController extends WP_REST_Attachments_Controller
         $this->site = new Site();
         $this->siteSwitcher = new SingleSwitcher();
 
-        parent::__construct($post_type); // phpcs:ignore Inpsyde.CodeQuality.VariablesName.SnakeCaseVar
+        // phpcs:ignore Inpsyde.CodeQuality.VariablesName.SnakeCaseVar
+        parent::__construct($post_type);
     }
 
     /**
@@ -53,13 +57,16 @@ class RestController extends WP_REST_Attachments_Controller
         // phpcs:enable
         $idPrefix = $this->site->idSitePrefix();
 
-        if (!$this->idPrefixIncludedInAttachmentId((int) $request['id'], $idPrefix)) {
+        if (!$this->idPrefixIncludedInAttachmentId((int)$request['id'], $idPrefix)) {
             return parent::get_item_permissions_check($request);
         }
 
         // Clone so the original id is available in other methods.
         $requestClone = clone $request;
-        $requestClone['id'] = $this->stripSiteIdPrefixFromAttachmentId($idPrefix, (int) $request['id']);
+        $requestClone['id'] = $this->stripSiteIdPrefixFromAttachmentId(
+            $idPrefix,
+            (int)$request['id']
+        );
 
         $this->siteSwitcher->switchToBlog($this->site->id());
         $response = parent::get_item_permissions_check($requestClone);
@@ -81,11 +88,11 @@ class RestController extends WP_REST_Attachments_Controller
         // phpcs:enable
         $idPrefix = $this->site->idSitePrefix();
 
-        if (!$this->idPrefixIncludedInAttachmentId((int) $request['id'], $idPrefix)) {
+        if (!$this->idPrefixIncludedInAttachmentId((int)$request['id'], $idPrefix)) {
             return parent::get_item($request);
         }
 
-        $attachmentId = (int) $request['id'];
+        $attachmentId = (int)$request['id'];
         $request['id'] = $this->stripSiteIdPrefixFromAttachmentId($idPrefix, $attachmentId);
         $this->siteSwitcher->switchToBlog($this->site->id());
         $response = parent::get_item($request);
