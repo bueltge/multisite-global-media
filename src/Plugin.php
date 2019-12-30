@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace MultisiteGlobalMedia;
 
+use MultisiteGlobalMedia\Rest\Rest;
 use MultisiteGlobalMedia\WooCommerce;
 
 class Plugin
