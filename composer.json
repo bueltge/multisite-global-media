@@ -35,7 +35,9 @@
         "squizlabs/php_codesniffer": "^3",
         "inpsyde/php-coding-standards": "^0.13",
         "brain/monkey": "^2.2",
-        "phpunit/phpunit": "^6.0"
+        "phpunit/phpunit": "^6.0",
+        "johnpbloch/wordpress-core": " ^5.0",
+        "woocommerce/woocommerce": "^3.0"
     },
     "autoload": {
         "psr-4": {
@@ -57,5 +59,8 @@
         "zip": "composer archive --format=zip --file=dist",
         "build": "./scripts/build",
         "analyze": "phpstan analyse src"
+    },
+    "extra": {
+        "installer-disable": true
     }
 }

@@ -1,0 +1,112 @@
+version: "3.3"
+
+services:
+  mariadb:
+    image: wodby/mariadb:$MARIADB_TAG
+    container_name: "${PROJECT_NAME}_mariadb"
+    stop_grace_period: 30s
+    environment:
+      MYSQL_ROOT_PASSWORD: $DB_ROOT_PASSWORD
+      MYSQL_DATABASE: $DB_NAME
+      MYSQL_USER: $DB_USER
+      MYSQL_PASSWORD: $DB_PASSWORD
+    ports:
+      - "53306:3306"
+    volumes:
+#      - ./mariadb-init:/docker-entrypoint-initdb.d # Place init .sql file(s) here.
+      - wpdb:/var/lib/mysql # I want to manage volumes manually.
+
+  php:
+    image: wodby/wordpress-php:$PHP_TAG
+    container_name: "${PROJECT_NAME}_php"
+    environment:
+      PHP_SENDMAIL_PATH: /usr/sbin/sendmail -t -i -S mailhog:1025
+      DB_HOST: $DB_HOST
+      DB_USER: $DB_USER
+      DB_PASSWORD: $DB_PASSWORD
+      DB_NAME: $DB_NAME
+      PHP_FPM_USER: wodby
+      PHP_FPM_GROUP: wodby
+      ## Read instructions at https://wodby.com/stacks/wordpress/docs/local/xdebug/
+      PHP_XDEBUG: 0
+      PHP_XDEBUG_DEFAULT_ENABLE: 0
+      PHP_XDEBUG_REMOTE_AUTOSTART: 0
+      PHP_XDEBUG_REMOTE_CONNECT_BACK: 0
+      PHP_XDEBUG_IDEKEY: ${XDEBUG_IDE_KEY}
+      PHP_IDE_CONFIG: serverName=${XDEBUG_SERVER_NAME}
+      PHP_XDEBUG_REMOTE_HOST: ${XDEBUG_REMOTE_HOST}
+    volumes:
+      - ${BASE_DIR}/docker/.htaccess:${DOCROOT}/.htaccess
+      - ${BASE_DIR}/docker/wp-install.sh:/opt/wp-install.sh
+      - ${BASE_DIR}/docker/wp-config.php:${DOCROOT}/wp-config.php
+      - ${BASE_DIR}/vendor/johnpbloch/wordpress-core:${DOCROOT}
+      - ${BASE_DIR}:${PROJECT_MOUNT_PATH}
+      - ${BASE_DIR}/vendor/woocommerce/woocommerce:${DOCROOT}/wp-content/plugins/woocommerce
+      - ${BASE_DIR}/vendor/woocommerce/woocommerce-blocks:${DOCROOT}/wp-content/plugins/woocommerce-blocks
+      - ${BASE_DIR}/vendor/woocommerce/woocommerce-rest-api:${DOCROOT}/wp-content/plugins/woocommerce-rest-api
+
+  composer:
+    image: composer:1.9.1
+    container_name: "${PROJECT_NAME}_composer"
+    working_dir: ${PROJECT_MOUNT_PATH}
+    volumes:
+      - ${BASE_DIR}:${PROJECT_MOUNT_PATH}
+
+  nginx:
+    image: wodby/nginx:$NGINX_TAG
+    container_name: "${PROJECT_NAME}_nginx"
+    depends_on:
+      - php
+    environment:
+      NGINX_STATIC_OPEN_FILE_CACHE: "off"
+      NGINX_ERROR_LOG_LEVEL: debug
+      NGINX_BACKEND_HOST: php
+      NGINX_VHOST_PRESET: wordpress
+      #NGINX_SERVER_ROOT: /var/www/html/subdir
+    volumes:
+      - ${BASE_DIR}/docker/.htaccess:${DOCROOT}/.htaccess
+      - ${BASE_DIR}/docker/wp-config.php:${DOCROOT}/wp-config.php
+      - ${BASE_DIR}/vendor/johnpbloch/wordpress-core:${DOCROOT}
+      - ${BASE_DIR}:${PROJECT_MOUNT_PATH}
+      - ${BASE_DIR}/vendor/woocommerce/woocommerce:${DOCROOT}/wp-content/plugins/woocommerce
+      - ${BASE_DIR}/vendor/woocommerce/woocommerce-blocks:${DOCROOT}/wp-content/plugins/woocommerce-blocks
+      - ${BASE_DIR}/vendor/woocommerce/woocommerce-rest-api:${DOCROOT}/wp-content/plugins/woocommerce-rest-api
+# Options for macOS users (https://wodby.com/stacks/wordpress/docs/local/docker-for-mac/)
+#      - ./:/var/www/html:cached # User-guided caching
+#      - docker-sync:/var/www/html # Docker-sync
+    labels:
+      - "traefik.http.routers.${PROJECT_NAME}_nginx.rule=Host(`${PROJECT_BASE_URL}`)"
+
+  mailhog:
+    image: mailhog/mailhog
+    container_name: "${PROJECT_NAME}_mailhog"
+    labels:
+      - "traefik.http.services.${PROJECT_NAME}_mailhog.loadbalancer.server.port=8025"
+      - "traefik.http.routers.${PROJECT_NAME}_mailhog.rule=Host(`mailhog.${PROJECT_BASE_URL}`)"
+
+  portainer:
+    image: portainer/portainer
+    container_name: "${PROJECT_NAME}_portainer"
+    command: --no-auth -H unix:///var/run/docker.sock
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    labels:
+      - "traefik.http.routers.${PROJECT_NAME}_portainer.rule=Host(`portainer.${PROJECT_BASE_URL}`)"
+
+  traefik:
+    image: traefik:v2.0
+    container_name: "${PROJECT_NAME}_traefik"
+    command: --api.insecure=true --providers.docker
+    ports:
+      - '80:80'
+#      - '8080:8080' # Dashboard
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+volumes:
+## Docker-sync for macOS users
+#  docker-sync:
+#    external: true
+## For Xdebug profiler
+#  files:
+  wpdb:
