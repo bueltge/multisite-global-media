@@ -10,6 +10,9 @@
 # .idea/sqlDataSources.xml
 # .idea/dynamic.xml
 
+## Environment
+.env
+
 ## File-based project format
 *.ipr
 *.iws
