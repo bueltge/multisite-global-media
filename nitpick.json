@@ -1,6 +1,7 @@
 {
     "ignore": [
         "assets/*",
+        "scripts/*",
         "tests/*",
         "docker/*"
     ]
