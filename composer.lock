@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0471e12c8052074258126b3a13623ca4",
+    "content-hash": "b6320339d64510b94b7649edf2d12af7",
     "packages": [
         {
             "name": "composer/installers",
-            "version": "v1.7.0",
+            "version": "v1.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/installers.git",
-                "reference": "141b272484481432cda342727a427dc1e206bfa0"
+                "reference": "7d610d50aae61ae7ed6675e58efeabdf279bb5e3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/installers/zipball/141b272484481432cda342727a427dc1e206bfa0",
-                "reference": "141b272484481432cda342727a427dc1e206bfa0",
+                "url": "https://api.github.com/repos/composer/installers/zipball/7d610d50aae61ae7ed6675e58efeabdf279bb5e3",
+                "reference": "7d610d50aae61ae7ed6675e58efeabdf279bb5e3",
                 "shasum": ""
             },
             "require": {
@@ -65,6 +65,7 @@
                 "Kanboard",
                 "Lan Management System",
                 "MODX Evo",
+                "MantisBT",
                 "Mautic",
                 "Maya",
                 "OXID",
@@ -119,6 +120,7 @@
                 "shopware",
                 "silverstripe",
                 "sydes",
+                "sylius",
                 "symfony",
                 "typo3",
                 "wordpress",
@@ -126,7 +128,7 @@
                 "zend",
                 "zikula"
             ],
-            "time": "2019-08-12T15:00:31+00:00"
+            "time": "2020-02-07T10:39:20+00:00"
         }
     ],
     "packages-dev": [
@@ -173,42 +175,6 @@
                 "testing"
             ],
             "time": "2019-12-22T17:52:09+00:00"
-        },
-        {
-            "name": "automattic/jetpack-autoloader",
-            "version": "v1.2.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Automattic/jetpack-autoloader.git",
-                "reference": "4ad9631e68e9da8b8a764615766287becfb27f81"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Automattic/jetpack-autoloader/zipball/4ad9631e68e9da8b8a764615766287becfb27f81",
-                "reference": "4ad9631e68e9da8b8a764615766287becfb27f81",
-                "shasum": ""
-            },
-            "require": {
-                "composer-plugin-api": "^1.1"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^5.7 || ^6.5 || ^7.5"
-            },
-            "type": "composer-plugin",
-            "extra": {
-                "class": "Automattic\\Jetpack\\Autoloader\\CustomAutoloaderPlugin"
-            },
-            "autoload": {
-                "psr-4": {
-                    "Automattic\\Jetpack\\Autoloader\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "GPL-2.0-or-later"
-            ],
-            "description": "Creates a custom autoloader for a plugin or theme.",
-            "time": "2019-06-24T15:13:23+00:00"
         },
         {
             "name": "automattic/phpcs-neutron-standard",
@@ -1012,24 +978,24 @@
         },
         {
             "name": "phpspec/prophecy",
-            "version": "1.10.1",
+            "version": "v1.10.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpspec/prophecy.git",
-                "reference": "cbe1df668b3fe136bcc909126a0f529a78d4cbbc"
+                "reference": "451c3cd1418cf640de218914901e51b064abb093"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpspec/prophecy/zipball/cbe1df668b3fe136bcc909126a0f529a78d4cbbc",
-                "reference": "cbe1df668b3fe136bcc909126a0f529a78d4cbbc",
+                "url": "https://api.github.com/repos/phpspec/prophecy/zipball/451c3cd1418cf640de218914901e51b064abb093",
+                "reference": "451c3cd1418cf640de218914901e51b064abb093",
                 "shasum": ""
             },
             "require": {
                 "doctrine/instantiator": "^1.0.2",
                 "php": "^5.3|^7.0",
                 "phpdocumentor/reflection-docblock": "^2.0|^3.0.2|^4.0|^5.0",
-                "sebastian/comparator": "^1.2.3|^2.0|^3.0",
-                "sebastian/recursion-context": "^1.0|^2.0|^3.0"
+                "sebastian/comparator": "^1.2.3|^2.0|^3.0|^4.0",
+                "sebastian/recursion-context": "^1.0|^2.0|^3.0|^4.0"
             },
             "require-dev": {
                 "phpspec/phpspec": "^2.5 || ^3.2",
@@ -1071,7 +1037,7 @@
                 "spy",
                 "stub"
             ],
-            "time": "2019-12-22T21:05:45+00:00"
+            "time": "2020-03-05T15:02:03+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -2027,16 +1993,16 @@
         },
         {
             "name": "squizlabs/php_codesniffer",
-            "version": "3.5.3",
+            "version": "3.5.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/squizlabs/PHP_CodeSniffer.git",
-                "reference": "557a1fc7ac702c66b0bbfe16ab3d55839ef724cb"
+                "reference": "dceec07328401de6211037abbb18bda423677e26"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/557a1fc7ac702c66b0bbfe16ab3d55839ef724cb",
-                "reference": "557a1fc7ac702c66b0bbfe16ab3d55839ef724cb",
+                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/dceec07328401de6211037abbb18bda423677e26",
+                "reference": "dceec07328401de6211037abbb18bda423677e26",
                 "shasum": ""
             },
             "require": {
@@ -2074,20 +2040,20 @@
                 "phpcs",
                 "standards"
             ],
-            "time": "2019-12-04T04:46:47+00:00"
+            "time": "2020-01-30T22:20:29+00:00"
         },
         {
             "name": "symfony/polyfill-ctype",
-            "version": "v1.13.1",
+            "version": "v1.14.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-ctype.git",
-                "reference": "f8f0b461be3385e56d6de3dbb5a0df24c0c275e3"
+                "reference": "fbdeaec0df06cf3d51c93de80c7eb76e271f5a38"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-ctype/zipball/f8f0b461be3385e56d6de3dbb5a0df24c0c275e3",
-                "reference": "f8f0b461be3385e56d6de3dbb5a0df24c0c275e3",
+                "url": "https://api.github.com/repos/symfony/polyfill-ctype/zipball/fbdeaec0df06cf3d51c93de80c7eb76e271f5a38",
+                "reference": "fbdeaec0df06cf3d51c93de80c7eb76e271f5a38",
                 "shasum": ""
             },
             "require": {
@@ -2099,7 +2065,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.13-dev"
+                    "dev-master": "1.14-dev"
                 }
             },
             "autoload": {
@@ -2132,7 +2098,7 @@
                 "polyfill",
                 "portable"
             ],
-            "time": "2019-11-27T13:56:44+00:00"
+            "time": "2020-01-13T11:15:53+00:00"
         },
         {
             "name": "theseer/tokenizer",
@@ -2176,16 +2142,16 @@
         },
         {
             "name": "webmozart/assert",
-            "version": "1.6.0",
+            "version": "1.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/webmozart/assert.git",
-                "reference": "573381c0a64f155a0d9a23f4b0c797194805b925"
+                "reference": "aed98a490f9a8f78468232db345ab9cf606cf598"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webmozart/assert/zipball/573381c0a64f155a0d9a23f4b0c797194805b925",
-                "reference": "573381c0a64f155a0d9a23f4b0c797194805b925",
+                "url": "https://api.github.com/repos/webmozart/assert/zipball/aed98a490f9a8f78468232db345ab9cf606cf598",
+                "reference": "aed98a490f9a8f78468232db345ab9cf606cf598",
                 "shasum": ""
             },
             "require": {
@@ -2220,56 +2186,42 @@
                 "check",
                 "validate"
             ],
-            "time": "2019-11-24T13:36:37+00:00"
+            "time": "2020-02-14T12:15:55+00:00"
         },
         {
             "name": "woocommerce/woocommerce",
-            "version": "3.8.1",
+            "version": "3.5.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/woocommerce/woocommerce.git",
-                "reference": "674d7f65ee1bfc10908e6d4a551687a08e0bb4a5"
+                "reference": "67fa99743e5bbbb1ad496bf85c1731be9e69f709"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/woocommerce/woocommerce/zipball/674d7f65ee1bfc10908e6d4a551687a08e0bb4a5",
-                "reference": "674d7f65ee1bfc10908e6d4a551687a08e0bb4a5",
+                "url": "https://api.github.com/repos/woocommerce/woocommerce/zipball/67fa99743e5bbbb1ad496bf85c1731be9e69f709",
+                "reference": "67fa99743e5bbbb1ad496bf85c1731be9e69f709",
                 "shasum": ""
             },
             "require": {
-                "automattic/jetpack-autoloader": "^1.2.0",
-                "composer/installers": "1.7.0",
-                "php": ">=5.6|>=7.0",
-                "woocommerce/woocommerce-blocks": "2.4.5",
-                "woocommerce/woocommerce-rest-api": "1.0.3"
+                "composer/installers": "~1.2"
             },
             "require-dev": {
-                "phpunit/phpunit": "7.5.16",
-                "woocommerce/woocommerce-sniffs": "0.0.7"
+                "apigen/apigen": "^4",
+                "dealerdirect/phpcodesniffer-composer-installer": "^0.4.3",
+                "nette/utils": "~2.3.0",
+                "phpunit/phpunit": "6.*",
+                "squizlabs/php_codesniffer": "*",
+                "wimg/php-compatibility": "^8.0",
+                "woocommerce/woocommerce-git-hooks": "*",
+                "woocommerce/woocommerce-sniffs": "*",
+                "wp-coding-standards/wpcs": "^0.14"
             },
             "type": "wordpress-plugin",
             "extra": {
-                "installer-paths": {
-                    "packages/woocommerce-rest-api": [
-                        "woocommerce/woocommerce-rest-api"
-                    ],
-                    "packages/woocommerce-blocks": [
-                        "woocommerce/woocommerce-blocks"
-                    ]
-                },
                 "scripts-description": {
                     "test": "Run unit tests",
                     "phpcs": "Analyze code against the WordPress coding standards with PHP_CodeSniffer",
                     "phpcbf": "Fix coding standards warnings/errors automatically with PHP Code Beautifier"
-                }
-            },
-            "autoload": {
-                "exclude-from-classmap": [
-                    "includes/legacy",
-                    "includes/libraries"
-                ],
-                "psr-4": {
-                    "Automattic\\WooCommerce\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -2278,94 +2230,7 @@
             ],
             "description": "An eCommerce toolkit that helps you sell anything. Beautifully.",
             "homepage": "https://woocommerce.com/",
-            "time": "2019-11-27T18:18:26+00:00"
-        },
-        {
-            "name": "woocommerce/woocommerce-blocks",
-            "version": "v2.4.5",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/woocommerce/woocommerce-gutenberg-products-block.git",
-                "reference": "130bc40824f844c0870c94c0ad0aa7a6abb74f6f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/woocommerce/woocommerce-gutenberg-products-block/zipball/130bc40824f844c0870c94c0ad0aa7a6abb74f6f",
-                "reference": "130bc40824f844c0870c94c0ad0aa7a6abb74f6f",
-                "shasum": ""
-            },
-            "require": {
-                "automattic/jetpack-autoloader": "1.2.0",
-                "composer/installers": "1.7.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "6.5.14",
-                "woocommerce/woocommerce-sniffs": "0.0.6"
-            },
-            "type": "wordpress-plugin",
-            "extra": {
-                "scripts-description": {
-                    "phpcs": "Analyze code against the WordPress coding standards with PHP_CodeSniffer",
-                    "phpcbf": "Fix coding standards warnings/errors automatically with PHP Code Beautifier"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Automattic\\WooCommerce\\Blocks\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "GPL-3.0-or-later"
-            ],
-            "description": "WooCommerce blocks for the Gutenberg editor.",
-            "homepage": "https://woocommerce.com/",
-            "keywords": [
-                "blocks",
-                "gutenberg",
-                "woocommerce"
-            ],
-            "time": "2019-11-02T13:48:18+00:00"
-        },
-        {
-            "name": "woocommerce/woocommerce-rest-api",
-            "version": "1.0.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/woocommerce/woocommerce-rest-api.git",
-                "reference": "7d9babf1c25890c32df3edb28b8351732640f5ce"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/woocommerce/woocommerce-rest-api/zipball/7d9babf1c25890c32df3edb28b8351732640f5ce",
-                "reference": "7d9babf1c25890c32df3edb28b8351732640f5ce",
-                "shasum": ""
-            },
-            "require": {
-                "automattic/jetpack-autoloader": "1.2.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "6.5.14",
-                "woocommerce/woocommerce-sniffs": "0.0.6"
-            },
-            "type": "wordpress-plugin",
-            "autoload": {
-                "classmap": [
-                    "src/Controllers/Version1",
-                    "src/Controllers/Version2",
-                    "src/Controllers/Version3"
-                ],
-                "psr-4": {
-                    "Automattic\\WooCommerce\\RestApi\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "GPL-3.0-or-later"
-            ],
-            "description": "The WooCommerce core REST API.",
-            "homepage": "https://github.com/woocommerce/woocommerce-rest-api",
-            "time": "2019-07-16T14:27:40+00:00"
+            "time": "2019-04-16T12:14:44+00:00"
         },
         {
             "name": "wp-coding-standards/wpcs",
