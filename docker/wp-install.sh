@@ -8,7 +8,11 @@ wp config create \
   --dbuser="$DB_USER" \
   --dbpass="$DB_PASSWORD" \
   --dbhost=mariadb \
-  --force
+  --force \
+  --extra-php <<PHP
+define('WP_DEBUG', true);
+define('SCRIPT_DEBUG', true);
+PHP
 wp core install \
   --url=$PROJECT_BASE_URL \
   --title="$PROJECT_NAME" \
