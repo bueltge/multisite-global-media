@@ -38,7 +38,6 @@ services:
     volumes:
       - ${BASE_DIR}/docker/.htaccess:${DOCROOT}/.htaccess
       - ${BASE_DIR}/docker/wp-install.sh:/opt/wp-install.sh
-      - ${BASE_DIR}/docker/wp-config.php:${DOCROOT}/wp-config.php
       - ${BASE_DIR}/vendor/johnpbloch/wordpress-core:${DOCROOT}
       - ${BASE_DIR}:${PROJECT_MOUNT_PATH}
       - ${BASE_DIR}/vendor/woocommerce/woocommerce:${DOCROOT}/wp-content/plugins/woocommerce
@@ -65,7 +64,6 @@ services:
       #NGINX_SERVER_ROOT: /var/www/html/subdir
     volumes:
       - ${BASE_DIR}/docker/.htaccess:${DOCROOT}/.htaccess
-      - ${BASE_DIR}/docker/wp-config.php:${DOCROOT}/wp-config.php
       - ${BASE_DIR}/vendor/johnpbloch/wordpress-core:${DOCROOT}
       - ${BASE_DIR}:${PROJECT_MOUNT_PATH}
       - ${BASE_DIR}/vendor/woocommerce/woocommerce:${DOCROOT}/wp-content/plugins/woocommerce
