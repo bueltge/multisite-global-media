@@ -43,7 +43,7 @@ class Plugin
         add_action('wp_ajax_query-attachments', [$attachment, 'ajaxQueryAttachments'], 0);
         add_action('wp_ajax_get-attachment', [$attachment, 'ajaxGetAttachment'], 0);
         add_action('wp_ajax_send-attachment-to-editor', [$attachment, 'ajaxSendAttachmentToEditor'], 0);
-        add_action('wp_get_attachment_image_src', [$attachment, 'attachmentImageSrc'], 99, 4);
+        add_filter('wp_get_attachment_image_src', [$attachment, 'attachmentImageSrc'], 99, 4);
         add_filter('media_view_strings', [$attachment, 'mediaStrings']);
 
         remove_filter('the_content', 'wp_make_content_images_responsive');
