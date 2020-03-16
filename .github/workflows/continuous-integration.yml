@@ -1,0 +1,35 @@
+name: Continuous Integration
+on: [push, pull_request]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php-versions: ['7.1.33', '7.2', '7.3', '7.4', '8.0']
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Analising source code
+      run: find ./src/ ./tests/ -type f -name '*.php' -print0 | xargs -0 -L 1 -P 4 -- php -l
+
+    - name: Validate composer.json and composer.lock
+      run: composer validate
+
+    - name: Install dependencies
+      run: composer install --prefer-dist --no-progress --no-suggest
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ matrix.php-versions }}
+
+    - name: PhpCS
+      run: ./vendor/bin/phpcs
+
+    - name: PhpUnit
+      run: ./vendor/bin/phpunit --testdox --coverage-clover=coverage/report/coverage.xml
+      if: failure()
+
+    - name: Push Coverage
+      run: bash <(curl -s https://codecov.io/bash)
+      if: success()
