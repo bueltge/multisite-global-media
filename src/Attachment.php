@@ -66,8 +66,8 @@ class Attachment
     {
         // phpcs:disable WordPress.CSRF.NonceVerification.NoNonceVerification
         // phpcs:disable
-        $query = isset($_REQUEST['query'])
-            ? (array) wp_unslash($_REQUEST['query'])
+        $query = isset($_REQUEST['query']) // csrf ok
+            ? (array) wp_unslash($_REQUEST['query']) // csrf ok
             : [];
         // phpcs:enable
 
@@ -90,7 +90,7 @@ class Attachment
         // phpcs:disable WordPress.CSRF.NonceVerification.NoNonceVerification
         // phpcs:disable WordPress.VIP.ValidatedSanitizedInput.InputNotSanitized
         // phpcs:disable WordPress.VIP.ValidatedSanitizedInput.InputNotValidated
-        $attachmentId = (int) wp_unslash($_REQUEST['id']);
+        $attachmentId = (int) wp_unslash($_REQUEST['id']); // csrf ok
         // phpcs:enable
         $idPrefix = $this->site->idSitePrefix();
 
@@ -117,7 +117,7 @@ class Attachment
         // phpcs:disable WordPress.CSRF.NonceVerification.NoNonceVerification
         // phpcs:disable WordPress.VIP.ValidatedSanitizedInput.InputNotSanitized
         // phpcs:disable WordPress.VIP.ValidatedSanitizedInput.InputNotValidated
-        $attachment = wp_unslash($_POST['attachment']);
+        $attachment = wp_unslash($_POST['attachment']); // csrf ok
         $attachmentId = (int) $attachment['id'];
         $idPrefix = $this->site->idSitePrefix();
 
