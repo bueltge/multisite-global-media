@@ -2,8 +2,6 @@
 /*
  * @noinspection PhpIncludeInspection
  * Because it necessary for tests.
- * phpcs:disable WordPress.PHP.DiscouragedPHPFunctions.runtime_configuration_putenv
- * phpcs:disable PSR1.Files.SideEffects.FoundWithSymbols
  */
 declare(strict_types=1);
 
