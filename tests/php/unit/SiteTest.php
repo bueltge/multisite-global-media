@@ -1,6 +1,5 @@
 <?php # -*- coding: utf-8 -*-
 declare(strict_types=1);
-// phpcs:disable
 
 namespace MultisiteGlobalMedia\Tests\Unit;
 

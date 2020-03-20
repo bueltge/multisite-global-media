@@ -14,7 +14,6 @@
 
     <file>multisite-global-media.php</file>
     <file>./src</file>
-    <file>./tests</file>
 
     <!-- https://github.com/PHPCompatibility/PHPCompatibility#sniffing-your-code-for-compatibility-with-specific-php-versions -->
     <config name="testVersion" value="7.0-"/>
