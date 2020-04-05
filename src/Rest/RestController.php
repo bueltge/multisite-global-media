@@ -97,6 +97,7 @@ class RestController extends WP_REST_Attachments_Controller
         $this->siteSwitcher->switchToBlog($this->site->id());
         $response = parent::get_item($request);
         $data = $response->get_data();
+        $this->siteSwitcher->restoreBlog();
 
         if (isset($data['id'])) {
             $data['id'] = $attachmentId;
