@@ -1,6 +1,6 @@
 {
   "name": "multisite-global-media",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Multisite Global Media is a WordPress plugin which shares media across the Multisite network.",
   "main": "gulpfile.js",
   "directories": {
