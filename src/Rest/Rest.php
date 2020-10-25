@@ -73,7 +73,7 @@ class Rest
     public function restRequestAfterCallbacks($response, array $handler, WP_REST_Request $request)
     {
         // phpcs:enable
-        if (!isset($handler['callback'][0]) || !($handler['callback'][0] instanceof WP_REST_Posts_Controller)) {
+        if (!is_array($handler['callback']) || !isset($handler['callback'][0]) || !($handler['callback'][0] instanceof WP_REST_Posts_Controller)) {
             return $response;
         }
 
