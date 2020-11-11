@@ -91,6 +91,6 @@ class Plugin
     {
         $acfImage = new ACF\Image($site, $siteSwitcher);
 
-        add_filter('acf/load_value/type=image', array($acfImage, 'acf_load_value'), 10, 3);
+        add_filter('acf/load_value/type=image', array($acfImage, 'acfLoadValue'), 10, 3);
     }
 }
