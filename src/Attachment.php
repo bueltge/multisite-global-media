@@ -1,4 +1,4 @@
-<?php # -*- coding: utf-8 -*-
+<?php# -*- coding: utf-8 -*-
 declare(strict_types=1);
 
 namespace MultisiteGlobalMedia;
@@ -8,7 +8,6 @@ namespace MultisiteGlobalMedia;
  */
 class Attachment
 {
-
     use Helper;
 
     /**
@@ -47,7 +46,7 @@ class Attachment
     {
         $idPrefix = $this->site->idSitePrefix();
 
-        $response['id'] = (int) ($idPrefix.$response['id']); // Unique ID, must be a number.
+        $response['id'] = (int) ($idPrefix . $response['id']); // Unique ID, must be a number.
         $response['nonces']['update'] = false;
         $response['nonces']['edit'] = false;
         $response['nonces']['delete'] = false;
@@ -147,10 +146,10 @@ class Attachment
     public function mediaSendToEditor(string $html, int $id): string
     {
         $idPrefix = $this->site->idSitePrefix();
-        $newId = $idPrefix.$id; // Unique ID, must be a number.
+        $newId = $idPrefix . $id; // Unique ID, must be a number.
 
-        $search = 'wp-image-'.$id;
-        $replace = 'wp-image-'.$newId;
+        $search = 'wp-image-' . $id;
+        $replace = 'wp-image-' . $newId;
 
         return str_replace($search, $replace, $html);
     }

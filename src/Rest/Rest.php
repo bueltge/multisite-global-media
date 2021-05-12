@@ -1,4 +1,4 @@
-<?php # -*- coding: utf-8 -*-
+<?php# -*- coding: utf-8 -*-
 declare(strict_types=1);
 
 namespace MultisiteGlobalMedia\Rest;
@@ -16,6 +16,7 @@ use WP_REST_Request;
 class Rest
 {
     use Helper;
+
     const META_KEY_THUMBNAIL_ID = '_thumbnail_id';
     const REST_FIELD_THUMBNAIL_ID = 'featured_media';
 

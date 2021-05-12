@@ -1,4 +1,6 @@
-<?php // -*- coding: utf-8 -*-
+<?php
+
+// -*- coding: utf-8 -*-
 declare(strict_types=1);
 
 /**
@@ -33,9 +35,9 @@ $bootstrap = \Closure::bind(
      */
     function adminNotice($message, $noticeType, array $allowedMarkup = [])
     {
-        \assert(\is_string($message) && \is_string($noticeType));
+            \assert(\is_string($message) && \is_string($noticeType));
 
-        add_action(
+            add_action(
             'admin_notices',
             function () use ($message, $noticeType, $allowedMarkup) {
                 ?>
@@ -43,8 +45,8 @@ $bootstrap = \Closure::bind(
                     <p><?= wp_kses($message, $allowedMarkup) ?></p>
                 </div>
                 <?php
-            }
-        );
+                }
+                );
     }
 
     /**
@@ -52,20 +54,20 @@ $bootstrap = \Closure::bind(
      */
     function autoload()
     {
-        if (\class_exists(PluginProperties::class)) {
+            if (\class_exists(PluginProperties::class)) {
+                return true;
+                }
+
+            $autoloader = plugin_dir_path(__FILE__) . '/vendor/autoload.php';
+
+            if (!\file_exists($autoloader)) {
+                return false;
+                }
+
+            /** @noinspection PhpIncludeInspection */
+            require_once $autoloader;
+
             return true;
-        }
-
-        $autoloader = plugin_dir_path(__FILE__) . '/vendor/autoload.php';
-
-        if (!\file_exists($autoloader)) {
-            return false;
-        }
-
-        /** @noinspection PhpIncludeInspection */
-        require_once $autoloader;
-
-        return true;
     }
 
     /**
@@ -75,11 +77,11 @@ $bootstrap = \Closure::bind(
      */
     function isPhpVersionCompatible()
     {
-        return PHP_VERSION_ID >= 70000;
+            return PHP_VERSION_ID >= 70000;
     }
 
     if (!isPhpVersionCompatible()) {
-        adminNotice(
+            adminNotice(
             sprintf(
             // Translators: %s is the PHP version of the current installation, where is the plugin is active.
                 __(
@@ -89,20 +91,20 @@ $bootstrap = \Closure::bind(
                 PHP_VERSION
             ),
             'error'
-        );
+                );
 
-        return;
+                return;
     }
     if (!autoload()) {
-        adminNotice(
+            adminNotice(
             __(
                 'No suitable autoloader found. Multisite Global Media cannot be loaded correctly.',
                 'multisite-global-media'
             ),
             'error'
-        );
+                );
 
-        return;
+                return;
     }
 
     $plugin = new Plugin(__FILE__);
