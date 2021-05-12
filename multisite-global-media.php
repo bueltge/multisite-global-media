@@ -1,8 +1,4 @@
 <?php
-
-// -*- coding: utf-8 -*-
-declare(strict_types=1);
-
 /**
  * Plugin Name: Multisite Global Media
  * Description: Multisite Global Media is a WordPress plugin which shares media across the Multisite network.
@@ -21,6 +17,10 @@ declare(strict_types=1);
  * @license https://opensource.org/licenses/GPL-2.0
  * @version 2020-04-22
  */
+
+# -*- coding: utf-8 -*-
+
+declare(strict_types=1);
 
 namespace MultisiteGlobalMedia;
 
