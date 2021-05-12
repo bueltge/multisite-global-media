@@ -40,7 +40,7 @@ jobs:
       run: ./vendor/bin/phpcs
 
     - name: PhpUnit
-      run: ./vendor/bin/phpunit --testdox --coverage-clover=coverage/report/coverage.xml
+      run: ./vendor/bin/phpunit --testdox  --no-coverage
       if: failure()
 
     - name: Push Coverage
