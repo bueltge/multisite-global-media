@@ -63,8 +63,8 @@
         "analyze": "phpstan analyse src",
         "cs": "@php ./vendor/squizlabs/php_codesniffer/bin/phpcs",
         "csf": "@php ./vendor/bin/phpcbf",
-        "tests": "@php ./vendor/phpunit/phpunit/phpunit",
-        "tests:no-cov": "@php ./vendor/phpunit/phpunit/phpunit --no-coverage",
+        "tests": "@php ./vendor/bin/phpunit",
+        "tests:no-cov": "@php ./vendor/bin/phpunit --no-coverage",
         "qa": [
             "@tests:no-cov",
             "@cs",
