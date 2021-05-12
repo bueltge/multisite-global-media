@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bd7538ecede2364f5b2063e687fb781a",
+    "content-hash": "ed943b96fdbae7f9e12c3e2f38c4a5e6",
     "packages": [
         {
             "name": "composer/installers",
-            "version": "v1.9.0",
+            "version": "v1.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/installers.git",
-                "reference": "b93bcf0fa1fccb0b7d176b0967d969691cd74cca"
+                "reference": "ae03311f45dfe194412081526be2e003960df74b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/installers/zipball/b93bcf0fa1fccb0b7d176b0967d969691cd74cca",
-                "reference": "b93bcf0fa1fccb0b7d176b0967d969691cd74cca",
+                "url": "https://api.github.com/repos/composer/installers/zipball/ae03311f45dfe194412081526be2e003960df74b",
+                "reference": "ae03311f45dfe194412081526be2e003960df74b",
                 "shasum": ""
             },
             "require": {
@@ -28,17 +28,18 @@
                 "shama/baton": "*"
             },
             "require-dev": {
-                "composer/composer": "1.6.* || 2.0.*@dev",
-                "composer/semver": "1.0.* || 2.0.*@dev",
-                "phpunit/phpunit": "^4.8.36",
-                "sebastian/comparator": "^1.2.4",
+                "composer/composer": "1.6.* || ^2.0",
+                "composer/semver": "^1 || ^3",
+                "phpstan/phpstan": "^0.12.55",
+                "phpstan/phpstan-phpunit": "^0.12.16",
+                "symfony/phpunit-bridge": "^4.2 || ^5",
                 "symfony/process": "^2.3"
             },
             "type": "composer-plugin",
             "extra": {
                 "class": "Composer\\Installers\\Plugin",
                 "branch-alias": {
-                    "dev-master": "1.0-dev"
+                    "dev-main": "1.x-dev"
                 }
             },
             "autoload": {
@@ -76,6 +77,7 @@
                 "Porto",
                 "RadPHP",
                 "SMF",
+                "Starbug",
                 "Thelia",
                 "Whmcs",
                 "WolfCMS",
@@ -109,6 +111,7 @@
                 "majima",
                 "mako",
                 "mediawiki",
+                "miaoxing",
                 "modulework",
                 "modx",
                 "moodle",
@@ -116,6 +119,7 @@
                 "phpbb",
                 "piwik",
                 "ppi",
+                "processwire",
                 "puppet",
                 "pxcms",
                 "reindex",
@@ -125,13 +129,32 @@
                 "sydes",
                 "sylius",
                 "symfony",
+                "tastyigniter",
                 "typo3",
                 "wordpress",
                 "yawik",
                 "zend",
                 "zikula"
             ],
-            "time": "2020-04-07T06:57:05+00:00"
+            "support": {
+                "issues": "https://github.com/composer/installers/issues",
+                "source": "https://github.com/composer/installers/tree/v1.11.0"
+            },
+            "funding": [
+                {
+                    "url": "https://packagist.com",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/composer",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/composer/composer",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2021-04-28T06:42:17+00:00"
         }
     ],
     "packages-dev": [
@@ -177,31 +200,110 @@
                 "runkit",
                 "testing"
             ],
+            "support": {
+                "issues": "https://github.com/antecedent/patchwork/issues",
+                "source": "https://github.com/antecedent/patchwork/tree/2.1.12"
+            },
             "time": "2019-12-22T17:52:09+00:00"
         },
         {
-            "name": "automattic/phpcs-neutron-standard",
-            "version": "v1.5.4",
+            "name": "automattic/jetpack-autoloader",
+            "version": "v2.7.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/Automattic/phpcs-neutron-standard.git",
-                "reference": "c0d00253c61901aae2bb0108cfa4ab9e94cd4cfa"
+                "url": "https://github.com/Automattic/jetpack-autoloader.git",
+                "reference": "5437697a56aefbdf707849b9833e1b36093d7a73"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Automattic/phpcs-neutron-standard/zipball/c0d00253c61901aae2bb0108cfa4ab9e94cd4cfa",
-                "reference": "c0d00253c61901aae2bb0108cfa4ab9e94cd4cfa",
+                "url": "https://api.github.com/repos/Automattic/jetpack-autoloader/zipball/5437697a56aefbdf707849b9833e1b36093d7a73",
+                "reference": "5437697a56aefbdf707849b9833e1b36093d7a73",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.0"
+                "composer-plugin-api": "^1.1 || ^2.0"
             },
             "require-dev": {
-                "dealerdirect/phpcodesniffer-composer-installer": "^0.4.4",
-                "limedeck/phpunit-detailed-printer": "^3.1",
-                "phpunit/phpunit": "^6.4",
-                "sirbrillig/phpcs-variable-analysis": "^2.0.1",
-                "squizlabs/php_codesniffer": "3.3.0"
+                "yoast/phpunit-polyfills": "0.2.0"
+            },
+            "type": "composer-plugin",
+            "extra": {
+                "class": "Automattic\\Jetpack\\Autoloader\\CustomAutoloaderPlugin"
+            },
+            "autoload": {
+                "classmap": [
+                    "src/AutoloadGenerator.php"
+                ],
+                "psr-4": {
+                    "Automattic\\Jetpack\\Autoloader\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "description": "Creates a custom autoloader for a plugin or theme.",
+            "support": {
+                "source": "https://github.com/Automattic/jetpack-autoloader/tree/v2.7.1"
+            },
+            "time": "2020-12-18T22:33:59+00:00"
+        },
+        {
+            "name": "automattic/jetpack-constants",
+            "version": "v1.5.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Automattic/jetpack-constants.git",
+                "reference": "18f772daddc8be5df76c9f4a92e017a3c2569a5b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Automattic/jetpack-constants/zipball/18f772daddc8be5df76c9f4a92e017a3c2569a5b",
+                "reference": "18f772daddc8be5df76c9f4a92e017a3c2569a5b",
+                "shasum": ""
+            },
+            "require-dev": {
+                "php-mock/php-mock": "^2.1",
+                "phpunit/phpunit": "^5.7 || ^6.5 || ^7.5"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "src/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "description": "A wrapper for defining constants in a more testable way.",
+            "support": {
+                "source": "https://github.com/Automattic/jetpack-constants/tree/v1.5.1"
+            },
+            "time": "2020-10-28T19:00:31+00:00"
+        },
+        {
+            "name": "automattic/phpcs-neutron-standard",
+            "version": "v1.7.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Automattic/phpcs-neutron-standard.git",
+                "reference": "566ad70534296073afa9143858671356444ddead"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Automattic/phpcs-neutron-standard/zipball/566ad70534296073afa9143858671356444ddead",
+                "reference": "566ad70534296073afa9143858671356444ddead",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.0 || ^8.0",
+                "squizlabs/php_codesniffer": "^3.3.0"
+            },
+            "require-dev": {
+                "dealerdirect/phpcodesniffer-composer-installer": "^0.4.4 || ^0.5 || ^0.6 || ^0.7",
+                "phpunit/phpunit": "^5.0 || ^6.5 || ^7.0 || ^8.0",
+                "sirbrillig/phpcs-variable-analysis": "^2.0.1"
             },
             "type": "phpcodesniffer-standard",
             "autoload": {
@@ -220,20 +322,77 @@
                 }
             ],
             "description": "A set of phpcs sniffs for modern php development.",
-            "time": "2019-08-14T17:41:30+00:00"
+            "support": {
+                "issues": "https://github.com/sirbrillig/phpcs-neutron-standard/issues",
+                "source": "https://github.com/sirbrillig/phpcs-neutron-standard",
+                "wiki": "https://github.com/sirbrillig/phpcs-neutron-standard/wiki"
+            },
+            "time": "2021-02-15T22:42:03+00:00"
         },
         {
-            "name": "brain/monkey",
-            "version": "2.4.0",
+            "name": "automattic/vipwpcs",
+            "version": "2.3.2",
             "source": {
                 "type": "git",
-                "url": "https://github.com/Brain-WP/BrainMonkey.git",
-                "reference": "b3ce8b619c26db6abd01b9dcfd6a2c0254060956"
+                "url": "https://github.com/Automattic/VIP-Coding-Standards.git",
+                "reference": "efacebef421334d54b99afa92fb8fa645336a8a7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Brain-WP/BrainMonkey/zipball/b3ce8b619c26db6abd01b9dcfd6a2c0254060956",
-                "reference": "b3ce8b619c26db6abd01b9dcfd6a2c0254060956",
+                "url": "https://api.github.com/repos/Automattic/VIP-Coding-Standards/zipball/efacebef421334d54b99afa92fb8fa645336a8a7",
+                "reference": "efacebef421334d54b99afa92fb8fa645336a8a7",
+                "shasum": ""
+            },
+            "require": {
+                "dealerdirect/phpcodesniffer-composer-installer": "^0.4.1 || ^0.5 || ^0.6.2 || ^0.7",
+                "php": ">=5.4",
+                "sirbrillig/phpcs-variable-analysis": "^2.8.3",
+                "squizlabs/php_codesniffer": "^3.5.5",
+                "wp-coding-standards/wpcs": "^2.3"
+            },
+            "require-dev": {
+                "php-parallel-lint/php-console-highlighter": "^0.5",
+                "php-parallel-lint/php-parallel-lint": "^1.0",
+                "phpcompatibility/php-compatibility": "^9",
+                "phpcsstandards/phpcsdevtools": "^1.0",
+                "phpunit/phpunit": "^4 || ^5 || ^6 || ^7"
+            },
+            "type": "phpcodesniffer-standard",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Contributors",
+                    "homepage": "https://github.com/Automattic/VIP-Coding-Standards/graphs/contributors"
+                }
+            ],
+            "description": "PHP_CodeSniffer rules (sniffs) to enforce WordPress VIP minimum coding conventions",
+            "keywords": [
+                "phpcs",
+                "standards",
+                "wordpress"
+            ],
+            "support": {
+                "issues": "https://github.com/Automattic/VIP-Coding-Standards/issues",
+                "source": "https://github.com/Automattic/VIP-Coding-Standards",
+                "wiki": "https://github.com/Automattic/VIP-Coding-Standards/wiki"
+            },
+            "time": "2021-04-28T16:41:50+00:00"
+        },
+        {
+            "name": "brain/monkey",
+            "version": "2.6.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Brain-WP/BrainMonkey.git",
+                "reference": "7042140000b4b18034c0c0010d86274a00f25442"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Brain-WP/BrainMonkey/zipball/7042140000b4b18034c0c0010d86274a00f25442",
+                "reference": "7042140000b4b18034c0c0010d86274a00f25442",
                 "shasum": ""
             },
             "require": {
@@ -242,9 +401,9 @@
                 "php": ">=5.6.0"
             },
             "require-dev": {
-                "dealerdirect/phpcodesniffer-composer-installer": "^0.4",
+                "dealerdirect/phpcodesniffer-composer-installer": "^0.6 || ^0.7",
                 "phpcompatibility/php-compatibility": "^9.3.0",
-                "phpunit/phpunit": "^5.7.9 || ^6.0 || ^7.0"
+                "phpunit/phpunit": "^5.7.9 || ^6.0 || ^7.0 || ^8.0 || ^9.0"
             },
             "type": "library",
             "extra": {
@@ -286,33 +445,35 @@
                 "test",
                 "testing"
             ],
-            "time": "2019-11-24T16:03:21+00:00"
+            "support": {
+                "issues": "https://github.com/Brain-WP/BrainMonkey/issues",
+                "source": "https://github.com/Brain-WP/BrainMonkey"
+            },
+            "time": "2020-10-13T17:56:14+00:00"
         },
         {
             "name": "dealerdirect/phpcodesniffer-composer-installer",
-            "version": "v0.4.4",
+            "version": "v0.7.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Dealerdirect/phpcodesniffer-composer-installer.git",
-                "reference": "2e41850d5f7797cbb1af7b030d245b3b24e63a08"
+                "reference": "fe390591e0241955f22eb9ba327d137e501c771c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Dealerdirect/phpcodesniffer-composer-installer/zipball/2e41850d5f7797cbb1af7b030d245b3b24e63a08",
-                "reference": "2e41850d5f7797cbb1af7b030d245b3b24e63a08",
+                "url": "https://api.github.com/repos/Dealerdirect/phpcodesniffer-composer-installer/zipball/fe390591e0241955f22eb9ba327d137e501c771c",
+                "reference": "fe390591e0241955f22eb9ba327d137e501c771c",
                 "shasum": ""
             },
             "require": {
-                "composer-plugin-api": "^1.0",
-                "php": "^5.3|^7",
-                "squizlabs/php_codesniffer": "*"
+                "composer-plugin-api": "^1.0 || ^2.0",
+                "php": ">=5.3",
+                "squizlabs/php_codesniffer": "^2.0 || ^3.0 || ^4.0"
             },
             "require-dev": {
                 "composer/composer": "*",
-                "wimg/php-compatibility": "^8.0"
-            },
-            "suggest": {
-                "dealerdirect/qa-tools": "All the PHP QA tools you'll need"
+                "phpcompatibility/php-compatibility": "^9.0",
+                "sensiolabs/security-checker": "^4.1.0"
             },
             "type": "composer-plugin",
             "extra": {
@@ -330,13 +491,13 @@
             "authors": [
                 {
                     "name": "Franck Nijhof",
-                    "email": "f.nijhof@dealerdirect.nl",
-                    "homepage": "http://workingatdealerdirect.eu",
-                    "role": "Developer"
+                    "email": "franck.nijhof@dealerdirect.com",
+                    "homepage": "http://www.frenck.nl",
+                    "role": "Developer / IT Manager"
                 }
             ],
             "description": "PHP_CodeSniffer Standards Composer Installer Plugin",
-            "homepage": "http://workingatdealerdirect.eu",
+            "homepage": "http://www.dealerdirect.com",
             "keywords": [
                 "PHPCodeSniffer",
                 "PHP_CodeSniffer",
@@ -354,7 +515,11 @@
                 "stylecheck",
                 "tests"
             ],
-            "time": "2017-12-06T16:27:17+00:00"
+            "support": {
+                "issues": "https://github.com/dealerdirect/phpcodesniffer-composer-installer/issues",
+                "source": "https://github.com/dealerdirect/phpcodesniffer-composer-installer"
+            },
+            "time": "2020-12-07T18:04:37+00:00"
         },
         {
             "name": "doctrine/instantiator",
@@ -408,24 +573,28 @@
                 "constructor",
                 "instantiate"
             ],
+            "support": {
+                "issues": "https://github.com/doctrine/instantiator/issues",
+                "source": "https://github.com/doctrine/instantiator/tree/master"
+            },
             "time": "2015-06-14T21:17:01+00:00"
         },
         {
             "name": "hamcrest/hamcrest-php",
-            "version": "v2.0.0",
+            "version": "v2.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hamcrest/hamcrest-php.git",
-                "reference": "776503d3a8e85d4f9a1148614f95b7a608b046ad"
+                "reference": "8c3d0a3f6af734494ad8f6fbbee0ba92422859f3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hamcrest/hamcrest-php/zipball/776503d3a8e85d4f9a1148614f95b7a608b046ad",
-                "reference": "776503d3a8e85d4f9a1148614f95b7a608b046ad",
+                "url": "https://api.github.com/repos/hamcrest/hamcrest-php/zipball/8c3d0a3f6af734494ad8f6fbbee0ba92422859f3",
+                "reference": "8c3d0a3f6af734494ad8f6fbbee0ba92422859f3",
                 "shasum": ""
             },
             "require": {
-                "php": "^5.3|^7.0"
+                "php": "^5.3|^7.0|^8.0"
             },
             "replace": {
                 "cordoval/hamcrest-php": "*",
@@ -433,14 +602,13 @@
                 "kodova/hamcrest-php": "*"
             },
             "require-dev": {
-                "phpunit/php-file-iterator": "1.3.3",
-                "phpunit/phpunit": "~4.0",
-                "satooshi/php-coveralls": "^1.0"
+                "phpunit/php-file-iterator": "^1.4 || ^2.0",
+                "phpunit/phpunit": "^4.8.36 || ^5.7 || ^6.5 || ^7.0"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.0-dev"
+                    "dev-master": "2.1-dev"
                 }
             },
             "autoload": {
@@ -450,43 +618,49 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "BSD"
+                "BSD-3-Clause"
             ],
             "description": "This is the PHP port of Hamcrest Matchers",
             "keywords": [
                 "test"
             ],
-            "time": "2016-01-20T08:20:44+00:00"
+            "support": {
+                "issues": "https://github.com/hamcrest/hamcrest-php/issues",
+                "source": "https://github.com/hamcrest/hamcrest-php/tree/v2.0.1"
+            },
+            "time": "2020-07-09T08:09:16+00:00"
         },
         {
             "name": "inpsyde/php-coding-standards",
-            "version": "0.13.4",
+            "version": "1.0.0-RC.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/inpsyde/php-coding-standards.git",
-                "reference": "1c6c12d585e5cee4aa2fa6e0a732166644b018b5"
+                "reference": "38546e64d1f04fb69d7105bfe41ef9e46c6f8bfb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/inpsyde/php-coding-standards/zipball/1c6c12d585e5cee4aa2fa6e0a732166644b018b5",
-                "reference": "1c6c12d585e5cee4aa2fa6e0a732166644b018b5",
+                "url": "https://api.github.com/repos/inpsyde/php-coding-standards/zipball/38546e64d1f04fb69d7105bfe41ef9e46c6f8bfb",
+                "reference": "38546e64d1f04fb69d7105bfe41ef9e46c6f8bfb",
                 "shasum": ""
             },
             "require": {
-                "automattic/phpcs-neutron-standard": "^1",
-                "dealerdirect/phpcodesniffer-composer-installer": "^0.4",
-                "php": ">=7.0",
-                "phpcompatibility/php-compatibility": "^9.0",
-                "squizlabs/php_codesniffer": "^3",
-                "wp-coding-standards/wpcs": "^0.14"
+                "automattic/phpcs-neutron-standard": "^1.6.0",
+                "automattic/vipwpcs": "^2.2",
+                "dealerdirect/phpcodesniffer-composer-installer": "~0.7.0",
+                "php": ">=7",
+                "phpcompatibility/php-compatibility": "^9.3.5",
+                "squizlabs/php_codesniffer": "~3.5.6",
+                "wp-coding-standards/wpcs": "^2.3"
             },
             "require-dev": {
-                "phpunit/phpunit": "6.0.*"
+                "phpunit/phpunit": "6.5.* || 9.4.*",
+                "vimeo/psalm": "^3"
             },
             "type": "phpcodesniffer-standard",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "0.13.x-dev"
+                    "dev-master": "1.0.0-dev"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -507,36 +681,42 @@
                 "Coding Style",
                 "Inpsyde",
                 "PHP standards",
+                "PSR-2",
                 "WordPress standards",
                 "code standards",
                 "coding standards",
                 "object calisthenics",
                 "phpcs",
-                "psr2",
+                "psr-12",
                 "standards",
                 "wordpress"
             ],
-            "time": "2019-02-19T10:23:48+00:00"
+            "support": {
+                "issues": "https://github.com/inpsyde/php-coding-standards/issues",
+                "source": "https://github.com/inpsyde/php-coding-standards/tree/1.0.0-RC.1"
+            },
+            "time": "2020-10-17T22:47:35+00:00"
         },
         {
             "name": "johnpbloch/wordpress-core",
-            "version": "5.4.0",
+            "version": "5.7.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/johnpbloch/wordpress-core.git",
-                "reference": "9a9941fcad81015507e6d03801aebc51296baf37"
+                "reference": "4d368c02f3e842b446c867589656382f95c6ac58"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/johnpbloch/wordpress-core/zipball/9a9941fcad81015507e6d03801aebc51296baf37",
-                "reference": "9a9941fcad81015507e6d03801aebc51296baf37",
+                "url": "https://api.github.com/repos/johnpbloch/wordpress-core/zipball/4d368c02f3e842b446c867589656382f95c6ac58",
+                "reference": "4d368c02f3e842b446c867589656382f95c6ac58",
                 "shasum": ""
             },
             "require": {
+                "ext-json": "*",
                 "php": ">=5.6.20"
             },
             "provide": {
-                "wordpress/core-implementation": "5.4.0"
+                "wordpress/core-implementation": "5.7.1"
             },
             "type": "wordpress-core",
             "notification-url": "https://packagist.org/downloads/",
@@ -556,29 +736,100 @@
                 "cms",
                 "wordpress"
             ],
-            "time": "2020-03-31T20:17:13+00:00"
+            "support": {
+                "forum": "https://wordpress.org/support/",
+                "irc": "irc://irc.freenode.net/wordpress",
+                "issues": "https://core.trac.wordpress.org/",
+                "source": "https://core.trac.wordpress.org/browser",
+                "wiki": "https://codex.wordpress.org/"
+            },
+            "time": "2021-04-15T02:15:49+00:00"
         },
         {
-            "name": "mockery/mockery",
-            "version": "1.3.1",
+            "name": "maxmind-db/reader",
+            "version": "v1.6.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/mockery/mockery.git",
-                "reference": "f69bbde7d7a75d6b2862d9ca8fab1cd28014b4be"
+                "url": "https://github.com/maxmind/MaxMind-DB-Reader-php.git",
+                "reference": "febd4920bf17c1da84cef58e56a8227dfb37fbe4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mockery/mockery/zipball/f69bbde7d7a75d6b2862d9ca8fab1cd28014b4be",
-                "reference": "f69bbde7d7a75d6b2862d9ca8fab1cd28014b4be",
+                "url": "https://api.github.com/repos/maxmind/MaxMind-DB-Reader-php/zipball/febd4920bf17c1da84cef58e56a8227dfb37fbe4",
+                "reference": "febd4920bf17c1da84cef58e56a8227dfb37fbe4",
                 "shasum": ""
             },
             "require": {
-                "hamcrest/hamcrest-php": "~2.0",
+                "php": ">=5.6"
+            },
+            "conflict": {
+                "ext-maxminddb": "<1.6.0,>=2.0.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "2.*",
+                "php-coveralls/php-coveralls": "^2.1",
+                "phpunit/phpcov": "^3.0",
+                "phpunit/phpunit": "5.*",
+                "squizlabs/php_codesniffer": "3.*"
+            },
+            "suggest": {
+                "ext-bcmath": "bcmath or gmp is required for decoding larger integers with the pure PHP decoder",
+                "ext-gmp": "bcmath or gmp is required for decoding larger integers with the pure PHP decoder",
+                "ext-maxminddb": "A C-based database decoder that provides significantly faster lookups"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MaxMind\\Db\\": "src/MaxMind/Db"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Gregory J. Oschwald",
+                    "email": "goschwald@maxmind.com",
+                    "homepage": "https://www.maxmind.com/"
+                }
+            ],
+            "description": "MaxMind DB Reader API",
+            "homepage": "https://github.com/maxmind/MaxMind-DB-Reader-php",
+            "keywords": [
+                "database",
+                "geoip",
+                "geoip2",
+                "geolocation",
+                "maxmind"
+            ],
+            "support": {
+                "issues": "https://github.com/maxmind/MaxMind-DB-Reader-php/issues",
+                "source": "https://github.com/maxmind/MaxMind-DB-Reader-php/tree/v1.6.0"
+            },
+            "time": "2019-12-19T22:59:03+00:00"
+        },
+        {
+            "name": "mockery/mockery",
+            "version": "1.3.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mockery/mockery.git",
+                "reference": "31467aeb3ca3188158613322d66df81cedd86626"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mockery/mockery/zipball/31467aeb3ca3188158613322d66df81cedd86626",
+                "reference": "31467aeb3ca3188158613322d66df81cedd86626",
+                "shasum": ""
+            },
+            "require": {
+                "hamcrest/hamcrest-php": "^2.0.1",
                 "lib-pcre": ">=7.0",
                 "php": ">=5.6.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "~5.7.10|~6.5|~7.0|~8.0"
+                "phpunit/phpunit": "^5.7.10|^6.5|^7.5|^8.5|^9.3"
             },
             "type": "library",
             "extra": {
@@ -621,7 +872,11 @@
                 "test double",
                 "testing"
             ],
-            "time": "2019-12-26T09:49:15+00:00"
+            "support": {
+                "issues": "https://github.com/mockery/mockery/issues",
+                "source": "https://github.com/mockery/mockery/tree/1.3.4"
+            },
+            "time": "2021-02-24T09:51:00+00:00"
         },
         {
             "name": "myclabs/deep-copy",
@@ -666,7 +921,89 @@
                 "object",
                 "object graph"
             ],
+            "support": {
+                "issues": "https://github.com/myclabs/DeepCopy/issues",
+                "source": "https://github.com/myclabs/DeepCopy/tree/1.x"
+            },
             "time": "2017-10-19T19:58:43+00:00"
+        },
+        {
+            "name": "pelago/emogrifier",
+            "version": "v3.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/MyIntervals/emogrifier.git",
+                "reference": "f6a5c7d44612d86c3901c93f1592f5440e6b2cd8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/MyIntervals/emogrifier/zipball/f6a5c7d44612d86c3901c93f1592f5440e6b2cd8",
+                "reference": "f6a5c7d44612d86c3901c93f1592f5440e6b2cd8",
+                "shasum": ""
+            },
+            "require": {
+                "ext-dom": "*",
+                "ext-libxml": "*",
+                "php": "^5.6 || ~7.0 || ~7.1 || ~7.2 || ~7.3 || ~7.4",
+                "symfony/css-selector": "^2.8 || ^3.0 || ^4.0 || ^5.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^2.15.3",
+                "phpmd/phpmd": "^2.7.0",
+                "phpunit/phpunit": "^5.7.27",
+                "squizlabs/php_codesniffer": "^3.5.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "4.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Pelago\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Oliver Klee",
+                    "email": "github@oliverklee.de"
+                },
+                {
+                    "name": "Zoli Szabó",
+                    "email": "zoli.szabo+github@gmail.com"
+                },
+                {
+                    "name": "John Reeve",
+                    "email": "jreeve@pelagodesign.com"
+                },
+                {
+                    "name": "Jake Hotson",
+                    "email": "jake@qzdesign.co.uk"
+                },
+                {
+                    "name": "Cameron Brooks"
+                },
+                {
+                    "name": "Jaime Prado"
+                }
+            ],
+            "description": "Converts CSS styles into inline style attributes in your HTML code",
+            "homepage": "https://www.myintervals.com/emogrifier.php",
+            "keywords": [
+                "css",
+                "email",
+                "pre-processing"
+            ],
+            "support": {
+                "issues": "https://github.com/MyIntervals/emogrifier/issues",
+                "source": "https://github.com/MyIntervals/emogrifier"
+            },
+            "time": "2019-12-26T19:37:31+00:00"
         },
         {
             "name": "phar-io/manifest",
@@ -721,6 +1058,10 @@
                 }
             ],
             "description": "Component for reading phar.io manifest information from a PHP Archive (PHAR)",
+            "support": {
+                "issues": "https://github.com/phar-io/manifest/issues",
+                "source": "https://github.com/phar-io/manifest/tree/master"
+            },
             "time": "2017-03-05T18:14:27+00:00"
         },
         {
@@ -768,6 +1109,10 @@
                 }
             ],
             "description": "Library for handling version information and constraints",
+            "support": {
+                "issues": "https://github.com/phar-io/version/issues",
+                "source": "https://github.com/phar-io/version/tree/master"
+            },
             "time": "2017-03-05T17:38:23+00:00"
         },
         {
@@ -826,6 +1171,10 @@
                 "phpcs",
                 "standards"
             ],
+            "support": {
+                "issues": "https://github.com/PHPCompatibility/PHPCompatibility/issues",
+                "source": "https://github.com/PHPCompatibility/PHPCompatibility"
+            },
             "time": "2019-12-27T09:44:58+00:00"
         },
         {
@@ -880,6 +1229,10 @@
                 "reflection",
                 "static analysis"
             ],
+            "support": {
+                "issues": "https://github.com/phpDocumentor/ReflectionCommon/issues",
+                "source": "https://github.com/phpDocumentor/ReflectionCommon/tree/master"
+            },
             "time": "2017-09-11T18:02:19+00:00"
         },
         {
@@ -932,6 +1285,10 @@
                 }
             ],
             "description": "With this component, a library can provide support for annotations via DocBlocks or otherwise retrieve information that is embedded in a DocBlock.",
+            "support": {
+                "issues": "https://github.com/phpDocumentor/ReflectionDocBlock/issues",
+                "source": "https://github.com/phpDocumentor/ReflectionDocBlock/tree/release/4.x"
+            },
             "time": "2019-12-28T18:55:12+00:00"
         },
         {
@@ -977,6 +1334,10 @@
                     "email": "me@mikevanriel.com"
                 }
             ],
+            "support": {
+                "issues": "https://github.com/phpDocumentor/TypeResolver/issues",
+                "source": "https://github.com/phpDocumentor/TypeResolver/tree/master"
+            },
             "time": "2017-12-30T13:23:38+00:00"
         },
         {
@@ -1040,6 +1401,10 @@
                 "spy",
                 "stub"
             ],
+            "support": {
+                "issues": "https://github.com/phpspec/prophecy/issues",
+                "source": "https://github.com/phpspec/prophecy/tree/v1.10.3"
+            },
             "time": "2020-03-05T15:02:03+00:00"
         },
         {
@@ -1103,6 +1468,10 @@
                 "testing",
                 "xunit"
             ],
+            "support": {
+                "issues": "https://github.com/sebastianbergmann/php-code-coverage/issues",
+                "source": "https://github.com/sebastianbergmann/php-code-coverage/tree/5.3"
+            },
             "time": "2018-04-06T15:36:58+00:00"
         },
         {
@@ -1150,6 +1519,11 @@
                 "filesystem",
                 "iterator"
             ],
+            "support": {
+                "irc": "irc://irc.freenode.net/phpunit",
+                "issues": "https://github.com/sebastianbergmann/php-file-iterator/issues",
+                "source": "https://github.com/sebastianbergmann/php-file-iterator/tree/1.4.5"
+            },
             "time": "2017-11-27T13:52:08+00:00"
         },
         {
@@ -1191,6 +1565,10 @@
             "keywords": [
                 "template"
             ],
+            "support": {
+                "issues": "https://github.com/sebastianbergmann/php-text-template/issues",
+                "source": "https://github.com/sebastianbergmann/php-text-template/tree/1.2.1"
+            },
             "time": "2015-06-21T13:50:34+00:00"
         },
         {
@@ -1240,6 +1618,10 @@
             "keywords": [
                 "timer"
             ],
+            "support": {
+                "issues": "https://github.com/sebastianbergmann/php-timer/issues",
+                "source": "https://github.com/sebastianbergmann/php-timer/tree/master"
+            },
             "time": "2017-02-26T11:10:40+00:00"
         },
         {
@@ -1289,6 +1671,11 @@
             "keywords": [
                 "tokenizer"
             ],
+            "support": {
+                "issues": "https://github.com/sebastianbergmann/php-token-stream/issues",
+                "source": "https://github.com/sebastianbergmann/php-token-stream/tree/master"
+            },
+            "abandoned": true,
             "time": "2017-11-27T05:48:46+00:00"
         },
         {
@@ -1373,6 +1760,10 @@
                 "testing",
                 "xunit"
             ],
+            "support": {
+                "issues": "https://github.com/sebastianbergmann/phpunit/issues",
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/6.5.14"
+            },
             "time": "2019-02-01T05:22:47+00:00"
         },
         {
@@ -1432,28 +1823,85 @@
                 "mock",
                 "xunit"
             ],
+            "support": {
+                "issues": "https://github.com/sebastianbergmann/phpunit-mock-objects/issues",
+                "source": "https://github.com/sebastianbergmann/phpunit-mock-objects/tree/5.0.10"
+            },
             "abandoned": true,
             "time": "2018-08-09T05:50:03+00:00"
         },
         {
-            "name": "sebastian/code-unit-reverse-lookup",
-            "version": "1.0.1",
+            "name": "psr/container",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/sebastianbergmann/code-unit-reverse-lookup.git",
-                "reference": "4419fcdb5eabb9caa61a27c7a1db532a6b55dd18"
+                "url": "https://github.com/php-fig/container.git",
+                "reference": "b7ce3b176482dbbc1245ebf52b181af44c2cf55f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/code-unit-reverse-lookup/zipball/4419fcdb5eabb9caa61a27c7a1db532a6b55dd18",
-                "reference": "4419fcdb5eabb9caa61a27c7a1db532a6b55dd18",
+                "url": "https://api.github.com/repos/php-fig/container/zipball/b7ce3b176482dbbc1245ebf52b181af44c2cf55f",
+                "reference": "b7ce3b176482dbbc1245ebf52b181af44c2cf55f",
                 "shasum": ""
             },
             "require": {
-                "php": "^5.6 || ^7.0"
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\Container\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "http://www.php-fig.org/"
+                }
+            ],
+            "description": "Common Container Interface (PHP FIG PSR-11)",
+            "homepage": "https://github.com/php-fig/container",
+            "keywords": [
+                "PSR-11",
+                "container",
+                "container-interface",
+                "container-interop",
+                "psr"
+            ],
+            "support": {
+                "issues": "https://github.com/php-fig/container/issues",
+                "source": "https://github.com/php-fig/container/tree/master"
+            },
+            "time": "2017-02-14T16:28:37+00:00"
+        },
+        {
+            "name": "sebastian/code-unit-reverse-lookup",
+            "version": "1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sebastianbergmann/code-unit-reverse-lookup.git",
+                "reference": "1de8cd5c010cb153fcd68b8d0f64606f523f7619"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sebastianbergmann/code-unit-reverse-lookup/zipball/1de8cd5c010cb153fcd68b8d0f64606f523f7619",
+                "reference": "1de8cd5c010cb153fcd68b8d0f64606f523f7619",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.6"
             },
             "require-dev": {
-                "phpunit/phpunit": "^5.7 || ^6.0"
+                "phpunit/phpunit": "^8.5"
             },
             "type": "library",
             "extra": {
@@ -1478,7 +1926,17 @@
             ],
             "description": "Looks up which function or method a line of code belongs to",
             "homepage": "https://github.com/sebastianbergmann/code-unit-reverse-lookup/",
-            "time": "2017-03-04T06:30:41+00:00"
+            "support": {
+                "issues": "https://github.com/sebastianbergmann/code-unit-reverse-lookup/issues",
+                "source": "https://github.com/sebastianbergmann/code-unit-reverse-lookup/tree/1.0.2"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/sebastianbergmann",
+                    "type": "github"
+                }
+            ],
+            "time": "2020-11-30T08:15:22+00:00"
         },
         {
             "name": "sebastian/comparator",
@@ -1542,6 +2000,10 @@
                 "compare",
                 "equality"
             ],
+            "support": {
+                "issues": "https://github.com/sebastianbergmann/comparator/issues",
+                "source": "https://github.com/sebastianbergmann/comparator/tree/master"
+            },
             "time": "2018-02-01T13:46:46+00:00"
         },
         {
@@ -1594,6 +2056,10 @@
             "keywords": [
                 "diff"
             ],
+            "support": {
+                "issues": "https://github.com/sebastianbergmann/diff/issues",
+                "source": "https://github.com/sebastianbergmann/diff/tree/master"
+            },
             "time": "2017-08-03T08:09:46+00:00"
         },
         {
@@ -1644,24 +2110,28 @@
                 "environment",
                 "hhvm"
             ],
+            "support": {
+                "issues": "https://github.com/sebastianbergmann/environment/issues",
+                "source": "https://github.com/sebastianbergmann/environment/tree/master"
+            },
             "time": "2017-07-01T08:51:00+00:00"
         },
         {
             "name": "sebastian/exporter",
-            "version": "3.1.2",
+            "version": "3.1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/exporter.git",
-                "reference": "68609e1261d215ea5b21b7987539cbfbe156ec3e"
+                "reference": "6b853149eab67d4da22291d36f5b0631c0fd856e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/exporter/zipball/68609e1261d215ea5b21b7987539cbfbe156ec3e",
-                "reference": "68609e1261d215ea5b21b7987539cbfbe156ec3e",
+                "url": "https://api.github.com/repos/sebastianbergmann/exporter/zipball/6b853149eab67d4da22291d36f5b0631c0fd856e",
+                "reference": "6b853149eab67d4da22291d36f5b0631c0fd856e",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.0",
+                "php": ">=7.0",
                 "sebastian/recursion-context": "^3.0"
             },
             "require-dev": {
@@ -1711,7 +2181,17 @@
                 "export",
                 "exporter"
             ],
-            "time": "2019-09-14T09:02:43+00:00"
+            "support": {
+                "issues": "https://github.com/sebastianbergmann/exporter/issues",
+                "source": "https://github.com/sebastianbergmann/exporter/tree/3.1.3"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/sebastianbergmann",
+                    "type": "github"
+                }
+            ],
+            "time": "2020-11-30T07:47:53+00:00"
         },
         {
             "name": "sebastian/global-state",
@@ -1762,24 +2242,28 @@
             "keywords": [
                 "global state"
             ],
+            "support": {
+                "issues": "https://github.com/sebastianbergmann/global-state/issues",
+                "source": "https://github.com/sebastianbergmann/global-state/tree/2.0.0"
+            },
             "time": "2017-04-27T15:39:26+00:00"
         },
         {
             "name": "sebastian/object-enumerator",
-            "version": "3.0.3",
+            "version": "3.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/object-enumerator.git",
-                "reference": "7cfd9e65d11ffb5af41198476395774d4c8a84c5"
+                "reference": "e67f6d32ebd0c749cf9d1dbd9f226c727043cdf2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/object-enumerator/zipball/7cfd9e65d11ffb5af41198476395774d4c8a84c5",
-                "reference": "7cfd9e65d11ffb5af41198476395774d4c8a84c5",
+                "url": "https://api.github.com/repos/sebastianbergmann/object-enumerator/zipball/e67f6d32ebd0c749cf9d1dbd9f226c727043cdf2",
+                "reference": "e67f6d32ebd0c749cf9d1dbd9f226c727043cdf2",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.0",
+                "php": ">=7.0",
                 "sebastian/object-reflector": "^1.1.1",
                 "sebastian/recursion-context": "^3.0"
             },
@@ -1809,24 +2293,34 @@
             ],
             "description": "Traverses array structures and object graphs to enumerate all referenced objects",
             "homepage": "https://github.com/sebastianbergmann/object-enumerator/",
-            "time": "2017-08-03T12:35:26+00:00"
+            "support": {
+                "issues": "https://github.com/sebastianbergmann/object-enumerator/issues",
+                "source": "https://github.com/sebastianbergmann/object-enumerator/tree/3.0.4"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/sebastianbergmann",
+                    "type": "github"
+                }
+            ],
+            "time": "2020-11-30T07:40:27+00:00"
         },
         {
             "name": "sebastian/object-reflector",
-            "version": "1.1.1",
+            "version": "1.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/object-reflector.git",
-                "reference": "773f97c67f28de00d397be301821b06708fca0be"
+                "reference": "9b8772b9cbd456ab45d4a598d2dd1a1bced6363d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/object-reflector/zipball/773f97c67f28de00d397be301821b06708fca0be",
-                "reference": "773f97c67f28de00d397be301821b06708fca0be",
+                "url": "https://api.github.com/repos/sebastianbergmann/object-reflector/zipball/9b8772b9cbd456ab45d4a598d2dd1a1bced6363d",
+                "reference": "9b8772b9cbd456ab45d4a598d2dd1a1bced6363d",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.0"
+                "php": ">=7.0"
             },
             "require-dev": {
                 "phpunit/phpunit": "^6.0"
@@ -1854,24 +2348,34 @@
             ],
             "description": "Allows reflection of object attributes, including inherited and non-public ones",
             "homepage": "https://github.com/sebastianbergmann/object-reflector/",
-            "time": "2017-03-29T09:07:27+00:00"
+            "support": {
+                "issues": "https://github.com/sebastianbergmann/object-reflector/issues",
+                "source": "https://github.com/sebastianbergmann/object-reflector/tree/1.1.2"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/sebastianbergmann",
+                    "type": "github"
+                }
+            ],
+            "time": "2020-11-30T07:37:18+00:00"
         },
         {
             "name": "sebastian/recursion-context",
-            "version": "3.0.0",
+            "version": "3.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/recursion-context.git",
-                "reference": "5b0cd723502bac3b006cbf3dbf7a1e3fcefe4fa8"
+                "reference": "367dcba38d6e1977be014dc4b22f47a484dac7fb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/recursion-context/zipball/5b0cd723502bac3b006cbf3dbf7a1e3fcefe4fa8",
-                "reference": "5b0cd723502bac3b006cbf3dbf7a1e3fcefe4fa8",
+                "url": "https://api.github.com/repos/sebastianbergmann/recursion-context/zipball/367dcba38d6e1977be014dc4b22f47a484dac7fb",
+                "reference": "367dcba38d6e1977be014dc4b22f47a484dac7fb",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.0"
+                "php": ">=7.0"
             },
             "require-dev": {
                 "phpunit/phpunit": "^6.0"
@@ -1893,12 +2397,12 @@
             ],
             "authors": [
                 {
-                    "name": "Jeff Welch",
-                    "email": "whatthejeff@gmail.com"
-                },
-                {
                     "name": "Sebastian Bergmann",
                     "email": "sebastian@phpunit.de"
+                },
+                {
+                    "name": "Jeff Welch",
+                    "email": "whatthejeff@gmail.com"
                 },
                 {
                     "name": "Adam Harvey",
@@ -1907,7 +2411,17 @@
             ],
             "description": "Provides functionality to recursively process PHP variables",
             "homepage": "http://www.github.com/sebastianbergmann/recursion-context",
-            "time": "2017-03-03T06:23:57+00:00"
+            "support": {
+                "issues": "https://github.com/sebastianbergmann/recursion-context/issues",
+                "source": "https://github.com/sebastianbergmann/recursion-context/tree/3.0.1"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/sebastianbergmann",
+                    "type": "github"
+                }
+            ],
+            "time": "2020-11-30T07:34:24+00:00"
         },
         {
             "name": "sebastian/resource-operations",
@@ -1949,6 +2463,10 @@
             ],
             "description": "Provides a list of PHP built-in functions that operate on resources",
             "homepage": "https://www.github.com/sebastianbergmann/resource-operations",
+            "support": {
+                "issues": "https://github.com/sebastianbergmann/resource-operations/issues",
+                "source": "https://github.com/sebastianbergmann/resource-operations/tree/master"
+            },
             "time": "2015-07-28T20:34:47+00:00"
         },
         {
@@ -1992,20 +2510,77 @@
             ],
             "description": "Library that helps with managing the version number of Git-hosted PHP projects",
             "homepage": "https://github.com/sebastianbergmann/version",
+            "support": {
+                "issues": "https://github.com/sebastianbergmann/version/issues",
+                "source": "https://github.com/sebastianbergmann/version/tree/master"
+            },
             "time": "2016-10-03T07:35:21+00:00"
         },
         {
-            "name": "squizlabs/php_codesniffer",
-            "version": "3.5.5",
+            "name": "sirbrillig/phpcs-variable-analysis",
+            "version": "v2.11.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/squizlabs/PHP_CodeSniffer.git",
-                "reference": "73e2e7f57d958e7228fce50dc0c61f58f017f9f6"
+                "url": "https://github.com/sirbrillig/phpcs-variable-analysis.git",
+                "reference": "e76e816236f401458dd8e16beecab905861b5867"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/73e2e7f57d958e7228fce50dc0c61f58f017f9f6",
-                "reference": "73e2e7f57d958e7228fce50dc0c61f58f017f9f6",
+                "url": "https://api.github.com/repos/sirbrillig/phpcs-variable-analysis/zipball/e76e816236f401458dd8e16beecab905861b5867",
+                "reference": "e76e816236f401458dd8e16beecab905861b5867",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0",
+                "squizlabs/php_codesniffer": "^3.5"
+            },
+            "require-dev": {
+                "dealerdirect/phpcodesniffer-composer-installer": "^0.7.0",
+                "limedeck/phpunit-detailed-printer": "^3.1 || ^4.0 || ^5.0",
+                "phpstan/phpstan": "^0.11.8",
+                "phpunit/phpunit": "^5.0 || ^6.5 || ^7.0 || ^8.0",
+                "sirbrillig/phpcs-import-detection": "^1.1"
+            },
+            "type": "phpcodesniffer-standard",
+            "autoload": {
+                "psr-4": {
+                    "VariableAnalysis\\": "VariableAnalysis/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-2-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Sam Graham",
+                    "email": "php-codesniffer-variableanalysis@illusori.co.uk"
+                },
+                {
+                    "name": "Payton Swick",
+                    "email": "payton@foolord.com"
+                }
+            ],
+            "description": "A PHPCS sniff to detect problems with variables.",
+            "support": {
+                "issues": "https://github.com/sirbrillig/phpcs-variable-analysis/issues",
+                "source": "https://github.com/sirbrillig/phpcs-variable-analysis",
+                "wiki": "https://github.com/sirbrillig/phpcs-variable-analysis/wiki"
+            },
+            "time": "2021-03-09T22:32:14+00:00"
+        },
+        {
+            "name": "squizlabs/php_codesniffer",
+            "version": "3.5.8",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/squizlabs/PHP_CodeSniffer.git",
+                "reference": "9d583721a7157ee997f235f327de038e7ea6dac4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/9d583721a7157ee997f235f327de038e7ea6dac4",
+                "reference": "9d583721a7157ee997f235f327de038e7ea6dac4",
                 "shasum": ""
             },
             "require": {
@@ -2043,20 +2618,81 @@
                 "phpcs",
                 "standards"
             ],
-            "time": "2020-04-17T01:09:41+00:00"
+            "support": {
+                "issues": "https://github.com/squizlabs/PHP_CodeSniffer/issues",
+                "source": "https://github.com/squizlabs/PHP_CodeSniffer",
+                "wiki": "https://github.com/squizlabs/PHP_CodeSniffer/wiki"
+            },
+            "time": "2020-10-23T02:01:07+00:00"
         },
         {
-            "name": "symfony/polyfill-ctype",
-            "version": "v1.15.0",
+            "name": "symfony/css-selector",
+            "version": "v3.3.6",
             "source": {
                 "type": "git",
-                "url": "https://github.com/symfony/polyfill-ctype.git",
-                "reference": "4719fa9c18b0464d399f1a63bf624b42b6fa8d14"
+                "url": "https://github.com/symfony/css-selector.git",
+                "reference": "4d882dced7b995d5274293039370148e291808f2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-ctype/zipball/4719fa9c18b0464d399f1a63bf624b42b6fa8d14",
-                "reference": "4719fa9c18b0464d399f1a63bf624b42b6fa8d14",
+                "url": "https://api.github.com/repos/symfony/css-selector/zipball/4d882dced7b995d5274293039370148e291808f2",
+                "reference": "4d882dced7b995d5274293039370148e291808f2",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5.9"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.3-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\CssSelector\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jean-François Simon",
+                    "email": "jeanfrancois.simon@sensiolabs.com"
+                },
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony CssSelector Component",
+            "homepage": "https://symfony.com",
+            "support": {
+                "source": "https://github.com/symfony/css-selector/tree/master"
+            },
+            "time": "2017-05-01T15:01:29+00:00"
+        },
+        {
+            "name": "symfony/polyfill-ctype",
+            "version": "v1.19.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/polyfill-ctype.git",
+                "reference": "aed596913b70fae57be53d86faa2e9ef85a2297b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/polyfill-ctype/zipball/aed596913b70fae57be53d86faa2e9ef85a2297b",
+                "reference": "aed596913b70fae57be53d86faa2e9ef85a2297b",
                 "shasum": ""
             },
             "require": {
@@ -2068,7 +2704,11 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.15-dev"
+                    "dev-main": "1.19-dev"
+                },
+                "thanks": {
+                    "name": "symfony/polyfill",
+                    "url": "https://github.com/symfony/polyfill"
                 }
             },
             "autoload": {
@@ -2101,7 +2741,24 @@
                 "polyfill",
                 "portable"
             ],
-            "time": "2020-02-27T09:26:54+00:00"
+            "support": {
+                "source": "https://github.com/symfony/polyfill-ctype/tree/v1.19.0"
+            },
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2020-10-23T09:01:57+00:00"
         },
         {
             "name": "theseer/tokenizer",
@@ -2136,32 +2793,37 @@
             "authors": [
                 {
                     "name": "Arne Blankerts",
-                    "role": "Developer",
-                    "email": "arne@blankerts.de"
+                    "email": "arne@blankerts.de",
+                    "role": "Developer"
                 }
             ],
             "description": "A small library for converting tokenized PHP source code into XML and potentially other formats",
+            "support": {
+                "issues": "https://github.com/theseer/tokenizer/issues",
+                "source": "https://github.com/theseer/tokenizer/tree/master"
+            },
             "time": "2019-06-13T22:48:21+00:00"
         },
         {
             "name": "webmozart/assert",
-            "version": "1.8.0",
+            "version": "1.9.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/webmozart/assert.git",
-                "reference": "ab2cb0b3b559010b75981b1bdce728da3ee90ad6"
+                "url": "https://github.com/webmozarts/assert.git",
+                "reference": "bafc69caeb4d49c39fd0779086c03a3738cbb389"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webmozart/assert/zipball/ab2cb0b3b559010b75981b1bdce728da3ee90ad6",
-                "reference": "ab2cb0b3b559010b75981b1bdce728da3ee90ad6",
+                "url": "https://api.github.com/repos/webmozarts/assert/zipball/bafc69caeb4d49c39fd0779086c03a3738cbb389",
+                "reference": "bafc69caeb4d49c39fd0779086c03a3738cbb389",
                 "shasum": ""
             },
             "require": {
-                "php": "^5.3.3 || ^7.0",
+                "php": "^5.3.3 || ^7.0 || ^8.0",
                 "symfony/polyfill-ctype": "^1.8"
             },
             "conflict": {
+                "phpstan/phpstan": "<0.12.20",
                 "vimeo/psalm": "<3.9.1"
             },
             "require-dev": {
@@ -2189,35 +2851,30 @@
                 "check",
                 "validate"
             ],
-            "time": "2020-04-18T12:12:48+00:00"
+            "support": {
+                "issues": "https://github.com/webmozarts/assert/issues",
+                "source": "https://github.com/webmozarts/assert/tree/1.9.1"
+            },
+            "time": "2020-07-08T17:02:28+00:00"
         },
         {
-            "name": "woocommerce/woocommerce",
-            "version": "3.5.8",
+            "name": "woocommerce/action-scheduler",
+            "version": "3.1.6",
             "source": {
                 "type": "git",
-                "url": "https://github.com/woocommerce/woocommerce.git",
-                "reference": "67fa99743e5bbbb1ad496bf85c1731be9e69f709"
+                "url": "https://github.com/woocommerce/action-scheduler.git",
+                "reference": "275d0ba54b1c263dfc62688de2fa9a25a373edf8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/woocommerce/woocommerce/zipball/67fa99743e5bbbb1ad496bf85c1731be9e69f709",
-                "reference": "67fa99743e5bbbb1ad496bf85c1731be9e69f709",
+                "url": "https://api.github.com/repos/woocommerce/action-scheduler/zipball/275d0ba54b1c263dfc62688de2fa9a25a373edf8",
+                "reference": "275d0ba54b1c263dfc62688de2fa9a25a373edf8",
                 "shasum": ""
             },
-            "require": {
-                "composer/installers": "~1.2"
-            },
             "require-dev": {
-                "apigen/apigen": "^4",
-                "dealerdirect/phpcodesniffer-composer-installer": "^0.4.3",
-                "nette/utils": "~2.3.0",
-                "phpunit/phpunit": "6.*",
-                "squizlabs/php_codesniffer": "*",
-                "wimg/php-compatibility": "^8.0",
-                "woocommerce/woocommerce-git-hooks": "*",
-                "woocommerce/woocommerce-sniffs": "*",
-                "wp-coding-standards/wpcs": "^0.14"
+                "phpunit/phpunit": "^5.6",
+                "woocommerce/woocommerce-sniffs": "0.0.8",
+                "wp-cli/wp-cli": "~1.5.1"
             },
             "type": "wordpress-plugin",
             "extra": {
@@ -2231,30 +2888,217 @@
             "license": [
                 "GPL-3.0-or-later"
             ],
-            "description": "An eCommerce toolkit that helps you sell anything. Beautifully.",
-            "homepage": "https://woocommerce.com/",
-            "time": "2019-04-16T12:14:44+00:00"
+            "description": "Action Scheduler for WordPress and WooCommerce",
+            "homepage": "https://actionscheduler.org/",
+            "support": {
+                "issues": "https://github.com/woocommerce/action-scheduler/issues",
+                "source": "https://github.com/woocommerce/action-scheduler/tree/master"
+            },
+            "time": "2020-05-12T16:22:33+00:00"
         },
         {
-            "name": "wp-coding-standards/wpcs",
-            "version": "0.14.1",
+            "name": "woocommerce/woocommerce",
+            "version": "4.9.2",
             "source": {
                 "type": "git",
-                "url": "https://github.com/WordPress/WordPress-Coding-Standards.git",
-                "reference": "cf6b310caad735816caef7573295f8a534374706"
+                "url": "https://github.com/woocommerce/woocommerce.git",
+                "reference": "e3b69b901143de3c42d90b9d4bdc97a8821133e2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/WordPress/WordPress-Coding-Standards/zipball/cf6b310caad735816caef7573295f8a534374706",
-                "reference": "cf6b310caad735816caef7573295f8a534374706",
+                "url": "https://api.github.com/repos/woocommerce/woocommerce/zipball/e3b69b901143de3c42d90b9d4bdc97a8821133e2",
+                "reference": "e3b69b901143de3c42d90b9d4bdc97a8821133e2",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3",
-                "squizlabs/php_codesniffer": "^2.9.0 || ^3.0.2"
+                "automattic/jetpack-autoloader": "2.7.1",
+                "automattic/jetpack-constants": "1.5.1",
+                "composer/installers": "~1.7",
+                "maxmind-db/reader": "1.6.0",
+                "pelago/emogrifier": "3.1.0",
+                "php": ">=7.0",
+                "psr/container": "1.0.0",
+                "woocommerce/action-scheduler": "3.1.6",
+                "woocommerce/woocommerce-admin": "1.8.3",
+                "woocommerce/woocommerce-blocks": "4.0.0"
+            },
+            "require-dev": {
+                "bamarni/composer-bin-plugin": "^1.4"
+            },
+            "type": "wordpress-plugin",
+            "extra": {
+                "installer-paths": {
+                    "packages/{$name}": [
+                        "woocommerce/action-scheduler",
+                        "woocommerce/woocommerce-blocks",
+                        "woocommerce/woocommerce-admin"
+                    ]
+                },
+                "scripts-description": {
+                    "test": "Run unit tests",
+                    "phpcs": "Analyze code against the WordPress coding standards with PHP_CodeSniffer",
+                    "phpcbf": "Fix coding standards warnings/errors automatically with PHP Code Beautifier",
+                    "makepot-audit": "Generate i18n/languages/woocommerce.pot file and run audit",
+                    "makepot": "Generate i18n/languages/woocommerce.pot file"
+                },
+                "bamarni-bin": {
+                    "target-directory": "bin/composer"
+                }
+            },
+            "autoload": {
+                "exclude-from-classmap": [
+                    "includes/legacy",
+                    "includes/libraries"
+                ],
+                "classmap": [
+                    "includes/rest-api"
+                ],
+                "psr-4": {
+                    "Automattic\\WooCommerce\\": "src/",
+                    "Automattic\\WooCommerce\\Vendor\\": "lib/packages/"
+                },
+                "psr-0": {
+                    "Automattic\\WooCommerce\\Vendor\\": "lib/packages/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0-or-later"
+            ],
+            "description": "An eCommerce toolkit that helps you sell anything. Beautifully.",
+            "homepage": "https://woocommerce.com/",
+            "support": {
+                "issues": "https://github.com/woocommerce/woocommerce/issues",
+                "source": "https://github.com/woocommerce/woocommerce/tree/4.9.2"
+            },
+            "time": "2021-01-25T14:41:31+00:00"
+        },
+        {
+            "name": "woocommerce/woocommerce-admin",
+            "version": "1.8.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/woocommerce/woocommerce-admin.git",
+                "reference": "534442980c34369f711efdb8e85fdcb1363be712"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/woocommerce/woocommerce-admin/zipball/534442980c34369f711efdb8e85fdcb1363be712",
+                "reference": "534442980c34369f711efdb8e85fdcb1363be712",
+                "shasum": ""
+            },
+            "require": {
+                "automattic/jetpack-autoloader": "^2.2.0",
+                "composer/installers": "^1.9.0",
+                "php": ">=5.6|>=7.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "7.5.20",
+                "suin/phpcs-psr4-sniff": "^2.2",
+                "woocommerce/woocommerce-sniffs": "0.1.0"
+            },
+            "type": "wordpress-plugin",
+            "extra": {
+                "scripts-description": {
+                    "test": "Run unit tests",
+                    "phpcs": "Analyze code against the WordPress coding standards with PHP_CodeSniffer",
+                    "phpcbf": "Fix coding standards warnings/errors automatically with PHP Code Beautifier"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Automattic\\WooCommerce\\Admin\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0-or-later"
+            ],
+            "description": "A modern, javascript-driven WooCommerce Admin experience.",
+            "homepage": "https://github.com/woocommerce/woocommerce-admin",
+            "support": {
+                "issues": "https://github.com/woocommerce/woocommerce-admin/issues",
+                "source": "https://github.com/woocommerce/woocommerce-admin/tree/v1.8.3"
+            },
+            "time": "2021-01-06T00:00:42+00:00"
+        },
+        {
+            "name": "woocommerce/woocommerce-blocks",
+            "version": "v4.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/woocommerce/woocommerce-gutenberg-products-block.git",
+                "reference": "f5b2485254f36f0b85fd0f30c28e17bdf44a8d1e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/woocommerce/woocommerce-gutenberg-products-block/zipball/f5b2485254f36f0b85fd0f30c28e17bdf44a8d1e",
+                "reference": "f5b2485254f36f0b85fd0f30c28e17bdf44a8d1e",
+                "shasum": ""
+            },
+            "require": {
+                "automattic/jetpack-autoloader": "^2.0.0",
+                "composer/installers": "^1.7.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "6.5.14",
+                "woocommerce/woocommerce-sniffs": "0.1.0"
+            },
+            "type": "wordpress-plugin",
+            "extra": {
+                "scripts-description": {
+                    "phpcs": "Analyze code against the WordPress coding standards with PHP_CodeSniffer",
+                    "phpcbf": "Fix coding standards warnings/errors automatically with PHP Code Beautifier"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Automattic\\WooCommerce\\Blocks\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0-or-later"
+            ],
+            "description": "WooCommerce blocks for the Gutenberg editor.",
+            "homepage": "https://woocommerce.com/",
+            "keywords": [
+                "blocks",
+                "gutenberg",
+                "woocommerce"
+            ],
+            "support": {
+                "issues": "https://github.com/woocommerce/woocommerce-gutenberg-products-block/issues",
+                "source": "https://github.com/woocommerce/woocommerce-gutenberg-products-block/tree/v4.0.0"
+            },
+            "time": "2020-12-08T13:17:01+00:00"
+        },
+        {
+            "name": "wp-coding-standards/wpcs",
+            "version": "2.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/WordPress/WordPress-Coding-Standards.git",
+                "reference": "7da1894633f168fe244afc6de00d141f27517b62"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/WordPress/WordPress-Coding-Standards/zipball/7da1894633f168fe244afc6de00d141f27517b62",
+                "reference": "7da1894633f168fe244afc6de00d141f27517b62",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4",
+                "squizlabs/php_codesniffer": "^3.3.1"
+            },
+            "require-dev": {
+                "dealerdirect/phpcodesniffer-composer-installer": "^0.5 || ^0.6",
+                "phpcompatibility/php-compatibility": "^9.0",
+                "phpcsstandards/phpcsdevtools": "^1.0",
+                "phpunit/phpunit": "^4.0 || ^5.0 || ^6.0 || ^7.0"
             },
             "suggest": {
-                "dealerdirect/phpcodesniffer-composer-installer": "^0.4.3"
+                "dealerdirect/phpcodesniffer-composer-installer": "^0.6 || This Composer plugin will sort out the PHPCS 'installed_paths' automatically."
             },
             "type": "phpcodesniffer-standard",
             "notification-url": "https://packagist.org/downloads/",
@@ -2264,7 +3108,7 @@
             "authors": [
                 {
                     "name": "Contributors",
-                    "homepage": "https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards/graphs/contributors"
+                    "homepage": "https://github.com/WordPress/WordPress-Coding-Standards/graphs/contributors"
                 }
             ],
             "description": "PHP_CodeSniffer rules (sniffs) to enforce WordPress coding conventions",
@@ -2273,13 +3117,18 @@
                 "standards",
                 "wordpress"
             ],
-            "time": "2018-02-16T01:57:48+00:00"
+            "support": {
+                "issues": "https://github.com/WordPress/WordPress-Coding-Standards/issues",
+                "source": "https://github.com/WordPress/WordPress-Coding-Standards",
+                "wiki": "https://github.com/WordPress/WordPress-Coding-Standards/wiki"
+            },
+            "time": "2020-05-13T23:57:56+00:00"
         }
     ],
     "aliases": [],
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "stability-flags": [],
-    "prefer-stable": false,
+    "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
         "php": ">=7.0.0"
@@ -2287,5 +3136,6 @@
     "platform-dev": [],
     "platform-overrides": {
         "php": "7.0.0"
-    }
+    },
+    "plugin-api-version": "2.0.0"
 }
