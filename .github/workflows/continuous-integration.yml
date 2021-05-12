@@ -39,7 +39,3 @@ jobs:
     - name: QA Run (PhpUnit, PhpCs, PhpStan)
       run: composer qa
       if: failure()
-
-    - name: Push Coverage
-      run: bash <(curl -s https://codecov.io/bash)
-      if: success()
