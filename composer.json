@@ -33,9 +33,9 @@
     },
     "require-dev": {
         "squizlabs/php_codesniffer": "^3",
-        "inpsyde/php-coding-standards": "^0.13",
+        "inpsyde/php-coding-standards": "^1",
         "brain/monkey": "^2.2",
-        "phpunit/phpunit": "^6.0",
+        "phpunit/phpunit": "^8.0",
         "johnpbloch/wordpress-core": " ^5.0",
         "woocommerce/woocommerce": "^3.0|^4.0"
     },
