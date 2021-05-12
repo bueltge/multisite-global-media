@@ -9,20 +9,33 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Analising source code
-      run: find ./src/ ./tests/ -type f -name '*.php' -print0 | xargs -0 -L 1 -P 4 -- php -l
-
-    - name: Validate composer.json and composer.lock
-      run: composer validate
-
-    - name: Install dependencies
-      run: composer install --prefer-dist --no-progress --no-suggest
-
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
       with:
         php-version: ${{ matrix.php-versions }}
+    
+    - name: Check syntax error in sources
+      run: find ./src/ ./tests/ -type f -name '*.php' -print0 | xargs -0 -L 1 -P 4 -- php -l
 
+    - name: Clear cache of Composer
+      run: composer clear-cache
+
+    - name: Update Composer.json and composer.lock
+      run: composer update
+
+    - name: Cache Composer packages
+      id: composer-cache
+      uses: actions/cache@v2
+      with:
+        path: vendor
+        key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-php-
+    
+    - name: Install dependencies
+      if: steps.composer-cache.outputs.cache-hit != 'true'
+      run: composer install -q -n -a --no-progress --prefer-dist
+    
     - name: PhpCS
       run: ./vendor/bin/phpcs
 
