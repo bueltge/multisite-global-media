@@ -1,4 +1,7 @@
-<?php# -*- coding: utf-8 -*-
+<?php
+
+# -*- coding: utf-8 -*-
+
 declare(strict_types=1);
 
 namespace MultisiteGlobalMedia;
@@ -86,10 +89,13 @@ class Attachment
      */
     public function ajaxGetAttachment()
     {
-        // phpcs:disable WordPress.CSRF.NonceVerification.NoNonceVerification
-        // phpcs:disable WordPress.VIP.ValidatedSanitizedInput.InputNotSanitized
-        // phpcs:disable WordPress.VIP.ValidatedSanitizedInput.InputNotValidated
-        $attachmentId = (int) wp_unslash($_REQUEST['id']); // csrf ok
+        // phpcs:ignore WordPress.CSRF.NonceVerification.NoNonceVerification
+        // phpcs:ignore WordPress.VIP.ValidatedSanitizedInput.InputNotSanitized
+        // phpcs:ignore WordPress.VIP.ValidatedSanitizedInput.InputNotValidated
+        // phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+        // phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+        $attachmentId = (int) wp_unslash($_REQUEST['id']);
         // phpcs:enable
         $idPrefix = $this->site->idSitePrefix();
 
@@ -113,10 +119,13 @@ class Attachment
      */
     public function ajaxSendAttachmentToEditor()
     {
-        // phpcs:disable WordPress.CSRF.NonceVerification.NoNonceVerification
-        // phpcs:disable WordPress.VIP.ValidatedSanitizedInput.InputNotSanitized
-        // phpcs:disable WordPress.VIP.ValidatedSanitizedInput.InputNotValidated
-        $attachment = wp_unslash($_POST['attachment']); // csrf ok
+        // phpcs:ignore WordPress.CSRF.NonceVerification.NoNonceVerification
+        // phpcs:ignore WordPress.VIP.ValidatedSanitizedInput.InputNotSanitized
+        // phpcs:ignore WordPress.VIP.ValidatedSanitizedInput.InputNotValidated
+        // phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+        // phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+        // phpcs:disable WordPress.Security.NonceVerification.Missing
+        $attachment = wp_unslash($_POST['attachment']);
         $attachmentId = (int) $attachment['id'];
         $idPrefix = $this->site->idSitePrefix();
 

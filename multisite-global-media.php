@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Plugin Name: Multisite Global Media
  * Description: Multisite Global Media is a WordPress plugin which shares media across the Multisite network.
