@@ -36,11 +36,8 @@ jobs:
       if: steps.composer-cache.outputs.cache-hit != 'true'
       run: composer install -q -n -a --no-progress --prefer-dist
     
-    - name: PhpCS
-      run: ./vendor/bin/phpcs
-
-    - name: PhpUnit
-      run: ./vendor/bin/phpunit --testdox  --no-coverage
+    - name: QA Run (PhpUnit, PhpCs, PhpStan)
+      run: composer qa
       if: failure()
 
     - name: Push Coverage
