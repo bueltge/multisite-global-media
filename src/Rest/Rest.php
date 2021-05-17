@@ -77,20 +77,28 @@ class Rest
     public function restRequestAfterCallbacks($response, array $handler, WP_REST_Request $request)
     {
         // phpcs:enable
-        if (!isset($handler['callback'][0]) || !($handler['callback'][0] instanceof WP_REST_Posts_Controller)) {
+        $idPrefix = $this->site->idSitePrefix();
+        $attachmentId = (int)$request[self::REST_FIELD_THUMBNAIL_ID] ?? null;
+        $postId = (int)$request['id'] ?? null;
+
+        if (!$attachmentId || !$postId) {
+            return $response;
+        }
+        if (!\is_array($handler['callback'])) {
+            return $response;
+        }
+        if (!($handler['callback'][0] ?? null) instanceof WP_REST_Posts_Controller) {
+            return $response;
+        }
+        if (!$this->idPrefixIncludedInAttachmentId($attachmentId, $idPrefix)) {
             return $response;
         }
 
-        $idPrefix = $this->site->idSitePrefix();
-        $attachmentId = (int)$request[self::REST_FIELD_THUMBNAIL_ID];
-        $postId = (int)$request['id'];
-        if ($attachmentId && $this->idPrefixIncludedInAttachmentId($attachmentId, $idPrefix)) {
-            update_post_meta($postId, self::META_KEY_THUMBNAIL_ID, $attachmentId);
+        update_post_meta($postId, self::META_KEY_THUMBNAIL_ID, $attachmentId);
 
-            $data = $response->get_data();
-            $data[self::REST_FIELD_THUMBNAIL_ID] = $attachmentId;
-            $response->set_data($data);
-        }
+        $data = $response->get_data();
+        $data[self::REST_FIELD_THUMBNAIL_ID] = $attachmentId;
+        $response->set_data($data);
 
         return $response;
     }
