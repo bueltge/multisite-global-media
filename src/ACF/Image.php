@@ -22,6 +22,11 @@ class Image
     private $siteSwitcher;
 
     /**
+     * @var \ACF_Data
+     */
+    private $store;
+
+    /**
      * Image constructor
      *
      * @param Site $site
