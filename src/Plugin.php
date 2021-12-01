@@ -60,12 +60,11 @@ class Plugin
         add_filter('register_post_type_args', [$rest, 'registerPostTypeArgs'], 10, 2);
         add_filter('rest_request_after_callbacks', [$rest, 'restRequestAfterCallbacks'], 10, 3);
 
-
         if (\function_exists('wc')) {
             $this->wcBootstrap($site, $singleSwitcher);
         }
 
-        $this->acfBootstrap($site, $singleSwitcher);
+        ACF\Image::bootstrap($site, $singleSwitcher);
     }
 
     /**
@@ -80,23 +79,5 @@ class Plugin
 
         add_action('woocommerce_new_product', [$wooCommerceGallery, 'saveGalleryIds']);
         add_action('woocommerce_update_product', [$wooCommerceGallery, 'saveGalleryIds']);
-    }
-
-    /**
-     * Integration for ACF, specifically Image fields
-     *
-     * @param Site $site
-     * @param SingleSwitcher $siteSwitcher
-     */
-    public function acfBootstrap(Site $site, SingleSwitcher $siteSwitcher)
-    {
-        // ACF can be included within a theme too - check in after_setup_theme action
-        // https://www.advancedcustomfields.com/resources/including-acf-within-a-plugin-or-theme/
-        add_action('after_setup_theme', function () use ($site, $siteSwitcher) {
-            if (\function_exists('get_field')) {
-                $acfImage = new ACF\Image($site, $siteSwitcher);
-                add_filter('acf/load_value/type=image', array($acfImage, 'acfLoadValue'), 10, 3);
-            }
-        });
     }
 }

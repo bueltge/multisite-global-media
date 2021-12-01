@@ -1,5 +1,6 @@
 {
     "redefinable-internals": [
-        "filemtime"
+        "filemtime",
+        "function_exists"
     ]
 }

@@ -5,6 +5,8 @@
  */
 declare(strict_types=1);
 
+error_reporting(E_ALL ^ E_DEPRECATED);
+
 putenv('TESTS_PATH='.__DIR__);
 putenv('LIBRARY_PATH='.dirname(__DIR__));
 

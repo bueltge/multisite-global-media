@@ -39,7 +39,8 @@
         "brain/monkey": "^2.2",
         "phpunit/phpunit": "^6.0",
         "johnpbloch/wordpress-core": " ^5.0",
-        "woocommerce/woocommerce": "^3.0|^4.0"
+        "woocommerce/woocommerce": "^3.0|^4.0",
+        "wpackagist-plugin/advanced-custom-fields": "^5.11"
     },
     "autoload": {
         "psr-4": {
@@ -71,6 +72,16 @@
             "@analyze"
         ]
     },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://wpackagist.org",
+            "only": [
+                "wpackagist-plugin/*",
+                "wpackagist-theme/*"
+            ]
+        }
+    ],
     "extra": {
         "installer-disable": true
     }
