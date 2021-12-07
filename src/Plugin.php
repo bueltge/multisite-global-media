@@ -90,13 +90,14 @@ class Plugin
 
         // ACF can be included within a theme too - check in after_setup_theme action
         // https://www.advancedcustomfields.com/resources/including-acf-within-a-plugin-or-theme/
-        \add_action('after_setup_theme', function() use($site, $siteSwitcher) {
+        \add_action('after_setup_theme', function () use ($site, $siteSwitcher) {
             $store = acf_get_store('values');
             $this->acfAfterSetupTheme($site, $siteSwitcher, $store);
         });
     }
 
-    public function acfAfterSetupTheme(Site $site, SiteSwitcher $siteSwitcher, \ACF_Data $store) {
+    public function acfAfterSetupTheme(Site $site, SiteSwitcher $siteSwitcher, \ACF_Data $store)
+    {
         $image = new Image($site, $siteSwitcher, $store);
         \add_filter('acf/load_value/type=image', array($image, 'acfLoadValue'), 10, 3);
     }
