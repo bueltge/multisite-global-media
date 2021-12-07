@@ -35,21 +35,11 @@ class Image
      * @param Site $site
      * @param SiteSwitcher $siteSwitcher
      */
-    private function __construct(Site $site, SiteSwitcher $siteSwitcher)
+    public function __construct(Site $site, SiteSwitcher $siteSwitcher, \ACF_Data $store)
     {
         $this->site = $site;
         $this->siteSwitcher = $siteSwitcher;
-    }
-
-    public static function bootstrap(Site $site, SiteSwitcher $siteSwitcher)
-    {
-        $image = new Image($site, $siteSwitcher);
-
-        // ACF can be included within a theme too - check in after_setup_theme action
-        // https://www.advancedcustomfields.com/resources/including-acf-within-a-plugin-or-theme/
-        \add_action('after_setup_theme', [$image, 'afterSetupTheme']);
-
-        return $image;
+        $this->store = $store;
     }
 
     /**
@@ -79,15 +69,5 @@ class Image
 
         // This filter doesn't modify the loaded value. Return it as-is.
         return $value;
-    }
-
-    public function afterSetupTheme()
-    {
-        if (!\function_exists('get_field')) {
-            return;
-        }
-
-        $this->store = acf_get_store('values');
-        \add_filter('acf/load_value/type=image', array($this, 'acfLoadValue'), 10, 3);
     }
 }

@@ -6,6 +6,7 @@ declare(strict_types=1);
 
 namespace MultisiteGlobalMedia;
 
+use MultisiteGlobalMedia\ACF\Image;
 use MultisiteGlobalMedia\Rest\Rest;
 use MultisiteGlobalMedia\WooCommerce;
 
@@ -64,7 +65,7 @@ class Plugin
             $this->wcBootstrap($site, $singleSwitcher);
         }
 
-        ACF\Image::bootstrap($site, $singleSwitcher);
+        $this->acfBootstrap($site, $singleSwitcher);
     }
 
     /**
@@ -79,5 +80,24 @@ class Plugin
 
         add_action('woocommerce_new_product', [$wooCommerceGallery, 'saveGalleryIds']);
         add_action('woocommerce_update_product', [$wooCommerceGallery, 'saveGalleryIds']);
+    }
+
+    public function acfBootstrap(Site $site, SiteSwitcher $siteSwitcher)
+    {
+        if (!\function_exists('get_field')) {
+            return;
+        }
+
+        // ACF can be included within a theme too - check in after_setup_theme action
+        // https://www.advancedcustomfields.com/resources/including-acf-within-a-plugin-or-theme/
+        \add_action('after_setup_theme', function() use($site, $siteSwitcher) {
+            $store = acf_get_store('values');
+            $this->acfAfterSetupTheme($site, $siteSwitcher, $store);
+        });
+    }
+
+    public function acfAfterSetupTheme(Site $site, SiteSwitcher $siteSwitcher, \ACF_Data $store) {
+        $image = new Image($site, $siteSwitcher, $store);
+        \add_filter('acf/load_value/type=image', array($image, 'acfLoadValue'), 10, 3);
     }
 }

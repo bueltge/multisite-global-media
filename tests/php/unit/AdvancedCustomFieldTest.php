@@ -8,6 +8,7 @@ namespace MultisiteGlobalMedia\Tests\Unit;
 
 use Brain\Monkey\Functions;
 use MultisiteGlobalMedia\ACF\Image;
+use MultisiteGlobalMedia\Plugin;
 use MultisiteGlobalMedia\Site;
 use MultisiteGlobalMedia\SiteSwitcher;
 use MultisiteGlobalMedia\Tests\TestCase;
@@ -22,11 +23,17 @@ class AdvancedCustomFieldTest extends TestCase
         $siteSwitcher = $this->createMock(SiteSwitcher::class);
         $site = $this->createMock(Site::class);
 
-        $testee = Image::bootstrap($site, $siteSwitcher);
-        self::assertEquals(10, has_action('after_setup_theme', [$testee, 'afterSetupTheme']));
+        Functions\expect('function_exists')
+            ->once()
+            ->with('get_field')
+            ->andReturn(true);
+
+        $testee = new Plugin('null');
+        $testee->acfBootstrap($site, $siteSwitcher);
+        self::assertEquals(10, has_action('after_setup_theme', 'function()'));
     }
 
-    public function testAfterSetupTheme()
+    public function testBootstrapWithoutACF()
     {
         $siteSwitcher = $this->createMock(SiteSwitcher::class);
         $site = $this->createMock(Site::class);
@@ -34,24 +41,22 @@ class AdvancedCustomFieldTest extends TestCase
         Functions\expect('function_exists')
             ->once()
             ->with('get_field')
-            ->andReturn(true);
+            ->andReturn(false);
 
-        Functions\expect('acf_get_store')
-            ->once();
-
-        $testee = Image::bootstrap($site, $siteSwitcher);
-        $testee->afterSetupTheme();
-        self::assertEquals(10, has_filter('acf/load_value/type=image', [$testee, 'acfLoadValue']));
+        $testee = new Plugin('null');
+        $testee->acfBootstrap($site, $siteSwitcher);
+        self::assertFalse(has_action('after_setup_theme', 'function()'));
     }
 
-    public function testAfterSetupThemeWithoutACF()
+    public function testAfterSetupTheme()
     {
         $siteSwitcher = $this->createMock(SiteSwitcher::class);
         $site = $this->createMock(Site::class);
+        $store = $this->createMock(\ACF_Data::class);
 
-        $testee = Image::bootstrap($site, $siteSwitcher);
-        $testee->afterSetupTheme();
-        self::assertFalse(has_filter('acf/load_value/type=image', [$testee, 'acfLoadValue']));
+        $testee = new Plugin('null');
+        $testee->acfAfterSetupTheme($site, $siteSwitcher, $store);
+        self::assertEquals(10, has_filter('acf/load_value/type=image', 'MultisiteGlobalMedia\ACF\Image->acfLoadValue()'));
     }
 
     public function testAcfLoadValue()
@@ -60,17 +65,7 @@ class AdvancedCustomFieldTest extends TestCase
         $site = $this->createMock(Site::class);
         $store = $this->createMock(\ACF_Data::class);
 
-        Functions\expect('function_exists')
-            ->once()
-            ->with('get_field')
-            ->andReturn(true);
-
-        Functions\expect('acf_get_store')
-            ->once()
-            ->andReturn($store);
-
-        $testee = Image::bootstrap($site, $siteSwitcher);
-        $testee->afterSetupTheme();
+        $testee = new Image($site, $siteSwitcher, $store);
 
         $field = ['name' => 'image'];
         $attachmentId = 1 . Site::SITE_ID_PREFIX_RIGHT_PAD . 1;
