@@ -84,21 +84,16 @@ class Plugin
 
     public function acfBootstrap(Site $site, SiteSwitcher $siteSwitcher)
     {
-        if (!\function_exists('get_field')) {
-            return;
-        }
-
         // ACF can be included within a theme too - check in after_setup_theme action
         // https://www.advancedcustomfields.com/resources/including-acf-within-a-plugin-or-theme/
         \add_action('after_setup_theme', function () use ($site, $siteSwitcher) {
-            $store = acf_get_store('values');
-            $this->acfAfterSetupTheme($site, $siteSwitcher, $store);
-        });
-    }
+            if (!defined('ACF') || !\function_exists('get_field')) {
+                return;
+            }
 
-    public function acfAfterSetupTheme(Site $site, SiteSwitcher $siteSwitcher, \ACF_Data $store)
-    {
-        $image = new Image($site, $siteSwitcher, $store);
-        \add_filter('acf/load_value/type=image', array($image, 'acfLoadValue'), 10, 3);
+            $store = acf_get_store('values');
+            $image = new Image($site, $siteSwitcher, $store);
+            \add_filter('acf/load_value/type=image', array($image, 'acfLoadValue'), 10, 3);
+        });
     }
 }

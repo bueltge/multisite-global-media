@@ -13,9 +13,6 @@ use MultisiteGlobalMedia\Site;
 use MultisiteGlobalMedia\SiteSwitcher;
 use MultisiteGlobalMedia\Tests\TestCase;
 
-define('ABSPATH', 1); // ACF quits early without it
-include_once dirname(__DIR__, 3) . '/vendor/wpackagist-plugin/advanced-custom-fields/includes/class-acf-data.php';
-
 class AdvancedCustomFieldTest extends TestCase
 {
     public function testBootstrap()
@@ -23,40 +20,9 @@ class AdvancedCustomFieldTest extends TestCase
         $siteSwitcher = $this->createMock(SiteSwitcher::class);
         $site = $this->createMock(Site::class);
 
-        Functions\expect('function_exists')
-            ->once()
-            ->with('get_field')
-            ->andReturn(true);
-
         $testee = new Plugin('null');
         $testee->acfBootstrap($site, $siteSwitcher);
         self::assertEquals(10, has_action('after_setup_theme', 'function()'));
-    }
-
-    public function testBootstrapWithoutACF()
-    {
-        $siteSwitcher = $this->createMock(SiteSwitcher::class);
-        $site = $this->createMock(Site::class);
-
-        Functions\expect('function_exists')
-            ->once()
-            ->with('get_field')
-            ->andReturn(false);
-
-        $testee = new Plugin('null');
-        $testee->acfBootstrap($site, $siteSwitcher);
-        self::assertFalse(has_action('after_setup_theme', 'function()'));
-    }
-
-    public function testAfterSetupTheme()
-    {
-        $siteSwitcher = $this->createMock(SiteSwitcher::class);
-        $site = $this->createMock(Site::class);
-        $store = $this->createMock(\ACF_Data::class);
-
-        $testee = new Plugin('null');
-        $testee->acfAfterSetupTheme($site, $siteSwitcher, $store);
-        self::assertEquals(10, has_filter('acf/load_value/type=image', 'MultisiteGlobalMedia\ACF\Image->acfLoadValue()'));
     }
 
     public function testAcfLoadValue()
@@ -100,5 +66,13 @@ class AdvancedCustomFieldTest extends TestCase
 
         $returnedValue = $testee->acfLoadValue($attachmentId, '123', $field);
         self::assertSame($attachmentId, $returnedValue);
+    }
+
+    protected function setUp()
+    {
+        parent::setUp();
+
+        define('ABSPATH', 1); // ACF quits early without it
+        include_once dirname(__DIR__, 3) . '/vendor/wpackagist-plugin/advanced-custom-fields/includes/class-acf-data.php';
     }
 }
