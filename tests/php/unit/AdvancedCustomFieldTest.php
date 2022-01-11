@@ -19,10 +19,16 @@ class AdvancedCustomFieldTest extends TestCase
     {
         $siteSwitcher = $this->createMock(SiteSwitcher::class);
         $site = $this->createMock(Site::class);
+        $store = $this->createMock(\ACF_Data::class);
+
+        Functions\expect('acf_get_store')
+            ->once()
+            ->andReturn($store);
 
         $testee = new Plugin('null');
+
         $testee->acfBootstrap($site, $siteSwitcher);
-        self::assertEquals(10, has_action('after_setup_theme', 'function()'));
+        self::assertEquals(10, has_filter('acf/load_value/type=image', 'MultisiteGlobalMedia\ACF\Image->acfLoadValue()'));
     }
 
     public function testAcfLoadValue()
@@ -72,7 +78,6 @@ class AdvancedCustomFieldTest extends TestCase
     {
         parent::setUp();
 
-        define('ABSPATH', 1); // ACF quits early without it
-        include_once dirname(__DIR__, 3) . '/vendor/wpackagist-plugin/advanced-custom-fields/includes/class-acf-data.php';
+        include_once dirname(__DIR__, 2) . '/stubs/acf.php';
     }
 }
