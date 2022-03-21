@@ -6,6 +6,7 @@ declare(strict_types=1);
 
 namespace MultisiteGlobalMedia;
 
+use MultisiteGlobalMedia\ACF\Image;
 use MultisiteGlobalMedia\Rest\Rest;
 use MultisiteGlobalMedia\WooCommerce;
 
@@ -63,6 +64,10 @@ class Plugin
         if (\function_exists('wc')) {
             $this->wcBootstrap($site, $singleSwitcher);
         }
+
+        add_action('acf/init', function () use ($site, $singleSwitcher) {
+            $this->acfBootstrap($site, $singleSwitcher);
+        });
     }
 
     /**
@@ -77,5 +82,12 @@ class Plugin
 
         add_action('woocommerce_new_product', [$wooCommerceGallery, 'saveGalleryIds']);
         add_action('woocommerce_update_product', [$wooCommerceGallery, 'saveGalleryIds']);
+    }
+
+    public function acfBootstrap(Site $site, SiteSwitcher $siteSwitcher)
+    {
+        $store = acf_get_store('values');
+        $image = new Image($site, $siteSwitcher, $store);
+        \add_filter('acf/load_value/type=image', array($image, 'acfLoadValue'), 10, 3);
     }
 }
