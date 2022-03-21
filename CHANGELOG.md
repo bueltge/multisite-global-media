@@ -3,6 +3,7 @@
 ## Unreleased (Master Branch)
 * Fix #121 type object, Probs @mvdhoek, #127
 * Restore Blog after Response, Probs @goaround, #110
+* ACF plugin Support, Probs @felly, #134
 
 ## 0.1.1 (2020-04-22)
 * Use GitHub actions for CI, Probs @widoz
