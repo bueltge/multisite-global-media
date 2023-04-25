@@ -102,7 +102,7 @@ class PluginProperties implements \ArrayAccess
      * @return mixed
      * @throws \OutOfRangeException If there is no property with the given name.
      */
-    public function offsetGet($offset)
+    public function offsetGet($offset): mixed
     {
         if (!$this->offsetExists($offset)) {
             throw new \OutOfRangeException("'{$offset}' is not a valid plugin property.");
@@ -118,7 +118,7 @@ class PluginProperties implements \ArrayAccess
      *
      * @throws \BadMethodCallException
      */
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
         throw new \BadMethodCallException(
             __METHOD__ . ' is not allowed. ' . __CLASS__ . ' is read only.'
@@ -132,7 +132,7 @@ class PluginProperties implements \ArrayAccess
      *
      * @throws \BadMethodCallException
      */
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         throw new \BadMethodCallException(
             __METHOD__ . ' is not allowed. ' . __CLASS__ . ' is read only.'
