@@ -55,6 +55,9 @@
         "optimize-autoloader": true,
         "platform": {
             "php": "7.0.0"
+        },
+        "allow-plugins": {
+            "composer/installers": true
         }
     },
     "scripts": {
