@@ -77,7 +77,6 @@ Desktop.ini
 
 ## Composer
 composer.phar
-vendor/
 wpcs/
 
 # CI
