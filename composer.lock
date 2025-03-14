@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ed943b96fdbae7f9e12c3e2f38c4a5e6",
+    "content-hash": "69c0075b43b44ec22ddf058f0a604565",
     "packages": [
         {
             "name": "composer/installers",
-            "version": "v1.11.0",
+            "version": "v1.12.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/installers.git",
-                "reference": "ae03311f45dfe194412081526be2e003960df74b"
+                "reference": "d20a64ed3c94748397ff5973488761b22f6d3f19"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/installers/zipball/ae03311f45dfe194412081526be2e003960df74b",
-                "reference": "ae03311f45dfe194412081526be2e003960df74b",
+                "url": "https://api.github.com/repos/composer/installers/zipball/d20a64ed3c94748397ff5973488761b22f6d3f19",
+                "reference": "d20a64ed3c94748397ff5973488761b22f6d3f19",
                 "shasum": ""
             },
             "require": {
@@ -116,6 +116,7 @@
                 "modx",
                 "moodle",
                 "osclass",
+                "pantheon",
                 "phpbb",
                 "piwik",
                 "ppi",
@@ -138,7 +139,7 @@
             ],
             "support": {
                 "issues": "https://github.com/composer/installers/issues",
-                "source": "https://github.com/composer/installers/tree/v1.11.0"
+                "source": "https://github.com/composer/installers/tree/v1.12.0"
             },
             "funding": [
                 {
@@ -154,7 +155,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-04-28T06:42:17+00:00"
+            "time": "2021-09-13T08:19:44+00:00"
         }
     ],
     "packages-dev": [
@@ -208,35 +209,43 @@
         },
         {
             "name": "automattic/jetpack-autoloader",
-            "version": "v2.7.1",
+            "version": "2.10.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Automattic/jetpack-autoloader.git",
-                "reference": "5437697a56aefbdf707849b9833e1b36093d7a73"
+                "reference": "20393c4677765c3e737dcb5aee7a3f7b90dce4b3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Automattic/jetpack-autoloader/zipball/5437697a56aefbdf707849b9833e1b36093d7a73",
-                "reference": "5437697a56aefbdf707849b9833e1b36093d7a73",
+                "url": "https://api.github.com/repos/Automattic/jetpack-autoloader/zipball/20393c4677765c3e737dcb5aee7a3f7b90dce4b3",
+                "reference": "20393c4677765c3e737dcb5aee7a3f7b90dce4b3",
                 "shasum": ""
             },
             "require": {
                 "composer-plugin-api": "^1.1 || ^2.0"
             },
             "require-dev": {
+                "automattic/jetpack-changelogger": "^1.1",
                 "yoast/phpunit-polyfills": "0.2.0"
             },
             "type": "composer-plugin",
             "extra": {
-                "class": "Automattic\\Jetpack\\Autoloader\\CustomAutoloaderPlugin"
+                "class": "Automattic\\Jetpack\\Autoloader\\CustomAutoloaderPlugin",
+                "mirror-repo": "Automattic/jetpack-autoloader",
+                "branch-alias": {
+                    "dev-master": "2.10.x-dev"
+                },
+                "changelogger": {
+                    "link-template": "https://github.com/Automattic/jetpack-autoloader/compare/v${old}...v${new}"
+                }
             },
             "autoload": {
-                "classmap": [
-                    "src/AutoloadGenerator.php"
-                ],
                 "psr-4": {
                     "Automattic\\Jetpack\\Autoloader\\": "src"
-                }
+                },
+                "classmap": [
+                    "src/AutoloadGenerator.php"
+                ]
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -244,9 +253,9 @@
             ],
             "description": "Creates a custom autoloader for a plugin or theme.",
             "support": {
-                "source": "https://github.com/Automattic/jetpack-autoloader/tree/v2.7.1"
+                "source": "https://github.com/Automattic/jetpack-autoloader/tree/2.10.1"
             },
-            "time": "2020-12-18T22:33:59+00:00"
+            "time": "2021-03-30T15:15:59+00:00"
         },
         {
             "name": "automattic/jetpack-constants",
@@ -2859,22 +2868,22 @@
         },
         {
             "name": "woocommerce/action-scheduler",
-            "version": "3.1.6",
+            "version": "3.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/woocommerce/action-scheduler.git",
-                "reference": "275d0ba54b1c263dfc62688de2fa9a25a373edf8"
+                "reference": "5588a831cd2453ecf7d4803f3a81063e13cde93d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/woocommerce/action-scheduler/zipball/275d0ba54b1c263dfc62688de2fa9a25a373edf8",
-                "reference": "275d0ba54b1c263dfc62688de2fa9a25a373edf8",
+                "url": "https://api.github.com/repos/woocommerce/action-scheduler/zipball/5588a831cd2453ecf7d4803f3a81063e13cde93d",
+                "reference": "5588a831cd2453ecf7d4803f3a81063e13cde93d",
                 "shasum": ""
             },
             "require-dev": {
-                "phpunit/phpunit": "^5.6",
-                "woocommerce/woocommerce-sniffs": "0.0.8",
-                "wp-cli/wp-cli": "~1.5.1"
+                "phpunit/phpunit": "^7.5",
+                "woocommerce/woocommerce-sniffs": "0.1.0",
+                "wp-cli/wp-cli": "~2.5.0"
             },
             "type": "wordpress-plugin",
             "extra": {
@@ -2892,41 +2901,45 @@
             "homepage": "https://actionscheduler.org/",
             "support": {
                 "issues": "https://github.com/woocommerce/action-scheduler/issues",
-                "source": "https://github.com/woocommerce/action-scheduler/tree/master"
+                "source": "https://github.com/woocommerce/action-scheduler/tree/3.3.0"
             },
-            "time": "2020-05-12T16:22:33+00:00"
+            "time": "2021-09-15T21:08:48+00:00"
         },
         {
             "name": "woocommerce/woocommerce",
-            "version": "4.9.2",
+            "version": "5.9.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/woocommerce/woocommerce.git",
-                "reference": "e3b69b901143de3c42d90b9d4bdc97a8821133e2"
+                "reference": "30bf63db8c8bb53317614ae1c7a8339fa468a101"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/woocommerce/woocommerce/zipball/e3b69b901143de3c42d90b9d4bdc97a8821133e2",
-                "reference": "e3b69b901143de3c42d90b9d4bdc97a8821133e2",
+                "url": "https://api.github.com/repos/woocommerce/woocommerce/zipball/30bf63db8c8bb53317614ae1c7a8339fa468a101",
+                "reference": "30bf63db8c8bb53317614ae1c7a8339fa468a101",
                 "shasum": ""
             },
             "require": {
-                "automattic/jetpack-autoloader": "2.7.1",
+                "automattic/jetpack-autoloader": "2.10.1",
                 "automattic/jetpack-constants": "1.5.1",
                 "composer/installers": "~1.7",
                 "maxmind-db/reader": "1.6.0",
                 "pelago/emogrifier": "3.1.0",
                 "php": ">=7.0",
                 "psr/container": "1.0.0",
-                "woocommerce/action-scheduler": "3.1.6",
-                "woocommerce/woocommerce-admin": "1.8.3",
-                "woocommerce/woocommerce-blocks": "4.0.0"
+                "woocommerce/action-scheduler": "3.3.0",
+                "woocommerce/woocommerce-admin": "2.8.0",
+                "woocommerce/woocommerce-blocks": "6.1.0"
             },
             "require-dev": {
-                "bamarni/composer-bin-plugin": "^1.4"
+                "bamarni/composer-bin-plugin": "^1.4",
+                "yoast/phpunit-polyfills": "^1.0"
             },
             "type": "wordpress-plugin",
             "extra": {
+                "bamarni-bin": {
+                    "target-directory": "bin/composer"
+                },
                 "installer-paths": {
                     "packages/{$name}": [
                         "woocommerce/action-scheduler",
@@ -2938,28 +2951,25 @@
                     "test": "Run unit tests",
                     "phpcs": "Analyze code against the WordPress coding standards with PHP_CodeSniffer",
                     "phpcbf": "Fix coding standards warnings/errors automatically with PHP Code Beautifier",
-                    "makepot-audit": "Generate i18n/languages/woocommerce.pot file and run audit",
-                    "makepot": "Generate i18n/languages/woocommerce.pot file"
-                },
-                "bamarni-bin": {
-                    "target-directory": "bin/composer"
+                    "makepot": "Generate i18n/languages/woocommerce.pot file",
+                    "makepot-audit": "Generate i18n/languages/woocommerce.pot file and run audit"
                 }
             },
             "autoload": {
-                "exclude-from-classmap": [
-                    "includes/legacy",
-                    "includes/libraries"
-                ],
-                "classmap": [
-                    "includes/rest-api"
-                ],
+                "psr-0": {
+                    "Automattic\\WooCommerce\\Vendor\\": "lib/packages/"
+                },
                 "psr-4": {
                     "Automattic\\WooCommerce\\": "src/",
                     "Automattic\\WooCommerce\\Vendor\\": "lib/packages/"
                 },
-                "psr-0": {
-                    "Automattic\\WooCommerce\\Vendor\\": "lib/packages/"
-                }
+                "classmap": [
+                    "includes/rest-api"
+                ],
+                "exclude-from-classmap": [
+                    "includes/legacy",
+                    "includes/libraries"
+                ]
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -2969,33 +2979,35 @@
             "homepage": "https://woocommerce.com/",
             "support": {
                 "issues": "https://github.com/woocommerce/woocommerce/issues",
-                "source": "https://github.com/woocommerce/woocommerce/tree/4.9.2"
+                "source": "https://github.com/woocommerce/woocommerce/tree/5.9.1"
             },
-            "time": "2021-01-25T14:41:31+00:00"
+            "time": "2022-03-11T17:37:58+00:00"
         },
         {
             "name": "woocommerce/woocommerce-admin",
-            "version": "1.8.3",
+            "version": "2.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/woocommerce/woocommerce-admin.git",
-                "reference": "534442980c34369f711efdb8e85fdcb1363be712"
+                "reference": "63b93a95db4bf788f42587a41f2378128a2adfdf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/woocommerce/woocommerce-admin/zipball/534442980c34369f711efdb8e85fdcb1363be712",
-                "reference": "534442980c34369f711efdb8e85fdcb1363be712",
+                "url": "https://api.github.com/repos/woocommerce/woocommerce-admin/zipball/63b93a95db4bf788f42587a41f2378128a2adfdf",
+                "reference": "63b93a95db4bf788f42587a41f2378128a2adfdf",
                 "shasum": ""
             },
             "require": {
-                "automattic/jetpack-autoloader": "^2.2.0",
+                "automattic/jetpack-autoloader": "^2.9.1",
                 "composer/installers": "^1.9.0",
-                "php": ">=5.6|>=7.0"
+                "php": ">=7.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "7.5.20",
+                "automattic/jetpack-changelogger": "^1.1",
+                "bamarni/composer-bin-plugin": "^1.4",
                 "suin/phpcs-psr4-sniff": "^2.2",
-                "woocommerce/woocommerce-sniffs": "0.1.0"
+                "woocommerce/woocommerce-sniffs": "0.1.0",
+                "yoast/phpunit-polyfills": "^1.0"
             },
             "type": "wordpress-plugin",
             "extra": {
@@ -3003,6 +3015,26 @@
                     "test": "Run unit tests",
                     "phpcs": "Analyze code against the WordPress coding standards with PHP_CodeSniffer",
                     "phpcbf": "Fix coding standards warnings/errors automatically with PHP Code Beautifier"
+                },
+                "bamarni-bin": {
+                    "target-directory": "bin/composer"
+                },
+                "changelogger": {
+                    "changelog": "./changelog.txt",
+                    "formatter": {
+                        "filename": "bin/changelogger/WCAdminFormatter.php"
+                    },
+                    "versioning": "semver",
+                    "changes-dir": "./changelogs",
+                    "types": [
+                        "Fix",
+                        "Add",
+                        "Update",
+                        "Dev",
+                        "Tweak",
+                        "Performance",
+                        "Enhancement"
+                    ]
                 }
             },
             "autoload": {
@@ -3018,31 +3050,33 @@
             "homepage": "https://github.com/woocommerce/woocommerce-admin",
             "support": {
                 "issues": "https://github.com/woocommerce/woocommerce-admin/issues",
-                "source": "https://github.com/woocommerce/woocommerce-admin/tree/v1.8.3"
+                "source": "https://github.com/woocommerce/woocommerce-admin/tree/v2.8.0"
             },
-            "time": "2021-01-06T00:00:42+00:00"
+            "abandoned": true,
+            "time": "2021-11-02T19:28:38+00:00"
         },
         {
             "name": "woocommerce/woocommerce-blocks",
-            "version": "v4.0.0",
+            "version": "v6.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/woocommerce/woocommerce-gutenberg-products-block.git",
-                "reference": "f5b2485254f36f0b85fd0f30c28e17bdf44a8d1e"
+                "reference": "8556efd69e85c01f5571d39e6581d9b8486b682f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/woocommerce/woocommerce-gutenberg-products-block/zipball/f5b2485254f36f0b85fd0f30c28e17bdf44a8d1e",
-                "reference": "f5b2485254f36f0b85fd0f30c28e17bdf44a8d1e",
+                "url": "https://api.github.com/repos/woocommerce/woocommerce-gutenberg-products-block/zipball/8556efd69e85c01f5571d39e6581d9b8486b682f",
+                "reference": "8556efd69e85c01f5571d39e6581d9b8486b682f",
                 "shasum": ""
             },
             "require": {
-                "automattic/jetpack-autoloader": "^2.0.0",
+                "automattic/jetpack-autoloader": "^2.9.1",
                 "composer/installers": "^1.7.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "6.5.14",
-                "woocommerce/woocommerce-sniffs": "0.1.0"
+                "woocommerce/woocommerce-sniffs": "0.1.0",
+                "wp-phpunit/wp-phpunit": "^5.4",
+                "yoast/phpunit-polyfills": "^1.0"
             },
             "type": "wordpress-plugin",
             "extra": {
@@ -3069,9 +3103,10 @@
             ],
             "support": {
                 "issues": "https://github.com/woocommerce/woocommerce-gutenberg-products-block/issues",
-                "source": "https://github.com/woocommerce/woocommerce-gutenberg-products-block/tree/v4.0.0"
+                "source": "https://github.com/woocommerce/woocommerce-gutenberg-products-block/tree/v6.1.0"
             },
-            "time": "2020-12-08T13:17:01+00:00"
+            "abandoned": true,
+            "time": "2021-10-12T13:07:11+00:00"
         },
         {
             "name": "wp-coding-standards/wpcs",
@@ -3137,5 +3172,5 @@
     "platform-overrides": {
         "php": "7.0.0"
     },
-    "plugin-api-version": "2.0.0"
+    "plugin-api-version": "2.3.0"
 }
