@@ -28,7 +28,6 @@ To get Global Media to work, please follow these steps:
 
 Note: A useful enhancement in the Multisite context is the plugin [Multisite Enhancement](https://github.com/bueltge/wordpress-multisite-enhancements). It also helps to identify the site and get his site ID.
 
-
 ## Set your Site ID for the Global Mediathek
 If you need to change the default Site ID '1' to another value, then you can do so by creating a small custom plugin.
 
@@ -85,8 +84,6 @@ Contributions are what makes the open-source community such an amazing place to 
 
 ## Other Notes
 
-### Crafted by [Inpsyde](https://inpsyde.com) &middot; Engineering the web since 2006.
-
 ### Bugs, technical hints or contribute
 Please give me feedback, contribute and file technical bugs on this
 [GitHub Repo](https://github.com/bueltge/Multisite-Global-Media/issues), use Issues.
@@ -95,12 +92,8 @@ Please give me feedback, contribute and file technical bugs on this
 Good news, this plugin is free for everyone! Since it's released under the GPLv2+.
 
 ### Contact & Feedback
-The plugin is designed and developed by team members from the [Inpsyde](https://inpsyde.com/) crew. Special thanks and praise to Dominik Schilling and Guido Scialfa for his help and engagement.
+The plugin is designed and developed by [Frank](https://bueltge.de) and team members from the [Syde](https://syde.com/) crew. Special thanks and praise to Dominik Schilling and Guido Scialfa for his help and engagement.
 
 Please let me know if you like the plugin or you hate it or whatever.
 
-Please fork it and improve the plugin. However, see the Contributing note above. Add an issue for ideas and bugs. Also, we say thank you for improvements in the documentation and help in the support.
-
-### Disclaimer
-We don't speak the English language natively, and maybe it might be gruesome here and there.
-So please be patient with me and let me know of typos or grammatical errors. Thank you!
+Please fork it and improve the plugin. However, see the contributing note above. Add an issue for ideas and bugs. Also, we say thank you for improvements in the documentation and help in the support.
