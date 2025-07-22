@@ -56,9 +56,9 @@ class Assets
      */
     public function enqueueStyles()
     {
-        if ('post' !== get_current_screen()->base) {
+        if (!is_admin()) {
             return;
-        }
+	}
 
         $styleFile = '/assets/css/global-media.css';
         wp_register_style(
