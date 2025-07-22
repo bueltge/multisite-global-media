@@ -34,7 +34,7 @@ class Assets
      */
     public function enqueueScripts()
     {
-        if ('post' !== get_current_screen()->base) {
+        if (!is_admin()) {
             return;
         }
 
