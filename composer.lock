@@ -2907,7 +2907,7 @@
         },
         {
             "name": "woocommerce/woocommerce",
-            "version": "5.9.1",
+            "version": "6.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/woocommerce/woocommerce.git",
@@ -2979,7 +2979,7 @@
             "homepage": "https://woocommerce.com/",
             "support": {
                 "issues": "https://github.com/woocommerce/woocommerce/issues",
-                "source": "https://github.com/woocommerce/woocommerce/tree/5.9.1"
+                "source": "https://github.com/woocommerce/woocommerce/tree/6.6.0"
             },
             "time": "2022-03-11T17:37:58+00:00"
         },
