@@ -39,7 +39,7 @@
         "brain/monkey": "^2.2",
         "phpunit/phpunit": "^6.0",
         "johnpbloch/wordpress-core": " ^5.0",
-        "woocommerce/woocommerce": "^5.9.1"
+        "woocommerce/woocommerce": "^6.6.0"
     },
     "autoload": {
         "psr-4": {
