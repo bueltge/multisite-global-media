@@ -13,7 +13,6 @@
 # md & config
 CONTRIBUTING.md     export-ignore
 README.md           export-ignore
-composer.json       export-ignore
 package.json        export-ignore
 
 # scripts
