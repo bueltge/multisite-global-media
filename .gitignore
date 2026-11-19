@@ -84,3 +84,6 @@ wpcs/
 coverage/
 .phpunit.result.cache
 .phpunit.cache/
+
+# Release build
+dist/

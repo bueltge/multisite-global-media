@@ -62,8 +62,7 @@
         }
     },
     "scripts": {
-        "zip": "composer archive --format=zip --file=dist",
-        "build": "./scripts/build",
+        "build": "bash ./scripts/build",
         "analyze": "@php ./vendor/bin/phpstan analyse --memory-limit=1G",
         "cs": "@php ./vendor/squizlabs/php_codesniffer/bin/phpcs",
         "csf": "@php ./vendor/bin/phpcbf",

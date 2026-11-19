@@ -1,6 +1,7 @@
 # Changelog
 
-## Unreleased (Master Branch)
+## 0.4.0 (unreleased)
+* Release workflow: every tag gets an installable plugin zip (incl. autoloader) attached to its GitHub release, #144, #152
 * Fix #121 type object, Probs @mvdhoek, #127
 * Restore Blog after Response, Probs @goaround, #110
 * ACF plugin Support, Probs @felly, #134
