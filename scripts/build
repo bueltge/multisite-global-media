@@ -1,17 +1,28 @@
-#!/bin/bash
+#!/usr/bin/env bash
+#
+# Builds an installable WordPress plugin zip: dist/multisite-global-media.zip
+# Contains only runtime files (see export-ignore in .gitattributes) and the
+# Composer autoloader, so no Composer is needed on the target system.
+set -euo pipefail
 
-echo "Building MGM"
+NAME="multisite-global-media"
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+DIST="${ROOT}/dist"
+TARGET="${DIST}/${NAME}"
 
-cd panel
-npm i
-npm run build
+rm -rf "${DIST}"
+mkdir -p "${TARGET}"
 
-cd ../
+git -C "${ROOT}" archive --format=tar HEAD | tar -x -C "${TARGET}"
 
-composer run-script fix
-composer update --no-dev
-composer dump-autoload -o
+COMPOSER_ROOT_VERSION="${COMPOSER_ROOT_VERSION:-dev-master}" composer dump-autoload \
+    --working-dir="${TARGET}" \
+    --no-dev \
+    --classmap-authoritative \
+    --no-interaction
 
-git add -A
-git commit -am "Add latest dist files"
-git archive -o multisite-global-media.zip HEAD
+test -f "${TARGET}/vendor/autoload.php"
+
+(cd "${DIST}" && zip -rq "${NAME}.zip" "${NAME}")
+
+echo "Built ${DIST}/${NAME}.zip"

@@ -58,7 +58,8 @@ add_filter( 'global_media.site_id', static function (): int {
 
 ## Installation
 ### Manual
-* Download the plugin as zip (available on the [releases](https://github.com/bueltge/multisite-global-media/releases) page), use a clone of the repo or use Composer, see below.
+* Download `multisite-global-media.zip` from the assets of the latest [release](https://github.com/bueltge/multisite-global-media/releases/latest). This zip is ready to use and contains the autoloader, no Composer required. The automatically generated `Source code` archives do not work without Composer.
+* Upload the zip via Network Admin > Plugins > Add New > Upload Plugin, or use Composer, see below.
 * Install the plugin in your environment, recommended as [Must Use plugin](https://developer.wordpress.org/advanced-administration/plugins/mu-plugins/).
 * Optional: The [Must Use Loader](https://github.com/bueltge/must-use-loader) is helpful if you use more than one Must Use plugin stored in sub-directories.
 * Set the Site ID for the Global Media Library, see [above](#set-your-site-id-for-the-global-media-library).

@@ -1,0 +1,64 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - '*'
+  pull_request:
+    paths:
+      - 'scripts/build'
+      - '.gitattributes'
+      - '.github/workflows/release.yml'
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Existing tag to (re)build and attach the zip to'
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  zip:
+    runs-on: ubuntu-latest
+    env:
+      TAG: ${{ inputs.tag || github.ref_name }}
+      IS_RELEASE: ${{ github.event_name != 'pull_request' }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ inputs.tag || github.ref }}
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          tools: composer:v2
+
+      - name: Check plugin version matches tag
+        if: env.IS_RELEASE == 'true'
+        run: |
+          VERSION="$(sed -n 's/^ \* Version: *//p' multisite-global-media.php | tr -d '[:space:]')"
+          if [ "${VERSION}" != "${TAG#v}" ]; then
+            echo "::error::Plugin header version '${VERSION}' does not match tag '${TAG}'."
+            exit 1
+          fi
+
+      - name: Build zip
+        run: bash scripts/build
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: multisite-global-media
+          path: dist/multisite-global-media.zip
+
+      - name: Attach zip to GitHub release
+        if: env.IS_RELEASE == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if ! gh release view "${TAG}" > /dev/null 2>&1; then
+            gh release create "${TAG}" --verify-tag --generate-notes --title "${TAG}"
+          fi
+          gh release upload "${TAG}" dist/multisite-global-media.zip --clobber
