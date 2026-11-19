@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.4.0 (unreleased)
+## 0.4.0 (2026-11-19)
 * Release workflow: every tag gets an installable plugin zip (incl. autoloader) attached to its GitHub release, #144, #152
 * Fix #121 type object, Probs @mvdhoek, #127
 * Restore Blog after Response, Probs @goaround, #110
