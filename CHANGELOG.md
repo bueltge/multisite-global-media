@@ -10,6 +10,7 @@
 * Require PHP 8.3 or higher, #167
 * Remove unused featured image AJAX callback and unused WooCommerce gallery dependencies, #167
 * CI: Composer 2 for Scrutinizer, PHP 8.3 - 8.5 matrix, PHPUnit 12, PHPCS (Inpsyde v2) and PHPStan, #166, #167
+* Scrutinizer: run PHPUnit with Xdebug coverage, #170
 * Readme: fix Must Use plugin instructions, CI badge, license and requirements, #168
 
 ## 0.2.0 (2022-03-21)
