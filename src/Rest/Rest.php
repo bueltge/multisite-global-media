@@ -1,7 +1,5 @@
 <?php
 
-# -*- coding: utf-8 -*-
-
 declare(strict_types=1);
 
 namespace MultisiteGlobalMedia\Rest;
@@ -20,13 +18,10 @@ class Rest
 {
     use Helper;
 
-    const META_KEY_THUMBNAIL_ID = '_thumbnail_id';
-    const REST_FIELD_THUMBNAIL_ID = 'featured_media';
+    public const META_KEY_THUMBNAIL_ID = '_thumbnail_id';
+    public const REST_FIELD_THUMBNAIL_ID = 'featured_media';
 
-    /**
-     * @var Site
-     */
-    private $site;
+    private Site $site;
 
     /**
      * Rest constructor
@@ -42,10 +37,10 @@ class Rest
      * Filter the attachment post type registration arguments to use our own
      * REST controller.
      *
-     * @param array $args
+     * @param array<string, mixed> $args
      * @param string $postType
      *
-     * @return array
+     * @return array<string, mixed>
      *
      * @wp-hook register_post_type_args
      */
@@ -64,7 +59,7 @@ class Rest
      * current site.
      *
      * @param WP_HTTP_Response|WP_Error $response
-     * @param array $handler
+     * @param array<string, mixed> $handler
      * @param WP_REST_Request $request
      *
      * @return WP_HTTP_Response|WP_Error
@@ -78,8 +73,8 @@ class Rest
     {
         // phpcs:enable
         $idPrefix = $this->site->idSitePrefix();
-        $attachmentId = (int)$request[self::REST_FIELD_THUMBNAIL_ID] ?? null;
-        $postId = (int)$request['id'] ?? null;
+        $attachmentId = (int) $request[self::REST_FIELD_THUMBNAIL_ID];
+        $postId = (int) $request['id'];
 
         if (!$attachmentId || !$postId) {
             return $response;

@@ -6,6 +6,8 @@
 * ACF plugin Support, Probs @felly, #134
 * Enqueue plugin assets to all admin screens, #153, Probs @theSCHAPPY
 * Fix loading a single global media attachment in the media modal
+* Require PHP 8.3 or higher
+* CI: Composer 2 for Scrutinizer, PHP 8.3 - 8.5 matrix, PHPUnit 12, PHPCS (Inpsyde v2) and PHPStan
 
 ## 0.2.0 (2022-03-21)
 * Fix: cannot use object of type Closure as array by @mvdhoek1 in #127

@@ -1,7 +1,5 @@
 <?php
 
-# -*- coding: utf-8 -*-
-
 declare(strict_types=1);
 
 namespace MultisiteGlobalMedia;
@@ -11,10 +9,10 @@ namespace MultisiteGlobalMedia;
  */
 class Site
 {
-    const SITE_ID = 'global_media.site_id';
-    const META_KEY_SITE_ID = 'global_media_site_id';
+    public const SITE_ID = 'global_media.site_id';
+    public const META_KEY_SITE_ID = 'global_media_site_id';
 
-    const SITE_ID_PREFIX_RIGHT_PAD = '00000';
+    public const SITE_ID_PREFIX_RIGHT_PAD = '00000';
 
     /**
      * Return the ID of site that store the media files.
@@ -24,7 +22,7 @@ class Site
      */
     public function id(): int
     {
-        return (int)apply_filters(self::SITE_ID, 1);
+        return (int) apply_filters(self::SITE_ID, 1);
     }
 
     /**
@@ -48,6 +46,6 @@ class Site
      */
     public function isMediaSite(): bool
     {
-        return ($this->id() === (int)$GLOBALS['current_blog']->blog_id);
+        return ($this->id() === (int) $GLOBALS['current_blog']->blog_id);
     }
 }

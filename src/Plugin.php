@@ -1,7 +1,5 @@
 <?php
 
-# -*- coding: utf-8 -*-
-
 declare(strict_types=1);
 
 namespace MultisiteGlobalMedia;
@@ -12,11 +10,7 @@ use MultisiteGlobalMedia\WooCommerce;
 
 class Plugin
 {
-
-    /**
-     * @var string $rootFile
-     */
-    private $rootFile;
+    private string $rootFile;
 
     /**
      * Plugin constructor.
@@ -31,7 +25,7 @@ class Plugin
     /**
      * Integration the WordPress environment.
      */
-    public function onLoad()
+    public function onLoad(): void
     {
         $pluginProperties = new PluginProperties($this->rootFile);
         $site = new Site();
@@ -76,7 +70,7 @@ class Plugin
      * @param Site $site
      * @param SingleSwitcher $siteSwitcher
      */
-    public function wcBootstrap(Site $site, SingleSwitcher $siteSwitcher)
+    public function wcBootstrap(Site $site, SingleSwitcher $siteSwitcher): void
     {
         $wooCommerceGallery = new WooCommerce\Gallery($site, $siteSwitcher);
 
@@ -84,10 +78,10 @@ class Plugin
         add_action('woocommerce_update_product', [$wooCommerceGallery, 'saveGalleryIds']);
     }
 
-    public function acfBootstrap(Site $site, SiteSwitcher $siteSwitcher)
+    public function acfBootstrap(Site $site, SiteSwitcher $siteSwitcher): void
     {
         $store = acf_get_store('values');
         $image = new Image($site, $siteSwitcher, $store);
-        \add_filter('acf/load_value/type=image', array($image, 'acfLoadValue'), 10, 3);
+        \add_filter('acf/load_value/type=image', [$image, 'acfLoadValue'], 10, 3);
     }
 }

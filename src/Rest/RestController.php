@@ -1,7 +1,5 @@
 <?php
 
-# -*- coding: utf-8 -*-
-
 declare(strict_types=1);
 
 namespace MultisiteGlobalMedia\Rest;
@@ -21,15 +19,9 @@ class RestController extends WP_REST_Attachments_Controller
 {
     use Helper;
 
-    /**
-     * @var Site
-     */
-    private $site;
+    private Site $site;
 
-    /**
-     * @var SiteSwitcher
-     */
-    private $siteSwitcher;
+    private SiteSwitcher $siteSwitcher;
 
     /**
      * {@inheritDoc}
@@ -60,15 +52,15 @@ class RestController extends WP_REST_Attachments_Controller
         // phpcs:enable
         $idPrefix = $this->site->idSitePrefix();
 
-        if (!$this->idPrefixIncludedInAttachmentId((int)$request['id'], $idPrefix)) {
+        if (!$this->idPrefixIncludedInAttachmentId((int) $request['id'], $idPrefix)) {
             return parent::get_item_permissions_check($request);
         }
 
         // Clone so the original id is available in other methods.
         $requestClone = clone $request;
-        $requestClone['id'] = $this->stripSiteIdPrefixFromAttachmentId(
-            $idPrefix,
-            (int)$request['id']
+        $requestClone->set_param(
+            'id',
+            $this->stripSiteIdPrefixFromAttachmentId($idPrefix, (int) $request['id'])
         );
 
         $this->siteSwitcher->switchToBlog($this->site->id());
@@ -91,12 +83,12 @@ class RestController extends WP_REST_Attachments_Controller
         // phpcs:enable
         $idPrefix = $this->site->idSitePrefix();
 
-        if (!$this->idPrefixIncludedInAttachmentId((int)$request['id'], $idPrefix)) {
+        if (!$this->idPrefixIncludedInAttachmentId((int) $request['id'], $idPrefix)) {
             return parent::get_item($request);
         }
 
-        $attachmentId = (int)$request['id'];
-        $request['id'] = $this->stripSiteIdPrefixFromAttachmentId($idPrefix, $attachmentId);
+        $attachmentId = (int) $request['id'];
+        $request->set_param('id', $this->stripSiteIdPrefixFromAttachmentId($idPrefix, $attachmentId));
         $this->siteSwitcher->switchToBlog($this->site->id());
         $response = parent::get_item($request);
         $data = $response->get_data();

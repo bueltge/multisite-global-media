@@ -1,7 +1,5 @@
 <?php
 
-# -*- coding: utf-8 -*-
-
 declare(strict_types=1);
 
 namespace MultisiteGlobalMedia;
@@ -11,17 +9,14 @@ namespace MultisiteGlobalMedia;
  */
 class SingleSwitcher implements SiteSwitcher
 {
-    /**
-     * @var bool
-     */
-    private $switched = false;
+    private bool $switched = false;
 
     /**
      * Switch to blog if needed
      *
      * @param int $siteId
      */
-    public function switchToBlog(int $siteId)
+    public function switchToBlog(int $siteId): void
     {
         if (get_current_blog_id() === $siteId) {
             return;
@@ -35,7 +30,7 @@ class SingleSwitcher implements SiteSwitcher
     /**
      * Restore the current blog if needed
      */
-    public function restoreBlog()
+    public function restoreBlog(): void
     {
         if (!$this->switched) {
             return;

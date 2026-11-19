@@ -11,15 +11,12 @@
  * License URI: ./LICENSE
  * Text Domain: multisite-global-media
  * Domain Path: /languages
- *
- * Php Version 7
+ * Requires PHP: 8.3
  *
  * @package WordPress
  * @license https://opensource.org/licenses/GPL-2.0
  * @version 2022-03-21
  */
-
-# -*- coding: utf-8 -*-
 
 declare(strict_types=1);
 
@@ -30,14 +27,10 @@ namespace MultisiteGlobalMedia;
 $bootstrap = \Closure::bind(
     static function () {
     /**
-     * @param string $message
-     * @param string $noticeType
-     * @param array $allowedMarkup
+     * @param array<string, array<string, bool>> $allowedMarkup
      */
-    function adminNotice($message, $noticeType, array $allowedMarkup = [])
+    function adminNotice(string $message, string $noticeType, array $allowedMarkup = []): void
     {
-            \assert(\is_string($message) && \is_string($noticeType));
-
             add_action(
             'admin_notices',
             function () use ($message, $noticeType, $allowedMarkup) {
@@ -53,7 +46,7 @@ $bootstrap = \Closure::bind(
     /**
      * @return bool
      */
-    function autoload()
+    function autoload(): bool
     {
             if (\class_exists(PluginProperties::class)) {
                 return true;
@@ -76,9 +69,9 @@ $bootstrap = \Closure::bind(
      *
      * @return bool
      */
-    function isPhpVersionCompatible()
+    function isPhpVersionCompatible(): bool
     {
-            return PHP_VERSION_ID >= 70000;
+            return version_compare(PHP_VERSION, '8.3', '>=');
     }
 
     if (!isPhpVersionCompatible()) {
@@ -86,7 +79,7 @@ $bootstrap = \Closure::bind(
             sprintf(
             // Translators: %s is the PHP version of the current installation, where is the plugin is active.
                 __(
-                    'Multisite Global Media require php version 7.0 at least. Your\'s is %s',
+                    'Multisite Global Media require php version 8.3 at least. Your\'s is %s',
                     'multisite-global-media'
                 ),
                 PHP_VERSION

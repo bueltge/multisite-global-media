@@ -1,7 +1,5 @@
 <?php
 
-# -*- coding: utf-8 -*-
-
 declare(strict_types=1);
 
 namespace MultisiteGlobalMedia;
@@ -13,15 +11,9 @@ class Attachment
 {
     use Helper;
 
-    /**
-     * @var Site
-     */
-    private $site;
+    private Site $site;
 
-    /**
-     * @var SiteSwitcher
-     */
-    private $siteSwitcher;
+    private SiteSwitcher $siteSwitcher;
 
     /**
      * Attachment constructor.
@@ -38,9 +30,9 @@ class Attachment
     /**
      * Prepare media for javascript
      *
-     * @param array $response Array of prepared attachment data.
+     * @param array<string, mixed> $response Array of prepared attachment data.
      *
-     * @return array Array of prepared attachment data.
+     * @return array<string, mixed> Array of prepared attachment data.
      * @since   2015-01-26
      * @version 2018-08-29
      *
@@ -64,7 +56,7 @@ class Attachment
      * @return void
      * @since   2015-01-26
      */
-    public function ajaxQueryAttachments()
+    public function ajaxQueryAttachments(): void
     {
         // phpcs:disable WordPress.CSRF.NonceVerification.NoNonceVerification
         // phpcs:disable
@@ -87,7 +79,7 @@ class Attachment
      * @return  void
      * @since   2015-01-26
      */
-    public function ajaxGetAttachment()
+    public function ajaxGetAttachment(): void
     {
         // phpcs:ignore WordPress.CSRF.NonceVerification.NoNonceVerification
         // phpcs:ignore WordPress.VIP.ValidatedSanitizedInput.InputNotSanitized
@@ -116,7 +108,7 @@ class Attachment
      * @return  void
      * @since   2015-01-26
      */
-    public function ajaxSendAttachmentToEditor()
+    public function ajaxSendAttachmentToEditor(): void
     {
         // phpcs:ignore WordPress.CSRF.NonceVerification.NoNonceVerification
         // phpcs:ignore WordPress.VIP.ValidatedSanitizedInput.InputNotSanitized
@@ -163,12 +155,12 @@ class Attachment
     }
 
     /**
-     * @param array|false $image
+     * @param array<int, mixed>|false $image
      * @param int|string $attachmentId
-     * @param array|string $size
+     * @param string|array<int, int> $size
      * @param bool $icon
      *
-     * @return array|false
+     * @return array<int, mixed>|false
      *
      * @wp-hook wp_get_attachment_image_src
      */
@@ -194,9 +186,9 @@ class Attachment
     /**
      * Define Strings for translation
      *
-     * @param array $strings
+     * @param array<string, mixed> $strings
      *
-     * @return array
+     * @return array<string, mixed>
      * @since   2015-01-26
      *
      */

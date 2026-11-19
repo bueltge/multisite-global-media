@@ -1,7 +1,5 @@
 <?php
 
-# -*- coding: utf-8 -*-
-
 declare(strict_types=1);
 
 namespace MultisiteGlobalMedia;
@@ -13,17 +11,11 @@ class Thumbnail
 {
     use Helper;
 
-    const META_KEY_THUMBNAIL_ID = '_thumbnail_id';
+    public const META_KEY_THUMBNAIL_ID = '_thumbnail_id';
 
-    /**
-     * @var Site
-     */
-    private $site;
+    private Site $site;
 
-    /**
-     * @var SingleSwitcher
-     */
-    private $siteSwitcher;
+    private SingleSwitcher $siteSwitcher;
 
     /**
      * Thumbnail constructor
@@ -44,11 +36,11 @@ class Thumbnail
      *
      * @param int $postId Post ID.
      */
-    public function saveThumbnailMeta(int $postId)
+    public function saveThumbnailMeta(int $postId): void
     {
         $idPrefix = $this->site->idSitePrefix();
 
-        $attachmentId = (int)filter_input(
+        $attachmentId = (int) filter_input(
             INPUT_POST,
             self::META_KEY_THUMBNAIL_ID,
             FILTER_SANITIZE_NUMBER_INT
@@ -58,7 +50,7 @@ class Thumbnail
             return;
         }
 
-        if ($attachmentId && $this->idPrefixIncludedInAttachmentId($attachmentId, $idPrefix)) {
+        if ($this->idPrefixIncludedInAttachmentId($attachmentId, $idPrefix)) {
             update_post_meta($postId, self::META_KEY_THUMBNAIL_ID, $attachmentId);
         }
     }
@@ -71,7 +63,7 @@ class Thumbnail
      * @param int $postId
      * @param int $attachmentId
      */
-    public function ajaxGetPostThumbnailHtml(int $postId, int $attachmentId)
+    public function ajaxGetPostThumbnailHtml(int $postId, int $attachmentId): void
     {
         $idPrefix = $this->site->idSitePrefix();
 
@@ -113,7 +105,7 @@ class Thumbnail
     {
         // phpcs:enable
 
-        $attachmentId = (int)$attachmentId;
+        $attachmentId = (int) $attachmentId;
         $idPrefix = $this->site->idSitePrefix();
 
         if (false === $this->idPrefixIncludedInAttachmentId($attachmentId, $idPrefix)) {
@@ -157,9 +149,9 @@ class Thumbnail
      * @param string $html The post thumbnail HTML.
      * @param int $postId The post ID.
      * @param string $attachmentId The post thumbnail ID.
-     * @param string|array $size The post thumbnail size. Image size or array of width and height
+     * @param string|array<int, int> $size The post thumbnail size. Image size or array of width and height
      *                                        values (in that order). Default 'post-thumbnail'.
-     * @param string $attr Query string of attributes.
+     * @param string|array<string, string> $attr Query string or array of attributes.
      *
      * @return string
      *
@@ -175,14 +167,14 @@ class Thumbnail
 
         // phpcs:enable
 
-        $attachmentId = (int)$attachmentId;
+        $attachmentId = (int) $attachmentId;
         $siteId = $this->site->id();
         $idPrefix = $this->site->idSitePrefix();
 
         if ($this->idPrefixIncludedInAttachmentId($attachmentId, $idPrefix)) {
             $attachmentId = $this->stripSiteIdPrefixFromAttachmentId($idPrefix, $attachmentId);
             $this->siteSwitcher->switchToBlog($siteId);
-            $html = wp_get_attachment_image($attachmentId, $size, false, $attr);
+            $html = wp_get_attachment_image($attachmentId, $size, false, wp_parse_args($attr));
             $this->siteSwitcher->restoreBlog();
         }
 
