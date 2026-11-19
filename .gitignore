@@ -82,3 +82,5 @@ wpcs/
 
 # CI
 coverage/
+.phpunit.result.cache
+.phpunit.cache/

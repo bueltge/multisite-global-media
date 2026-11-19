@@ -36,6 +36,5 @@ jobs:
       if: steps.composer-cache.outputs.cache-hit != 'true'
       run: composer install -q -n -a --no-progress --prefer-dist
     
-    - name: QA Run (PhpUnit, PhpCs, PhpStan)
-      run: composer qa
-      if: failure()
+    - name: Run unit tests
+      run: composer tests:no-cov

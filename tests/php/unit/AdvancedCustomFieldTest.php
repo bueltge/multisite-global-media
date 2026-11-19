@@ -17,9 +17,9 @@ class AdvancedCustomFieldTest extends TestCase
 {
     public function testBootstrap()
     {
-        $siteSwitcher = $this->createMock(SiteSwitcher::class);
-        $site = $this->createMock(Site::class);
-        $store = $this->createMock(\ACF_Data::class);
+        $siteSwitcher = $this->createStub(SiteSwitcher::class);
+        $site = $this->createStub(Site::class);
+        $store = $this->createStub(\ACF_Data::class);
 
         Functions\expect('acf_get_store')
             ->once()
@@ -74,7 +74,7 @@ class AdvancedCustomFieldTest extends TestCase
         self::assertSame($attachmentId, $returnedValue);
     }
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

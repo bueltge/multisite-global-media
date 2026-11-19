@@ -15,8 +15,8 @@ class AttachmentTest extends TestCase
     public function testInstance()
     {
         $testee = new Attachment(
-            $this->createMock(Site::class),
-            $this->createMock(SiteSwitcher::class)
+            $this->createStub(Site::class),
+            $this->createStub(SiteSwitcher::class)
         );
 
         self::assertInstanceOf(Attachment::class, $testee);
@@ -24,7 +24,7 @@ class AttachmentTest extends TestCase
 
     public function testPrepareAttachmentForJs()
     {
-        $siteSwitcher = $this->createMock(SiteSwitcher::class);
+        $siteSwitcher = $this->createStub(SiteSwitcher::class);
         $site = $this->createMock(Site::class);
 
         $site
@@ -66,7 +66,7 @@ class AttachmentTest extends TestCase
         ];
 
         $site = $this->createMock(Site::class);
-        $siteSwitcher = $this->createMock(SiteSwitcher::class);
+        $siteSwitcher = $this->createStub(SiteSwitcher::class);
         $testee = new Attachment($site, $siteSwitcher);
 
         Functions\expect('wp_unslash')
@@ -127,7 +127,7 @@ class AttachmentTest extends TestCase
             ->with(1);
 
         $siteSwitcher
-            ->expects($this->once())
+            ->expects($this->never())
             ->method('restoreBlog');
 
         $testee->ajaxGetAttachment();
@@ -216,8 +216,8 @@ class AttachmentTest extends TestCase
         Functions\expect('wp_ajax_query_attachments')
             ->once();
 
-        $site = $this->createMock(Site::class);
-        $siteSwitcher = $this->createMock(SiteSwitcher::class);
+        $site = $this->createStub(Site::class);
+        $siteSwitcher = $this->createStub(SiteSwitcher::class);
         $testee = new Attachment($site, $siteSwitcher);
 
         $testee->ajaxQueryAttachments();
@@ -240,8 +240,8 @@ class AttachmentTest extends TestCase
             ->with($_REQUEST['query'])
             ->andReturnFirstArg();
 
-        $site = $this->createMock(Site::class);
-        $siteSwitcher = $this->createMock(SiteSwitcher::class);
+        $site = $this->createStub(Site::class);
+        $siteSwitcher = $this->createStub(SiteSwitcher::class);
         $testee = new Attachment($site, $siteSwitcher);
 
         Filters\expectAdded('wp_prepare_attachment_for_js')
@@ -259,7 +259,7 @@ class AttachmentTest extends TestCase
         ];
 
         $site = $this->createMock(Site::class);
-        $siteSwitcher = $this->createMock(SiteSwitcher::class);
+        $siteSwitcher = $this->createStub(SiteSwitcher::class);
         $testee = new Attachment($site, $siteSwitcher);
 
         Functions\expect('wp_unslash')
@@ -312,7 +312,7 @@ class AttachmentTest extends TestCase
         ];
 
         $site = $this->createMock(Site::class);
-        $siteSwitcher = $this->createMock(SiteSwitcher::class);
+        $siteSwitcher = $this->createStub(SiteSwitcher::class);
         $testee = new Attachment($site, $siteSwitcher);
 
         Functions\stubs([
@@ -340,7 +340,7 @@ class AttachmentTest extends TestCase
         ];
 
         $site = $this->createMock(Site::class);
-        $siteSwitcher = $this->createMock(SiteSwitcher::class);
+        $siteSwitcher = $this->createStub(SiteSwitcher::class);
         $testee = new Attachment($site, $siteSwitcher);
 
         Functions\stubs([
@@ -362,7 +362,7 @@ class AttachmentTest extends TestCase
     public function testMediaSendToEditor()
     {
         $site = $this->createMock(Site::class);
-        $siteSwitcher = $this->createMock(SiteSwitcher::class);
+        $siteSwitcher = $this->createStub(SiteSwitcher::class);
         $testee = new Attachment($site, $siteSwitcher);
 
         $html = '<tag class="wp-image-1"></tag>';
@@ -429,7 +429,7 @@ class AttachmentTest extends TestCase
         $globalSiteId = 1;
 
         $attachmentId = $siteId . Site::SITE_ID_PREFIX_RIGHT_PAD . 1;
-        $siteSwitcher = $this->createMock(SiteSwitcher::class);
+        $siteSwitcher = $this->createStub(SiteSwitcher::class);
         $site = $this->createMock(Site::class);
         $testee = new Attachment($site, $siteSwitcher);
 

@@ -12,22 +12,20 @@ class AssetsTest extends TestCase
 {
     public function testInstance()
     {
-        $pluginProperties = $this->createMock(PluginProperties::class);
+        $pluginProperties = $this->createStub(PluginProperties::class);
         $testee = new Assets($pluginProperties);
 
         self::assertInstanceOf(Assets::class, $testee);
     }
 
-    public function testEnqueueScriptsOnEditPostScreen()
+    public function testEnqueueScriptsInAdmin()
     {
-        $pluginProperties = $this->createPartialMock(PluginProperties::class, ['dirUrl', 'dirPath']);
+        $pluginProperties = $this->createPluginPropertiesMock();
         $testee = new Assets($pluginProperties);
 
-        Functions\expect('get_current_screen')
+        Functions\expect('is_admin')
             ->once()
-            ->andReturn((object)[
-                'base' => 'post',
-            ]);
+            ->andReturn(true);
 
         Functions\expect('wp_register_script')
             ->once()
@@ -48,26 +46,15 @@ class AssetsTest extends TestCase
             ->with('asset_path/assets/js/global-media.js')
             ->andReturn('filemtime');
 
-        $pluginProperties
-            ->expects($this->once())
-            ->method('dirUrl')
-            ->willReturn('asset_url');
-
-        $pluginProperties
-            ->expects($this->once())
-            ->method('dirPath')
-            ->willReturn('asset_path');
 
         $testee->enqueueScripts();
     }
 
-    public function testEnqueueScriptsNotCalledIfCurrentEditScreenIsNotPost()
+    public function testEnqueueScriptsNotCalledOutsideAdmin()
     {
-        Functions\expect('get_current_screen')
+        Functions\expect('is_admin')
             ->once()
-            ->andReturn((object)[
-                'base' => 'not_post_edit_screen',
-            ]);
+            ->andReturn(false);
 
         Functions\expect('wp_register_script')
             ->never();
@@ -75,22 +62,20 @@ class AssetsTest extends TestCase
         Functions\expect('wp_enqueue_script')
             ->never();
 
-        $pluginProperties = $this->createMock(PluginProperties::class);
+        $pluginProperties = $this->createStub(PluginProperties::class);
         $testee = new Assets($pluginProperties);
 
         $testee->enqueueScripts();
     }
 
-    public function testEnqueueStylesOnEditPostScreen()
+    public function testEnqueueStylesInAdmin()
     {
-        $pluginProperties = $this->createPartialMock(PluginProperties::class, ['dirUrl', 'dirPath']);
+        $pluginProperties = $this->createPluginPropertiesMock();
         $testee = new Assets($pluginProperties);
 
-        Functions\expect('get_current_screen')
+        Functions\expect('is_admin')
             ->once()
-            ->andReturn((object)[
-                'base' => 'post',
-            ]);
+            ->andReturn(true);
 
         Functions\expect('wp_register_style')
             ->once()
@@ -110,26 +95,15 @@ class AssetsTest extends TestCase
             ->with('asset_path/assets/css/global-media.css')
             ->andReturn('filemtime');
 
-        $pluginProperties
-            ->expects($this->once())
-            ->method('dirUrl')
-            ->willReturn('asset_url');
-
-        $pluginProperties
-            ->expects($this->once())
-            ->method('dirPath')
-            ->willReturn('asset_path');
 
         $testee->enqueueStyles();
     }
 
-    public function testEnqueueStylesNotCalledIfCurrentEditScreenIsNotPost()
+    public function testEnqueueStylesNotCalledOutsideAdmin()
     {
-        Functions\expect('get_current_screen')
+        Functions\expect('is_admin')
             ->once()
-            ->andReturn((object)[
-                'base' => 'not_post_edit_screen',
-            ]);
+            ->andReturn(false);
 
         Functions\expect('wp_register_style')
             ->never();
@@ -137,9 +111,26 @@ class AssetsTest extends TestCase
         Functions\expect('wp_enqueue_style')
             ->never();
 
-        $pluginProperties = $this->createMock(PluginProperties::class);
+        $pluginProperties = $this->createStub(PluginProperties::class);
         $testee = new Assets($pluginProperties);
 
         $testee->enqueueStyles();
+    }
+
+    /**
+     * PluginProperties resolves dirUrl()/dirPath() via __call(), so those can't be mocked directly.
+     */
+    private function createPluginPropertiesMock(): PluginProperties
+    {
+        $pluginProperties = $this->createPartialMock(PluginProperties::class, ['__call']);
+        $pluginProperties
+            ->expects($this->exactly(2))
+            ->method('__call')
+            ->willReturnMap([
+                [PluginProperties::DIR_URL, [], 'asset_url'],
+                [PluginProperties::DIR_PATH, [], 'asset_path'],
+            ]);
+
+        return $pluginProperties;
     }
 }
