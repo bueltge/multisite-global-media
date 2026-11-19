@@ -4,10 +4,6 @@ declare(strict_types=1);
 
 namespace MultisiteGlobalMedia\WooCommerce;
 
-use MultisiteGlobalMedia\Helper;
-use MultisiteGlobalMedia\SingleSwitcher;
-use MultisiteGlobalMedia\Site;
-
 /**
  * Class Gallery
  *
@@ -15,8 +11,6 @@ use MultisiteGlobalMedia\Site;
  */
 class Gallery
 {
-    use Helper;
-
     public const FILTER_ATTACHMENT_IMAGE_SRC = 'wp_get_attachment_image_src';
 
     public const DEFAULT_PRODUCT_TYPE = 'simple';
@@ -24,22 +18,6 @@ class Gallery
     public const POST_PRODUCT_IMAGE_GALLERY = 'product_image_gallery';
 
     public const META_KEY_PRODUCT_GALLERY = '_product_image_gallery';
-
-    private Site $site;
-
-    private SingleSwitcher $siteSwitcher;
-
-    /**
-     * Gallery constructor
-     *
-     * @param Site $site
-     * @param SingleSwitcher $siteSwitcher
-     */
-    public function __construct(Site $site, SingleSwitcher $siteSwitcher)
-    {
-        $this->site = $site;
-        $this->siteSwitcher = $siteSwitcher;
-    }
 
     /**
      * Save Gallery Ids into product meta
