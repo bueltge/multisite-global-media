@@ -1,0 +1,24 @@
+build:
+  image: default-jammy
+  environment:
+    php:
+      version: 8.3
+  dependencies:
+    before:
+      - composer self-update --2
+    override:
+      - composer install --no-interaction --prefer-dist
+  nodes:
+    analysis:
+      tests:
+        override:
+          - php-scrutinizer-run
+
+filter:
+  excluded_paths:
+    - 'tests/*'
+    - 'assets/*'
+    - 'docker/*'
+    - 'scripts/*'
+  dependency_paths:
+    - 'vendor/'
