@@ -105,7 +105,6 @@ class Attachment
 
             $this->siteSwitcher->switchToBlog($this->site->id());
             add_filter('wp_prepare_attachment_for_js', [$this, 'prepareAttachmentForJs'], 0);
-            $this->siteSwitcher->restoreBlog();
         }
 
         wp_ajax_get_attachment();

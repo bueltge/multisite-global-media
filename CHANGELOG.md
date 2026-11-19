@@ -5,6 +5,7 @@
 * Restore Blog after Response, Probs @goaround, #110
 * ACF plugin Support, Probs @felly, #134
 * Enqueue plugin assets to all admin screens, #153, Probs @theSCHAPPY
+* Fix loading a single global media attachment in the media modal
 
 ## 0.2.0 (2022-03-21)
 * Fix: cannot use object of type Closure as array by @mvdhoek1 in #127
