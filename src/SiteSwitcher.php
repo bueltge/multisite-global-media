@@ -1,7 +1,5 @@
 <?php
 
-# -*- coding: utf-8 -*-
-
 declare(strict_types=1);
 
 namespace MultisiteGlobalMedia;
@@ -11,7 +9,7 @@ namespace MultisiteGlobalMedia;
  */
 interface SiteSwitcher
 {
-    public function switchToBlog(int $siteId);
+    public function switchToBlog(int $siteId): void;
 
-    public function restoreBlog();
+    public function restoreBlog(): void;
 }

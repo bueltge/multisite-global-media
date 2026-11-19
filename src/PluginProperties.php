@@ -1,7 +1,5 @@
 <?php
 
-# -*- coding: utf-8 -*-
-
 declare(strict_types=1);
 
 namespace MultisiteGlobalMedia;
@@ -16,33 +14,31 @@ namespace MultisiteGlobalMedia;
  * @method string version()
  * @method string textDomain()
  * @method string textDomainPath()
+ *
+ * @implements \ArrayAccess<string, string>
  */
 class PluginProperties implements \ArrayAccess
 {
-    const BASENAME = 'basename';
-    const DIR_PATH = 'dirPath';
-    const DIR_URL = 'dirUrl';
-    const FILE_PATH = 'filePath';
-    const NAME = 'name';
-    const WEBSITE = 'website';
-    const VERSION = 'version';
-    const TEXT_DOMAIN = 'textDomain';
-    const TEXT_DOMAIN_PATH = 'textDomainPath';
+    public const BASENAME = 'basename';
+    public const DIR_PATH = 'dirPath';
+    public const DIR_URL = 'dirUrl';
+    public const FILE_PATH = 'filePath';
+    public const NAME = 'name';
+    public const WEBSITE = 'website';
+    public const VERSION = 'version';
+    public const TEXT_DOMAIN = 'textDomain';
+    public const TEXT_DOMAIN_PATH = 'textDomainPath';
 
     /**
-     * @var array
+     * @var array<string, string>
      */
-    private $properties;
+    private array $properties;
 
     /**
      * @param string $pluginFilePath
      */
     public function __construct(string $pluginFilePath)
     {
-        if (\is_array($this->properties)) {
-            return;
-        }
-
         $fileData = [
             self::BASENAME => plugin_basename($pluginFilePath),
             self::DIR_PATH => untrailingslashit(plugin_dir_path($pluginFilePath)),
@@ -66,7 +62,7 @@ class PluginProperties implements \ArrayAccess
 
     /**
      * @param string $name
-     * @param array $args
+     * @param array<mixed> $args
      * @return string
      */
     public function __call(string $name, array $args = []): string
@@ -76,7 +72,7 @@ class PluginProperties implements \ArrayAccess
                 sprintf(
                     'Call to undefined method %s::%s()',
                     __CLASS__,
-                    $name
+                    esc_html($name)
                 )
             );
         }
@@ -105,7 +101,7 @@ class PluginProperties implements \ArrayAccess
     public function offsetGet($offset): mixed
     {
         if (!$this->offsetExists($offset)) {
-            throw new \OutOfRangeException("'{$offset}' is not a valid plugin property.");
+            throw new \OutOfRangeException(esc_html("'{$offset}' is not a valid plugin property."));
         }
 
         return $this->properties[$offset];

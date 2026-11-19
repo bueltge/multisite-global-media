@@ -5,9 +5,9 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php-versions: ['8.2', '8.5', '8.6']
+        php-versions: ['8.3', '8.4', '8.5']
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v5
 
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
@@ -25,7 +25,7 @@ jobs:
 
     - name: Cache Composer packages
       id: composer-cache
-      uses: actions/cache@v2
+      uses: actions/cache@v5
       with:
         path: vendor
         key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
@@ -36,6 +36,5 @@ jobs:
       if: steps.composer-cache.outputs.cache-hit != 'true'
       run: composer install -q -n -a --no-progress --prefer-dist
     
-    - name: QA Run (PhpUnit, PhpCs, PhpStan)
+    - name: Run QA (unit tests, coding standards, static analysis)
       run: composer qa
-      if: failure()

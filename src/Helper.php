@@ -1,7 +1,5 @@
 <?php
 
-# -*- coding: utf-8 -*-
-
 declare(strict_types=1);
 
 namespace MultisiteGlobalMedia;
@@ -23,7 +21,7 @@ trait Helper
         string $siteIdPrefix
     ): bool {
 
-        return false !== strpos((string)$attachmentId, $siteIdPrefix);
+        return false !== strpos((string) $attachmentId, $siteIdPrefix);
     }
 
     /**
@@ -35,6 +33,6 @@ trait Helper
      */
     private function stripSiteIdPrefixFromAttachmentId(string $idPrefix, int $attachmentId): int
     {
-        return (int)str_replace($idPrefix, '', (string)$attachmentId);
+        return (int) str_replace($idPrefix, '', (string) $attachmentId);
     }
 }

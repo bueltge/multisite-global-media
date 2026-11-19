@@ -1,27 +1,29 @@
-<phpunit
-        bootstrap="tests/php/bootstrap.php"
-        backupGlobals="false"
-        backupStaticAttributes="false"
-        colors="true"
-        convertErrorsToExceptions="true"
-        convertNoticesToExceptions="true"
-        convertWarningsToExceptions="true"
-        processIsolation="true"
-        stopOnFailure="false"
-        verbose="true">
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+         bootstrap="tests/php/bootstrap.php"
+         backupGlobals="false"
+         colors="true"
+         processIsolation="true"
+         stopOnFailure="false"
+         displayDetailsOnTestsThatTriggerDeprecations="true"
+         displayDetailsOnTestsThatTriggerErrors="true"
+         displayDetailsOnTestsThatTriggerNotices="true"
+         displayDetailsOnTestsThatTriggerWarnings="true">
     <testsuites>
         <testsuite name="unit">
             <directory suffix="Test.php">tests/php/unit</directory>
         </testsuite>
     </testsuites>
-    <filter>
-        <whitelist processUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">.src/</directory>
-            <file>./</file>
-        </whitelist>
-    </filter>
-    <logging>
-        <log type="coverage-clover" target="coverage/report/clover.xml"/>
-        <log type="coverage-html" target="coverage/report/html" lowUpperBound="35" highLowerBound="70"/>
-    </logging>
+    <source>
+        <include>
+            <directory suffix=".php">src</directory>
+        </include>
+    </source>
+    <coverage>
+        <report>
+            <clover outputFile="coverage/report/clover.xml"/>
+            <html outputDirectory="coverage/report/html" lowUpperBound="35" highLowerBound="70"/>
+        </report>
+    </coverage>
 </phpunit>

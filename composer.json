@@ -30,7 +30,7 @@
         }
     ],
     "require": {
-        "php": ">=7.0.0",
+        "php": ">=8.3",
         "composer/installers": "^1.2 || ^2.0"
     },
     "require-dev": {
@@ -39,7 +39,10 @@
         "brain/monkey": "^2.2",
         "phpunit/phpunit": "^12.5.22",
         "johnpbloch/wordpress-core": " ^5.0",
-        "php-stubs/woocommerce-stubs": "^11.3"
+        "php-stubs/woocommerce-stubs": "^11.3",
+        "php-stubs/acf-pro-stubs": "^6.0",
+        "phpstan/phpstan": "^2.1",
+        "szepeviktor/phpstan-wordpress": "^2.0"
     },
     "autoload": {
         "psr-4": {
@@ -61,7 +64,7 @@
     "scripts": {
         "zip": "composer archive --format=zip --file=dist",
         "build": "./scripts/build",
-        "analyze": "phpstan analyse src",
+        "analyze": "@php ./vendor/bin/phpstan analyse --memory-limit=1G",
         "cs": "@php ./vendor/squizlabs/php_codesniffer/bin/phpcs",
         "csf": "@php ./vendor/bin/phpcbf",
         "tests": "@php ./vendor/bin/phpunit",

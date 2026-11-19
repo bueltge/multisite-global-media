@@ -1,7 +1,5 @@
 <?php
 
-# -*- coding: utf-8 -*-
-
 declare(strict_types=1);
 
 namespace MultisiteGlobalMedia;
@@ -11,11 +9,7 @@ namespace MultisiteGlobalMedia;
  */
 class Assets
 {
-
-    /**
-     * @var PluginProperties
-     */
-    private $pluginProperties;
+    private PluginProperties $pluginProperties;
 
     /**
      * Assets constructor
@@ -32,7 +26,7 @@ class Assets
      *
      * @since  2015-01-26
      */
-    public function enqueueScripts()
+    public function enqueueScripts(): void
     {
         if (!is_admin()) {
             return;
@@ -54,11 +48,11 @@ class Assets
      *
      * @since   2015-02-27
      */
-    public function enqueueStyles()
+    public function enqueueStyles(): void
     {
         if (!is_admin()) {
             return;
-	}
+        }
 
         $styleFile = '/assets/css/global-media.css';
         wp_register_style(
